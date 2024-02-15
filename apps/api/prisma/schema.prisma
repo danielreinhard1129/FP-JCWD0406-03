@@ -10,12 +10,124 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Sample {
-  id        Int      @id @default(autoincrement())
-  name      String
-  code      String   @unique
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+model User {
+  id          Int           @id @default(autoincrement())
+  email       Int           @unique
+  password    String
+  roleId      Int
+  contact     Int           @default(62)
+  alamat      String        @default("")
+  isVerified  Boolean
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+  image       String?
+  role        Role          @relation(fields: [roleId], references: [id])
+  Riview      Riview[]
+  TenantReply TenantReply[]
+  Property    Property[]
+}
 
-  @@map("samples") // if you want to use snake_case format
+model Role {
+  id   Int    @id @default(autoincrement())
+  role String
+  User User[]
+}
+
+model Room {
+  id                Int                 @id @default(autoincrement())
+  propertyId        Int
+  type              String
+  price             Int
+  description       String
+  createdAt         DateTime            @default(now())
+  updatedAt         DateTime            @updatedAt
+  property          Property            @relation(fields: [propertyId], references: [id])
+  Room_Availability Room_Availability[]
+  Reservation       Reservation[]
+  Riview            Riview[]
+}
+
+model Property {
+  id               Int                @id @default(autoincrement())
+  name             String
+  descripion       String
+  categoryId       Int
+  tenantId         Int
+  createdAt        DateTime           @default(now())
+  updatedAt        DateTime           @updatedAt
+  picture          String?
+  Room             Room[]
+  category         Category           @relation(fields: [categoryId], references: [id])
+  user             User               @relation(fields: [tenantId], references: [id])
+  Peak_Season_Rate Peak_Season_Rate[]
+}
+
+model Category {
+  id         Int        @id @default(autoincrement())
+  name       String
+  descripton String
+  createdAt  DateTime   @default(now())
+  updatedAt  DateTime   @updatedAt
+  Property   Property[]
+}
+
+model Room_Availability {
+  id                          Int      @id @default(autoincrement())
+  roomId                      Int
+  date                        DateTime
+  isAvaible                   Boolean
+  price_adjustment_percentage Int
+  room                        Room     @relation(fields: [roomId], references: [id])
+}
+
+model Peak_Season_Rate {
+  id                          Int      @id @default(autoincrement())
+  propertyId                  Int
+  startDate                   DateTime
+  endDate                     DateTime
+  price_adjustment_percentage Int
+  createdAt                   DateTime @default(now())
+  updatedAt                   DateTime @updatedAt
+  property                    Property @relation(fields: [propertyId], references: [id])
+}
+
+model Reservation {
+  id           Int      @id @default(autoincrement())
+  uuid         String   @unique @default(uuid())
+  roomId       Int
+  checkIn      DateTime
+  checkOut     DateTime
+  total        Int
+  statusId     Int
+  paymentProof String?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  room         Room     @relation(fields: [roomId], references: [id])
+}
+
+model StatusReservation {
+  id     Int    @id @default(autoincrement())
+  status String
+}
+
+model Riview {
+  id          Int           @id @default(autoincrement())
+  userId      Int
+  rating      String
+  riview      String
+  roomId      Int
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+  room        Room          @relation(fields: [roomId], references: [id])
+  user        User          @relation(fields: [userId], references: [id])
+  TenantReply TenantReply[]
+}
+
+model TenantReply {
+  id       Int    @id @default(autoincrement())
+  riviewId Int
+  tenantId Int
+  reply    String
+  riview   Riview @relation(fields: [riviewId], references: [id])
+  user     User   @relation(fields: [tenantId], references: [id])
 }
