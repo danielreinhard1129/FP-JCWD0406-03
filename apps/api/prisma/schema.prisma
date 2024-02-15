@@ -11,20 +11,20 @@ datasource db {
 }
 
 model User {
-  id          Int           @id @default(autoincrement())
-  email       Int           @unique
-  password    String
-  roleId      Int
-  contact     Int           @default(62)
-  alamat      String        @default("")
-  isVerified  Boolean
-  createdAt   DateTime      @default(now())
-  updatedAt   DateTime      @updatedAt
-  image       String?
-  role        Role          @relation(fields: [roleId], references: [id])
-  Riview      Riview[]
-  TenantReply TenantReply[]
-  Property    Property[]
+  id         Int        @id @default(autoincrement())
+  email      String     @unique
+  password   String
+  roleId     Int
+  contact    Int        @default(62)
+  alamat     String     @default("")
+  isVerified Boolean
+  createdAt  DateTime   @default(now())
+  updatedAt  DateTime   @updatedAt
+  image      String?
+  role       Role       @relation(fields: [roleId], references: [id])
+  Review     Review[]
+  Comment    Comment[]
+  Property   Property[]
 }
 
 model Role {
@@ -43,8 +43,7 @@ model Room {
   updatedAt         DateTime            @updatedAt
   property          Property            @relation(fields: [propertyId], references: [id])
   Room_Availability Room_Availability[]
-  Reservation       Reservation[]
-  Riview            Riview[]
+  Transaction       Transaction[]
 }
 
 model Property {
@@ -60,6 +59,7 @@ model Property {
   category         Category           @relation(fields: [categoryId], references: [id])
   user             User               @relation(fields: [tenantId], references: [id])
   Peak_Season_Rate Peak_Season_Rate[]
+  Review           Review[]
 }
 
 model Category {
@@ -91,7 +91,7 @@ model Peak_Season_Rate {
   property                    Property @relation(fields: [propertyId], references: [id])
 }
 
-model Reservation {
+model Transaction {
   id           Int      @id @default(autoincrement())
   uuid         String   @unique @default(uuid())
   roomId       Int
@@ -110,24 +110,26 @@ model StatusReservation {
   status String
 }
 
-model Riview {
-  id          Int           @id @default(autoincrement())
-  userId      Int
-  rating      String
-  riview      String
-  roomId      Int
-  createdAt   DateTime      @default(now())
-  updatedAt   DateTime      @updatedAt
-  room        Room          @relation(fields: [roomId], references: [id])
-  user        User          @relation(fields: [userId], references: [id])
-  TenantReply TenantReply[]
+model Review {
+  id         Int       @id @default(autoincrement())
+  userId     Int
+  rating     String
+  riview     String
+  propertyId Int
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+  property   Property  @relation(fields: [propertyId], references: [id])
+  user       User      @relation(fields: [userId], references: [id])
+  Comment    Comment[]
 }
 
-model TenantReply {
-  id       Int    @id @default(autoincrement())
-  riviewId Int
-  tenantId Int
-  reply    String
-  riview   Riview @relation(fields: [riviewId], references: [id])
-  user     User   @relation(fields: [tenantId], references: [id])
+model Comment {
+  id        Int      @id @default(autoincrement())
+  riviewId  Int
+  tenantId  Int
+  reply     String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  review    Review   @relation(fields: [riviewId], references: [id])
+  user      User     @relation(fields: [tenantId], references: [id])
 }
