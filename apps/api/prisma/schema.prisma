@@ -11,6 +11,7 @@ datasource db {
 }
 
 model User {
+
   id          Int        @id @default(autoincrement())
   username    String
   email       String     @unique
@@ -26,6 +27,7 @@ model User {
   Review      Review[]
   TenantReply Comment[]
   Property    Property[]
+
 }
 
 model Role {
@@ -50,6 +52,7 @@ enum RoomStatus {
 }
 
 model Room {
+
   id          Int      @id @default(autoincrement())
   propertyId  Int
   type        RoomType
@@ -99,6 +102,9 @@ model Property {
   user             User               @relation(fields: [tenantId], references: [id])
   Peak_Season_Rate Peak_Season_Rate[]
   property_pics    Property_pic[]
+
+  Review           Review[]
+
 }
 
 model Property_pic {
@@ -119,7 +125,7 @@ model Peak_Season_Rate {
   property                    Property @relation(fields: [propertyId], references: [id])
 }
 
-model Reservation {
+model Transaction {
   id           Int      @id @default(autoincrement())
   uuid         String   @unique @default(uuid())
   roomId       Int
@@ -139,6 +145,7 @@ model StatusReservation {
 }
 
 model Review {
+
   id          Int       @id @default(autoincrement())
   userId      Int
   rating      String
@@ -152,10 +159,18 @@ model Review {
 }
 
 model Comment {
-  id       Int    @id @default(autoincrement())
-  riviewId Int
-  tenantId Int
-  reply    String
-  review   Review @relation(fields: [riviewId], references: [id])
-  user     User   @relation(fields: [tenantId], references: [id])
+
+
+  id         Int       @id @default(autoincrement())
+  userId     Int
+  rating     String
+  riview     String
+  propertyId Int
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+  property   Property  @relation(fields: [propertyId], references: [id])
+  user       User      @relation(fields: [userId], references: [id])
+  Comment    Comment[]
 }
+
+
