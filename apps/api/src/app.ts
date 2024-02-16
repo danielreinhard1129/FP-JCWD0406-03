@@ -5,10 +5,11 @@ import express, {
   Request,
   Response,
   NextFunction,
-} from 'express';
-import cors from 'cors';
+} from "express";
+import cors from "cors";
+import { UserRouter } from "./routers/user.router";
 import { PORT } from './config';
-import { ReviewRouter } from './routers/review.router';
+import { ReviewRouter } from './routers/review.router'
 
 export default class App {
   private app: Express;
@@ -29,8 +30,8 @@ export default class App {
   private handleError(): void {
     // not found
     this.app.use((req: Request, res: Response, next: NextFunction) => {
-      if (req.path.includes('/api/')) {
-        res.status(404).send('Not found !');
+      if (req.path.includes("/api/")) {
+        res.status(404).send("Not found !");
       } else {
         next();
       }
@@ -39,17 +40,23 @@ export default class App {
     // error
     this.app.use(
       (err: Error, req: Request, res: Response, next: NextFunction) => {
-        if (req.path.includes('/api/')) {
-          console.error('Error : ', err.stack);
+        if (req.path.includes("/api/")) {
+          console.error("Error : ", err.stack);
           res.status(500).send(err.message);
         } else {
           next();
         }
-      },
+      }
     );
   }
 
   private routes(): void {
+    const userRouter = new UserRouter();
+    this.app.get("/api", (req: Request, res: Response) => {
+      res.send(`Hello, Purwadhika Student !`);
+    });
+
+    this.app.use("/api/users", userRouter.getRouter());
     const reviewRouter = new ReviewRouter();
 
     this.app.use('/api', reviewRouter.getRouter());
