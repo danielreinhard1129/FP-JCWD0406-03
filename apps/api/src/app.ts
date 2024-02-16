@@ -7,7 +7,10 @@ import express, {
   NextFunction,
 } from "express";
 import cors from "cors";
+
+import { UserRouter } from "./routers/user.router";
 import { PORT } from "./config";
+import { ReviewRouter } from "./routers/review.router";
 
 export default class App {
   private app: Express;
@@ -49,9 +52,15 @@ export default class App {
   }
 
   private routes(): void {
+    const userRouter = new UserRouter();
     this.app.get("/api", (req: Request, res: Response) => {
       res.send(`Hello, Purwadhika Student !`);
     });
+
+    this.app.use("/api/users", userRouter.getRouter());
+    const reviewRouter = new ReviewRouter();
+
+    this.app.use("/api", reviewRouter.getRouter());
   }
 
   public start(): void {
