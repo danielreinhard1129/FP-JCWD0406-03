@@ -5,11 +5,13 @@ import express, {
   Request,
   Response,
   NextFunction,
+  static as static_,
 } from "express";
 import cors from "cors";
 import { UserRouter } from "./routers/user.router";
-import { PORT } from './config';
-import { ReviewRouter } from './routers/review.router'
+import { PORT } from "./config";
+import { ReviewRouter } from "./routers/review.router";
+import { join } from "path";
 
 export default class App {
   private app: Express;
@@ -25,6 +27,7 @@ export default class App {
     this.app.use(cors());
     this.app.use(json());
     this.app.use(urlencoded({ extended: true }));
+    this.app.use("/", static_(join(__dirname, "../public")));
   }
 
   private handleError(): void {
@@ -59,7 +62,7 @@ export default class App {
     this.app.use("/api/users", userRouter.getRouter());
     const reviewRouter = new ReviewRouter();
 
-    this.app.use('/api', reviewRouter.getRouter());
+    this.app.use("/api", reviewRouter.getRouter());
   }
 
   public start(): void {
