@@ -1,4 +1,4 @@
-import { reviewRepo } from '@/repository/review/review.repo';
+import { reviewRepo } from '@/repositories/review/review.repo';
 import { IReview } from '@/types/types';
 
 export const reviewAction = async (data: IReview) => {

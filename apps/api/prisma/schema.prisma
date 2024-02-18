@@ -11,7 +11,6 @@ datasource db {
 }
 
 model User {
-
   id          Int        @id @default(autoincrement())
   username    String
   email       String     @unique
@@ -27,7 +26,6 @@ model User {
   Review      Review[]
   TenantReply Comment[]
   Property    Property[]
-
 }
 
 model Role {
@@ -52,7 +50,6 @@ enum RoomStatus {
 }
 
 model Room {
-
   id          Int      @id @default(autoincrement())
   propertyId  Int
   type        RoomType
@@ -65,8 +62,7 @@ model Room {
   pictures Room_pic[]
   status   RoomStatus
 
-  reservations Reservation[]
-  reviews      Review[]
+  transacrion Transaction[]
 }
 
 model Room_pic {
@@ -103,8 +99,7 @@ model Property {
   Peak_Season_Rate Peak_Season_Rate[]
   property_pics    Property_pic[]
 
-  Review           Review[]
-
+  Review Review[]
 }
 
 model Property_pic {
@@ -145,32 +140,26 @@ model StatusReservation {
 }
 
 model Review {
-
-  id          Int       @id @default(autoincrement())
-  userId      Int
-  rating      String
-  riview      String
-  roomId      Int
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
-  room        Room      @relation(fields: [roomId], references: [id])
-  user        User      @relation(fields: [userId], references: [id])
-  TenantReply Comment[]
-}
-
-model Comment {
-
-
-  id         Int       @id @default(autoincrement())
+  id         Int      @id @default(autoincrement())
   userId     Int
   rating     String
   riview     String
-  propertyId Int
-  createdAt  DateTime  @default(now())
-  updatedAt  DateTime  @updatedAt
-  property   Property  @relation(fields: [propertyId], references: [id])
-  user       User      @relation(fields: [userId], references: [id])
-  Comment    Comment[]
+  propertyId Int?
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  user     User      @relation(fields: [userId], references: [id])
+  Comment  Comment[]
+  Property Property? @relation(fields: [propertyId], references: [id])
 }
 
-
+model Comment {
+  id        Int      @id @default(autoincrement())
+  riviewId  Int
+  tenantId  Int
+  reply     String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  review    Review   @relation(fields: [riviewId], references: [id])
+  user      User     @relation(fields: [tenantId], references: [id])
+}

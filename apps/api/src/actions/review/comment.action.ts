@@ -1,4 +1,4 @@
-import { commnetRepo } from '@/repository/review/comment.repo';
+import { commnetRepo } from '@/repositories/review/comment.repo';
 
 import { IComment } from '@/types/types';
 
