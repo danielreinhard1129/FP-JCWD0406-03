@@ -1,5 +1,4 @@
 import { commnetRepo } from '@/repositories/review/comment.repo';
-
 import { IComment } from '@/types/types';
 
 export const commentAction = async (data: IComment) => {
