@@ -11,21 +11,22 @@ datasource db {
 }
 
 model User {
-  id          Int        @id @default(autoincrement())
+  id          Int           @id @default(autoincrement())
   username    String
-  email       String     @unique
+  email       String        @unique
   password    String
   roleId      Int
-  contact     Int        @default(62)
-  alamat      String     @default("")
-  isVerified  Boolean    @default(false)
-  createdAt   DateTime   @default(now())
-  updatedAt   DateTime   @updatedAt
+  contact     Int           @default(62)
+  alamat      String        @default("")
+  isVerified  Boolean       @default(false)
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
   image       String?
-  role        Role       @relation(fields: [roleId], references: [id])
+  role        Role          @relation(fields: [roleId], references: [id])
   Review      Review[]
   TenantReply Comment[]
   Property    Property[]
+  Transaction Transaction[]
 }
 
 model Role {
@@ -62,7 +63,7 @@ model Room {
   pictures Room_pic[]
   status   RoomStatus
 
-  reservations Reservation[]
+  transaction Transaction[]
 }
 
 model Room_pic {
@@ -84,20 +85,20 @@ enum PropertyType {
 }
 
 model Property {
-  id          Int          @id @default(autoincrement())
-  name        String
-  description String
-  categoryId  Int
-  tenantId    Int
-  createdAt   DateTime     @default(now())
-  updatedAt   DateTime     @updatedAt
-  image       String?
-  Room        Room[]
-  type        PropertyType
-
+  id               Int                @id @default(autoincrement())
+  name             String
+  description      String
+  tenantId         Int
+  createdAt        DateTime           @default(now())
+  updatedAt        DateTime           @updatedAt
+  image            String?
+  Room             Room[]
+  type             PropertyType
   user             User               @relation(fields: [tenantId], references: [id])
   Peak_Season_Rate Peak_Season_Rate[]
   property_pics    Property_pic[]
+
+  Review Review[]
 }
 
 model Property_pic {
@@ -118,23 +119,33 @@ model Peak_Season_Rate {
   property                    Property @relation(fields: [propertyId], references: [id])
 }
 
-model Reservation {
-  id           Int      @id @default(autoincrement())
-  uuid         String   @unique @default(uuid())
-  roomId       Int
-  checkIn      DateTime
-  checkOut     DateTime
-  total        Int
-  statusId     Int
-  paymentProof String?
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
-  room         Room     @relation(fields: [roomId], references: [id])
+model Transaction {
+  id                Int               @id @default(autoincrement())
+  uuid              String            @unique @default(uuid())
+  roomId            Int
+  userId            Int
+  paymentMethod     PaymentMethod
+  checkIn           DateTime
+  checkOut          DateTime
+  total             Int
+  statusTransaction StatusTransaction
+  paymentProof      String?
+  createdAt         DateTime          @default(now())
+  updatedAt         DateTime          @updatedAt
+  room              Room              @relation(fields: [roomId], references: [id])
+  user              User              @relation(fields: [userId], references: [id])
 }
 
-model StatusReservation {
-  id     Int    @id @default(autoincrement())
-  status String
+enum PaymentMethod {
+  MANDIRI
+  BCA
+  BNI
+}
+
+enum StatusTransaction {
+  CONFIRM
+  REJECT
+  PENDING
 }
 
 model Review {
@@ -148,6 +159,8 @@ model Review {
 
   user        User      @relation(fields: [userId], references: [id])
   TenantReply Comment[]
+  Property    Property  @relation(fields: [propertyId], references: [id])
+  propertyId  Int
 }
 
 model Comment {

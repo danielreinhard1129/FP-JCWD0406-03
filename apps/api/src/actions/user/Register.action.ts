@@ -1,10 +1,10 @@
-import { hashPassword } from "@/lib/bcrypt";
+import { hashPassword } from '@/lib/bcrypt';
 
-import { createUser } from "@/repositories/user/createUserRepo";
+import { createUser } from '@/repositories/user/createUserRepo';
 
-import { getUserByEmail } from "@/repositories/user/getUserByEmail";
+import { getUserByEmail } from '@/repositories/user/getUserByEmail';
 
-import { IUser } from "@/types/user.type";
+import { IUser } from '@/types/user.type';
 
 export const registerAction = async (body: IUser) => {
   try {
@@ -15,7 +15,7 @@ export const registerAction = async (body: IUser) => {
     if (userEmail) {
       return {
         status: 400,
-        message: "Email already exist",
+        message: 'Email already exist',
       };
     }
 
@@ -27,7 +27,7 @@ export const registerAction = async (body: IUser) => {
 
     return {
       status: 200,
-      message: "Register success",
+      message: 'Register success',
     };
   } catch (error) {
     throw error;
