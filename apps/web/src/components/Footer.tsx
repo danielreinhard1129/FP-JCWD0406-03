@@ -1,5 +1,5 @@
-import Image from "next/image";
-import { FaFacebook, FaInstagram, FaTwitter, FaYoutube } from "react-icons/fa";
+import Image from 'next/image';
+import { FaFacebook, FaInstagram, FaTwitter, FaYoutube } from 'react-icons/fa';
 
 export const Footer = () => {
   return (
@@ -83,7 +83,7 @@ export const Footer = () => {
           &#169; Copyright Rumah.123 2024
         </p>
         <Image
-          src={"/images/pay.svg"}
+          src={'/images/pay.svg'}
           alt="payment"
           width={230}
           height={230}
