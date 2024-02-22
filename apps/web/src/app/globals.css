@@ -2,15 +2,13 @@
 @tailwind components;
 @tailwind utilities;
 
-@import url('https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap');
-
 @layer components {
   .nav-link {
-    @apply relative text-black font-bold cursor-pointer text-[17px] w-fit lg:block after:block after:content-[''] after:absolute after:h-[3px] after:bg-red-600 after:w-full after:scale-x-0 after:hover:scale-x-100 after:transition after:duration-300 after:origin-center uppercase hidden;
+    @apply relative text-white font-bold cursor-pointer text-[17px] w-fit lg:block after:block after:content-[''] after:absolute after:h-[3px] after:bg-red-600 after:w-full after:scale-x-0 after:hover:scale-x-100 after:transition after:duration-300 after:origin-center uppercase hidden;
   }
 
   .nav-link-mobile {
-    @apply relative mb-[2rem] text-white font-bold cursor-pointer text-[25px] w-fit lg:block after:block after:content-[''] after:absolute after:h-[3px] after:bg-yellow-300 after:w-full after:scale-x-0 after:hover:scale-x-100 after:transition after:duration-300 after:origin-center uppercase;
+    @apply relative mb-[2rem] text-white font-bold cursor-pointer text-[18px] w-fit lg:block after:block after:content-[''] after:absolute after:h-[3px] after:bg-yellow-300 after:w-full after:scale-x-0 after:hover:scale-x-100 after:transition after:duration-300 after:origin-center uppercase;
   }
   .heading {
     @apply text-center text-[#333] text-[22px] sm:text-[30px] md:text-[38px] font-bold capitalize;
@@ -31,4 +29,35 @@
   .footer__icon {
     @apply w-[2.3rem] h-[2.3rem] flex cursor-pointer items-center justify-center rounded-full hover:opacity-60 transition-all duration-200;
   }
+  .bg-video {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw; /* Menggunakan 100vw agar mengikuti lebar viewport */
+    height: 100vh; /* Menggunakan 100vh agar mengikuti tinggi viewport */
+    object-fit: cover;
+    z-index: -1;
+  }
+  .bg-video-overlay {
+    @apply absolute top-0 left-0  w-[100%] h-[100%] bg-blue-600  opacity-95;
+  }
+  .red-gradient {
+    background-color: linear-gradient(180deg, #ff946d 0%, #ff7d68 100%);
+  }
+  .bg {
+    background: linear-gradient(0deg, rgba(0, 0, 0, 0.3), rgba(0, 0, 46, 0.7)),
+      url('/images/banner.jpg');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
+  .bg-banner {
+    background: linear-gradient(0deg, rgba(0, 0, 0, 0.3), rgba(0, 0, 46, 0.7)),
+      url('/images/banner-register.jpg');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
 }
+
+@import url('https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;700&display=swap');
