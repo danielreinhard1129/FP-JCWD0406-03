@@ -1,8 +1,8 @@
-import { excludeFields } from "@/helper/excludeFields";
-import { comparePasswords } from "@/lib/bcrypt";
-import { createToken } from "@/lib/jwt";
-import { getUserByEmail } from "@/repositories/user/getUserByEmail";
-import { IUser } from "@/types/user.type";
+import { excludeFields } from '@/helper/excludeFields';
+import { comparePasswords } from '@/lib/bcrypt';
+import { createToken } from '@/lib/jwt';
+import { getUserByEmail } from '@/repositories/user/getUserByEmail';
+import { IUser } from '@/types/user.type';
 
 export const loginAction = async (data: IUser) => {
   try {
@@ -10,18 +10,18 @@ export const loginAction = async (data: IUser) => {
 
     const user = await getUserByEmail(email);
 
-    if (!user) throw new Error("Account not found!");
+    if (!user) throw new Error('Account not found!');
 
     const isPasswordValid = await comparePasswords(password, user.password);
 
-    if (!isPasswordValid) throw new Error("Invalid Password");
+    if (!isPasswordValid) throw new Error('Invalid Password');
 
-    const dataWithoutPassword = excludeFields(user, ["password"]);
+    const dataWithoutPassword = excludeFields(user, ['password']);
 
     const token = createToken({ email: user.email });
 
     return {
-      message: "Login success",
+      message: 'Login success',
       data: dataWithoutPassword,
       token,
     };

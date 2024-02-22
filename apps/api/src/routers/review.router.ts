@@ -1,4 +1,4 @@
-import { RiviewController } from '@/controllers/review.controller';
+import { RiviewController } from '@/controllers/review/review.controller';
 import { Router } from 'express';
 
 export class ReviewRouter {

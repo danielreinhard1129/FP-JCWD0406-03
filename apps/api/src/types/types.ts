@@ -14,3 +14,18 @@ export interface IComment {
   tenantId: number;
   reply: string;
 }
+
+export interface ITransaction {
+  id: number;
+  uuid: string;
+  roomId: number;
+  userId: number;
+  paymentMethod: any;
+  checkIn: Date;
+  checkOut: Date;
+  total: number;
+  statusId: number;
+  paymentProof: string;
+  createdAt: Date;
+  updatedAt: Date;
+}

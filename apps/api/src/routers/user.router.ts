@@ -15,6 +15,12 @@ export class UserRouter {
 
   private initializeRoutes(): void {
     this.router.post("/register", this.userController.registerUser);
+    this.router.get(
+      "/profile/:id",
+      verifyToken,
+      this.userController.getUserById
+    );
+
     this.router.post("/login", this.userController.loginUser);
     this.router.get("/keeplogin", verifyToken, this.userController.keepLogin);
     this.router.post("/forgot-password", this.userController.forgotPassword);

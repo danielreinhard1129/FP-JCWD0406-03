@@ -12,12 +12,13 @@ datasource db {
 
 model User {
   id         Int        @id @default(autoincrement())
+  username   String
   email      String     @unique
   password   String
   roleId     Int
-  contact    Int        @default(62)
+  contact    String?
   alamat     String     @default("")
-  isVerified Boolean
+  isVerified Boolean    @default(false)
   createdAt  DateTime   @default(now())
   updatedAt  DateTime   @updatedAt
   image      String?
@@ -25,6 +26,8 @@ model User {
   Review     Review[]
   Comment    Comment[]
   Property   Property[]
+
+  Transaction Transaction[]
 }
 
 model Role {
@@ -33,40 +36,38 @@ model Role {
   User User[]
 }
 
-enum PropertyType {
-  APARTMENT
-  VILLA
-  TOWNHOUSE
-  OTHER
-  CONDO
-  COTTAGE
+enum RoomStatus {
+  AVAILABLE
+  OCCUPIED
+  UNDER_RENOVATION
 }
 
-enum RoomStatus {
-  APARTMENT
-  VILLA
-  TOWNHOUSE
-  OTHER
-  CONDO
-  COTTAGE
+enum RoomType {
+  LUXURY
+  DELUXE
+  SUPERIOR
+  EXECUTIVE
+  CLUB
+  STANDARD
 }
 
 model Room {
-  id                Int                 @id @default(autoincrement())
-  propertyId        Int
-  type              String
-  price             Int
-  description       String
-  createdAt         DateTime            @default(now())
-  updatedAt         DateTime            @updatedAt
-  property          Property            @relation(fields: [propertyId], references: [id])
-  Room_Availability Room_Availability[]
-  Transaction       Transaction[]
+  id          Int      @id @default(autoincrement())
+  propertyId  Int
+  type        RoomType
+  price       Int
+  description String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  property  Property @relation(fields: [propertyId], references: [id])
 
   pictures Room_pic[]
   status   RoomStatus
 
-  Property_pic Property_pic[]
+  transaction       Transaction[]
+  Property_pic      Property_pic[]
+  Room_Availability Room_Availability[]
 }
 
 model Room_pic {
@@ -78,17 +79,28 @@ model Room_pic {
   room      Room     @relation(fields: [roomId], references: [id])
 }
 
+enum PropertyType {
+  APARTMENT
+  VILLA
+  TOWNHOUSE
+  OTHER
+  CONDO
+  COTTAGE
+}
+
 model Property {
-  id               Int                @id @default(autoincrement())
-  name             String
-  descripion       String
-  categoryId       Int
-  tenantId         Int
-  createdAt        DateTime           @default(now())
-  updatedAt        DateTime           @updatedAt
-  picture          String?
-  Room             Room[]
-  category         Category           @relation(fields: [categoryId], references: [id])
+  id         Int    @id @default(autoincrement())
+  name       String
+  descripion String
+
+  tenantId  Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  Room Room[]
+
+  image String?
+
   user             User               @relation(fields: [tenantId], references: [id])
   Peak_Season_Rate Peak_Season_Rate[]
 
@@ -99,23 +111,16 @@ model Property {
 }
 
 model Property_pic {
-  id         Int       @id @default(autoincrement())
-  roomId     Int
-  image      String?
-  createdAt  DateTime  @default(now())
-  updatedAt  DateTime  @updatedAt
-  room       Room      @relation(fields: [roomId], references: [id])
-  Property   Property? @relation(fields: [propertyId], references: [id])
-  propertyId Int?
-}
-
-model Category {
-  id         Int        @id @default(autoincrement())
-  name       String
-  descripton String
-  createdAt  DateTime   @default(now())
-  updatedAt  DateTime   @updatedAt
-  Property   Property[]
+  id                  Int                @id @default(autoincrement())
+  roomId              Int
+  image               String?
+  createdAt           DateTime           @default(now())
+  updatedAt           DateTime           @updatedAt
+  room                Room               @relation(fields: [roomId], references: [id])
+  Property            Property?          @relation(fields: [propertyId], references: [id])
+  propertyId          Int?
+  Room_Availability   Room_Availability? @relation(fields: [room_AvailabilityId], references: [id])
+  room_AvailabilityId Int?
 }
 
 model Room_Availability {
@@ -125,6 +130,10 @@ model Room_Availability {
   isAvaible                   Boolean
   price_adjustment_percentage Int
   room                        Room     @relation(fields: [roomId], references: [id])
+
+  Review        Review[]
+  type          PropertyType
+  property_pics Property_pic[]
 }
 
 model Peak_Season_Rate {
@@ -139,35 +148,49 @@ model Peak_Season_Rate {
 }
 
 model Transaction {
-  id           Int      @id @default(autoincrement())
-  uuid         String   @unique @default(uuid())
-  roomId       Int
-  checkIn      DateTime
-  checkOut     DateTime
-  total        Int
-  statusId     Int
-  paymentProof String?
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
-  room         Room     @relation(fields: [roomId], references: [id])
+  id                Int               @id @default(autoincrement())
+  uuid              String            @unique @default(uuid())
+  roomId            Int
+  userId            Int
+  paymentMethod     PaymentMethod
+  checkIn           DateTime
+  checkOut          DateTime
+  total             Int
+  statusTransaction StatusTransaction
+  paymentProof      String?
+  createdAt         DateTime          @default(now())
+  updatedAt         DateTime          @updatedAt
+  room              Room              @relation(fields: [roomId], references: [id])
+  user              User              @relation(fields: [userId], references: [id])
 }
 
-model StatusReservation {
-  id     Int    @id @default(autoincrement())
-  status String
+enum PaymentMethod {
+  MANDIRI
+  BCA
+  BNI
+}
+
+enum StatusTransaction {
+  CONFIRM
+  REJECT
+  PENDING
 }
 
 model Review {
-  id         Int       @id @default(autoincrement())
-  userId     Int
-  rating     String
-  riview     String
-  propertyId Int
-  createdAt  DateTime  @default(now())
-  updatedAt  DateTime  @updatedAt
-  property   Property  @relation(fields: [propertyId], references: [id])
-  user       User      @relation(fields: [userId], references: [id])
-  Comment    Comment[]
+  id     Int    @id @default(autoincrement())
+  userId Int
+  rating String
+  riview String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user                User               @relation(fields: [userId], references: [id])
+  TenantReply         Comment[]
+  Property            Property           @relation(fields: [propertyId], references: [id])
+  propertyId          Int
+  Room_Availability   Room_Availability? @relation(fields: [room_AvailabilityId], references: [id])
+  room_AvailabilityId Int?
 }
 
 model Comment {
