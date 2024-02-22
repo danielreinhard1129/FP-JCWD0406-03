@@ -3,7 +3,7 @@ import SearchBox from "./helper/SearchBox";
 
 const Hero = () => {
   return (
-    <div className=" relative pt-[13vh] w-[100%] h-[100vh]">
+    <div className=" relative w-[100%] h-[100vh]">
       <div className=" absolute top-0 left-0 w-[100%] h-[100%] bg-blue-300 opacity-15"></div>
       <video
         src="/images/hero.mp4"
@@ -15,7 +15,7 @@ const Hero = () => {
       />
       <div className=" absolute z-[10] w-[100%] h-[100%] top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] md:pt-0 pt-16">
         <div className=" flex items-center justify-center flex-col w-[100%] h-[100%]">
-          <div data-aos="fade-right">
+          <div data-aos="fade-left">
             <h1 className=" text-[25px] mb-[1rem] md:mb-[0] text-center md:text-[35px] lg:text-[45px] tracking-[0.7rem] text-white font-bold uppercase">
               Lets Enjoy The Journey
             </h1>

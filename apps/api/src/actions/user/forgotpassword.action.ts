@@ -1,6 +1,9 @@
 import { createToken } from "@/lib/jwt";
 import { transporter } from "@/lib/nodemailer";
 import { getUserByEmail } from "@/repositories/user/getUserByEmail";
+import fs from "fs";
+import Handlebars from "handlebars";
+import path from "path";
 
 export const forgotPasswordAction = async (email: string) => {
   try {
@@ -13,11 +16,21 @@ export const forgotPasswordAction = async (email: string) => {
     const baseUrl = "http://localhost:3000";
     const link = baseUrl + `/reset-password?token=${token}`;
 
+    const templatePath = path.join(
+      __dirname,
+      "../../templates",
+      "templateEmail.hbs"
+    );
+    const templateSource = await fs.promises.readFile(templatePath, "utf8");
+
+    const compileTemplate = Handlebars.compile(templateSource);
+    const html = compileTemplate({ name: user.username, link });
+
     await transporter.sendMail({
       from: "sender",
       to: email,
       subject: "Reset Password Link",
-      html: `<a href="${link}" target="_blank">Reset Password Here</a>`,
+      html,
     });
 
     return {

@@ -61,7 +61,7 @@ export default class App {
       res.send(`Hello, Purwadhika Student !`);
     });
 
-    this.app.use("/api/users", userRouter.getRouter());
+    this.app.use("/api/user", userRouter.getRouter());
     const reviewRouter = new ReviewRouter();
 
     this.app.use("/api", reviewRouter.getRouter());
