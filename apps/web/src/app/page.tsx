@@ -4,10 +4,11 @@ import Contact from "@/components/Contact";
 import Hero from "@/components/Hero";
 import Review from "@/components/Review";
 import Hootel from "@/components/Room";
+import CategorySection from "@/components/Services";
 import TopDestination from "@/components/TopDestination";
-import { useEffect } from "react";
 import AOS from "aos";
 import "aos/dist/aos.css";
+import { useEffect } from "react";
 
 export default function Home() {
   // setting aos
@@ -38,6 +39,7 @@ export default function Home() {
     <div className=" overflow-x-hidden">
       <Hero />
       <TopDestination />
+      <CategorySection />
       <Hootel />
       <Review />
       <Contact />

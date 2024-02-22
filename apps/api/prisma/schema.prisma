@@ -11,28 +11,37 @@ datasource db {
 }
 
 model User {
-  id          Int           @id @default(autoincrement())
-  username    String
-  email       String        @unique
-  password    String
-  roleId      Int
-  contact     Int           @default(62)
-  alamat      String        @default("")
-  isVerified  Boolean       @default(false)
-  createdAt   DateTime      @default(now())
-  updatedAt   DateTime      @updatedAt
-  image       String?
-  role        Role          @relation(fields: [roleId], references: [id])
-  Review      Review[]
-  TenantReply Comment[]
-  Property    Property[]
+
+  id         Int        @id @default(autoincrement())
+  username   String
+  email      String     @unique
+  password   String
+  roleId     Int
+  contact    String?
+  alamat     String     @default("")
+  isVerified Boolean    @default(false)
+  createdAt  DateTime   @default(now())
+  updatedAt  DateTime   @updatedAt
+  image      String?
+  role       Role       @relation(fields: [roleId], references: [id])
+  Review     Review[]
+  Comment    Comment[]
+  Property   Property[]
+
   Transaction Transaction[]
+
 }
 
 model Role {
   id   Int    @id @default(autoincrement())
   role String
   User User[]
+}
+
+enum RoomStatus {
+  AVAILABLE
+  OCCUPIED
+  UNDER_RENOVATION
 }
 
 enum RoomType {
@@ -44,26 +53,26 @@ enum RoomType {
   STANDARD
 }
 
-enum RoomStatus {
-  AVAILABLE
-  OCCUPIED
-  UNDER_RENOVATION
-}
-
 model Room {
-  id          Int      @id @default(autoincrement())
+  id          Int           @id @default(autoincrement())
   propertyId  Int
   type        RoomType
   price       Int
   description String
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-  property    Property @relation(fields: [propertyId], references: [id])
+
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+  property    Property      @relation(fields: [propertyId], references: [id])
+  Transaction Transaction[]
+  pictures    Room_pic[]
+  status      RoomStatus
+
 
   pictures Room_pic[]
   status   RoomStatus
 
   transaction Transaction[]
+
 }
 
 model Room_pic {
@@ -85,27 +94,38 @@ enum PropertyType {
 }
 
 model Property {
-  id               Int                @id @default(autoincrement())
-  name             String
-  description      String
+
+  id         Int    @id @default(autoincrement())
+  name       String
+  descripion String
+
   tenantId         Int
   createdAt        DateTime           @default(now())
   updatedAt        DateTime           @updatedAt
-  image            String?
+
   Room             Room[]
-  type             PropertyType
+
+  image            String?
+
+
   user             User               @relation(fields: [tenantId], references: [id])
   Peak_Season_Rate Peak_Season_Rate[]
+  Review           Review[]
+  type             PropertyType
   property_pics    Property_pic[]
 
   Review Review[]
 }
 
 model Property_pic {
-  id         Int      @id @default(autoincrement())
-  image      String?
-  property   Property @relation(fields: [propertyId], references: [id])
-  propertyId Int
+  id        Int      @id @default(autoincrement())
+  roomId    Int
+  image     String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  Property   Property? @relation(fields: [propertyId], references: [id])
+  propertyId Int?
 }
 
 model Peak_Season_Rate {
@@ -120,6 +140,7 @@ model Peak_Season_Rate {
 }
 
 model Transaction {
+
   id                Int               @id @default(autoincrement())
   uuid              String            @unique @default(uuid())
   roomId            Int
@@ -134,6 +155,7 @@ model Transaction {
   updatedAt         DateTime          @updatedAt
   room              Room              @relation(fields: [roomId], references: [id])
   user              User              @relation(fields: [userId], references: [id])
+
 }
 
 enum PaymentMethod {
@@ -149,6 +171,7 @@ enum StatusTransaction {
 }
 
 model Review {
+
   id     Int    @id @default(autoincrement())
   userId Int
   rating String
@@ -161,13 +184,16 @@ model Review {
   TenantReply Comment[]
   Property    Property  @relation(fields: [propertyId], references: [id])
   propertyId  Int
+
 }
 
 model Comment {
-  id       Int    @id @default(autoincrement())
-  riviewId Int
-  tenantId Int
-  reply    String
-  review   Review @relation(fields: [riviewId], references: [id])
-  user     User   @relation(fields: [tenantId], references: [id])
+  id        Int      @id @default(autoincrement())
+  riviewId  Int
+  tenantId  Int
+  reply     String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  review    Review   @relation(fields: [riviewId], references: [id])
+  user      User     @relation(fields: [tenantId], references: [id])
 }

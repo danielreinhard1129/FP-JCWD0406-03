@@ -7,7 +7,9 @@ import prisma from "@/prisma";
 import fs from "fs";
 import { join } from "path";
 
+import { getUserById } from "@/repositories/user/getUserByIdRepo";
 import { NextFunction, Request, Response } from "express";
+import { log } from "handlebars/runtime";
 interface AuthenticatedRequest extends Request {
   user?: any;
 }
@@ -54,11 +56,7 @@ export class UserController {
       next(error);
     }
   }
-  async resetPassword(
-    req: AuthenticatedRequest,
-    res: Response,
-    next: NextFunction
-  ) {
+  async resetPassword(req: Request, res: Response, next: NextFunction) {
     try {
       const email = req.user!.email;
 
@@ -68,6 +66,7 @@ export class UserController {
       next(error);
     }
   }
+
   async uploadPhotoProfile(
     req: AuthenticatedRequest,
     res: Response,
@@ -76,31 +75,17 @@ export class UserController {
     try {
       const { file, user } = req;
 
-      // Cek apakah data file dan user telah diterima dengan benar
-      console.log("Received file:", file);
-      console.log("User data:", user);
-
       const userData = await prisma.user.findUnique({
         where: { email: user.email },
       });
       const defaultDir = "../../../public/photo-profile";
-
-      // Cek apakah data pengguna telah ditemukan dengan benar
-      console.log("User data from database:", userData);
 
       const isOldImageExist = fs.existsSync(
         join(__dirname, defaultDir + userData?.image)
       );
 
       if (isOldImageExist) {
-        console.log("Old image exists:", userData?.image);
-        console.log(
-          "Old image path:",
-          join(__dirname, defaultDir + userData?.image)
-        );
-
         fs.unlinkSync(join(__dirname, defaultDir + userData?.image));
-        console.log("Old image deleted successfully");
       }
 
       await prisma.user.update({
@@ -111,6 +96,18 @@ export class UserController {
       return res.status(200).send("upload image profile successfully");
     } catch (error) {
       console.error("Error:", error);
+      next(error);
+    }
+  }
+  async getUserById(req: Request, res: Response, next: NextFunction) {
+    try {
+      const userId = parseInt(req.params.id); // Mengambil ID dari params
+      const user = await getUserById(userId); // Memanggil repository untuk mengambil user by ID
+      if (!user) {
+        return res.status(404).json({ message: "User not found" });
+      }
+      return res.status(200).json({ message: "User found", user });
+    } catch (error) {
       next(error);
     }
   }
