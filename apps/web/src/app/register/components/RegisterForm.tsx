@@ -1,12 +1,12 @@
-"use client";
+'use client';
 
-import { useFormik } from "formik";
-import { useState } from "react";
-import PhoneInput from "react-phone-number-input";
-import "react-phone-number-input/style.css";
-import { IForm } from "../../../../types/form.type";
-import { validationSchema } from "./validationSchema";
-import { FaEye, FaEyeSlash } from "react-icons/fa";
+import { useFormik } from 'formik';
+import { useState } from 'react';
+import PhoneInput from 'react-phone-number-input';
+import 'react-phone-number-input/style.css';
+import { IForm } from '../../../../types/form.type';
+import { validationSchema } from './validationSchema';
+import { FaEye, FaEyeSlash } from 'react-icons/fa';
 
 interface RegisterFormProps {
   onSubmit: (values: IForm) => void;
@@ -18,15 +18,15 @@ export const RegisterForm = ({ onSubmit }: RegisterFormProps) => {
 
   const formik = useFormik({
     initialValues: {
-      username: "",
-      password: "",
-      email: "",
-      contact: "",
-      alamat: "",
+      username: '',
+      password: '',
+      email: '',
+      contact: '',
+      alamat: '',
       roleId: 0,
       role: 0,
-      confirmPassword: "",
-      roleTitle: "",
+      confirmPassword: '',
+      roleTitle: '',
     },
     validationSchema,
     onSubmit: (values) => {
@@ -101,7 +101,7 @@ export const RegisterForm = ({ onSubmit }: RegisterFormProps) => {
             international
             defaultCountry="ID"
             value={formik.values.contact}
-            onChange={(value) => formik.setFieldValue("contact", value)}
+            onChange={(value) => formik.setFieldValue('contact', value)}
             onBlur={formik.handleBlur}
             id="contact"
             name="contact"
@@ -128,7 +128,7 @@ export const RegisterForm = ({ onSubmit }: RegisterFormProps) => {
               onBlur={formik.handleBlur}
               id="password"
               name="password"
-              type={showPassword ? "text" : "password"}
+              type={showPassword ? 'text' : 'password'}
               required
               className="shadow-md border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             />
@@ -164,7 +164,7 @@ export const RegisterForm = ({ onSubmit }: RegisterFormProps) => {
               onBlur={formik.handleBlur}
               id="confirmPassword"
               name="confirmPassword"
-              type={showConfirmPassword ? "text" : "password"}
+              type={showConfirmPassword ? 'text' : 'password'}
               required
               className="shadow-md border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             />
