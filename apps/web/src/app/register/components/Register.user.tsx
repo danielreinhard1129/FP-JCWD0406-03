@@ -1,16 +1,16 @@
-"use client";
+'use client';
 
-import axios, { AxiosError } from "axios";
+import axios, { AxiosError } from 'axios';
 
-import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-import * as yup from "yup";
-import YupPassword from "yup-password";
-import { IForm } from "../../../../types/form.type";
-import { RegisterForm } from "./RegisterForm";
-import { baseUrl } from "@/utils/config";
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import * as yup from 'yup';
+import YupPassword from 'yup-password';
+import { IForm } from '../../../../types/form.type';
+import { RegisterForm } from './RegisterForm';
+import { baseUrl } from '@/utils/config';
 
 YupPassword(yup);
 
@@ -19,7 +19,7 @@ const RegisterCard = () => {
 
   const handleSubmit = async (values: IForm) => {
     try {
-      await axios.post(baseUrl + "/user/register", {
+      await axios.post(baseUrl + '/user/register', {
         username: values.username,
         password: values.password,
         email: values.email,
@@ -28,21 +28,21 @@ const RegisterCard = () => {
         roleId: Number(values.roleId),
       });
 
-      toast.success("Register Success", {
-        position: "top-right",
+      toast.success('Register Success', {
+        position: 'top-right',
         autoClose: 1000,
-        theme: "light",
+        theme: 'light',
       });
       setTimeout(() => {
-        router.push("/login");
+        router.push('/login');
       }, 3000);
     } catch (error) {
       if (error instanceof AxiosError) {
         const errorMsg = error.response?.data || error.message;
         toast.error(errorMsg, {
-          position: "top-right",
+          position: 'top-right',
           autoClose: 1000,
-          theme: "light",
+          theme: 'light',
         });
       }
     }
@@ -62,7 +62,7 @@ const RegisterCard = () => {
               <br /> To keep connected with us please login with your personal
               info
             </p>
-            <Link href={"/login"}>
+            <Link href={'/login'}>
               <button className="bg-transparent hover:bg-green-600 text-orange-600 font-semibold hover:text-white py-2 px-6 border border-white hover:border-transparent rounded">
                 Login
               </button>
