@@ -163,6 +163,7 @@ enum StatusTransaction {
   REJECT
   PENDING
   EXPIRED
+  CANCEL
 }
 
 model Review {
