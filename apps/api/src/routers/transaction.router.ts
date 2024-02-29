@@ -17,6 +17,10 @@ export class TransactionRouter {
     this.router.post('/', this.transactionController.transaction);
     this.router.patch('/', this.transactionController.updatedTransaction);
     this.router.patch(
+      '/cancel-order/:uuid',
+      this.transactionController.cancelOrderController,
+    );
+    this.router.patch(
       '/:uuid',
       verifyToken,
       uploader('IMG', '/payment-proof').single('file'),

@@ -4,6 +4,7 @@ import { transactionAction } from '@/actions/transaction/transaction.action';
 import { uploadPaymentAction } from '@/actions/transaction/uploadpayment.action';
 import { transactionGetUuidAction } from '@/actions/transaction/transactiongetuuid.action';
 import { updateTransactionAction } from '@/actions/transaction/updateTransaction';
+import { cancelOrderAction } from '@/actions/transaction/cancelOrderAction';
 
 export class TransactionController {
   async transaction(req: Request, res: Response, next: NextFunction) {
@@ -49,6 +50,17 @@ export class TransactionController {
   async updatedTransaction(req: Request, res: Response, next: NextFunction) {
     try {
       const result = await updateTransactionAction(req.body.uuid);
+      res.status(result.status).send(result);
+    } catch (error) {
+      next(error);
+      throw error;
+    }
+  }
+
+  async cancelOrderController(req: Request, res: Response, next: NextFunction) {
+    try {
+      const uuid = req.params.uuid;
+      const result = await cancelOrderAction(uuid);
       res.status(result.status).send(result);
     } catch (error) {
       next(error);

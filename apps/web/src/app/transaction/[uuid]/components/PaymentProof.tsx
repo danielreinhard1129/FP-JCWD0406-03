@@ -4,12 +4,37 @@ import Image from 'next/image';
 import { toast } from 'react-toastify';
 import axios, { AxiosError } from 'axios';
 import { baseUrl } from '@/utils/config';
+import { useParams } from 'next/navigation';
+import { useAppSelector } from '@/lib/hooks';
+import { useRouter } from 'next/navigation';
 
 export default function PaymentProof({ data, onInputChange }: any) {
   const [openModal, setOpenModal] = useState(false);
   const [selectedImage, setSelectedImage] = useState<
     string | ArrayBuffer | null
   >(null);
+  const params = useParams();
+
+  const user = useAppSelector((state) => state.user);
+  const router = useRouter();
+  const handleCancelOrder = async () => {
+    if (!user.id) {
+      toast.error('Success cancel your order', {
+        position: 'top-right',
+        autoClose: 1000,
+        theme: 'light',
+      });
+      return router.replace('/login');
+    }
+
+    await axios.patch(baseUrl + `/transaction/cancel-order/${params.uuid}`);
+    toast.success('Success cancel your order', {
+      position: 'top-right',
+      autoClose: 1000,
+      theme: 'light',
+    });
+    router.replace('/');
+  };
 
   const updatePhotePayment = async (formData: FormData) => {
     try {
@@ -67,12 +92,21 @@ export default function PaymentProof({ data, onInputChange }: any) {
 
   return (
     <>
-      <button
-        className="mt-6 w-40 py-3.5 text-sm bg-blue-900 text-white rounded-md hover:bg-blue-600"
-        onClick={() => setOpenModal(true)}
-      >
-        Upload payment proof
-      </button>
+      <div className="flex flex-row gap-3">
+        <button
+          className="mt-6 w-40 py-3.5 text-sm bg-red-900 text-white rounded-md hover:bg-blue-600"
+          onClick={handleCancelOrder}
+        >
+          Cancel order
+        </button>
+        <button
+          className="mt-6 w-40 py-3.5 text-sm bg-blue-900 text-white rounded-md hover:bg-blue-600"
+          onClick={() => setOpenModal(true)}
+        >
+          Upload payment proof
+        </button>
+      </div>
+
       <Modal show={openModal} onClose={() => setOpenModal(false)}>
         <Modal.Header>Upload your payment proof</Modal.Header>
         <Modal.Body>
