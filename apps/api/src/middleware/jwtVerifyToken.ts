@@ -5,6 +5,7 @@ const secretKey = process.env.JWT_SECRET_KEY!;
 
 interface PayloadToken {
   email: string;
+  id: number;
 }
 
 declare global {

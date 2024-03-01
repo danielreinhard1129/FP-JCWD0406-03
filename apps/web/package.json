@@ -33,9 +33,8 @@
     "sonner": "^1.4.0",
     "tailwind-merge": "^2.2.1",
     "yup": "^1.3.3",
-    "yup-password": "^0.2.2"
-
-    "react-icons": "^5.0.1",
+    "yup-password": "^0.2.2",
+    "react-icons": "^5.0.1"
 
   },
   "devDependencies": {

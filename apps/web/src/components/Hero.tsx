@@ -1,7 +1,16 @@
-import React from "react";
+"use client";
+
+import React, { useState } from "react";
 import SearchBox from "./helper/SearchBox";
+import Link from "next/link";
 
 const Hero = () => {
+  const [location, setLocation] = useState("");
+  const [startDate, setStartDate] = useState("");
+  const [endDate, setEndDate] = useState("");
+  const [guest, setGuest] = useState(1);
+  console.log(location);
+
   return (
     <div className=" relative w-[100%] h-[100vh]">
       <div className=" absolute top-0 left-0 w-[100%] h-[100%] bg-blue-300 opacity-15"></div>
@@ -24,16 +33,22 @@ const Hero = () => {
             </p>
           </div>
           {/* serch boxS */}
-          <SearchBox />
-          <a
-            href="#_"
-            className="rounded px-14 md:px-28 mt-[-1rem] py-2.5 overflow-hidden group bg-red-500 relative hover:bg-gradient-to-r hover:from-red-500 hover:to-red-400 text-white hover:ring-2 hover:ring-offset-2 hover:ring-red-400 transition-all ease-out duration-300"
+          <SearchBox
+            setLocation={setLocation}
+            setStartDate={setStartDate}
+            setEndDate={setEndDate}
+            setGuest={setGuest}
+          />
+          <Link
+            href={`/properties?location=${location}&startDate=${startDate}&endDate=${endDate}&guest=${guest}`}
           >
-            <span className=" absolute right-0 w-8 h-32 -mt-12 transition-all duration-100 transform translate-x-12 bg-white opacity-10 rotate-12 group-hover:-translate-x-40 ease-linear">
-              {" "}
-            </span>
-            <span className=" relative font-bold">Search</span>
-          </a>
+            <div className="rounded px-14 md:px-28 mt-[-1rem] py-2.5 overflow-hidden group bg-red-500 relative hover:bg-gradient-to-r hover:from-red-500 hover:to-red-400 text-white hover:ring-2 hover:ring-offset-2 hover:ring-red-400 transition-all ease-out duration-300">
+              <span className=" absolute right-0 w-8 h-32 -mt-12 transition-all duration-100 transform translate-x-12 bg-white opacity-10 rotate-12 group-hover:-translate-x-40 ease-linear">
+                {" "}
+              </span>
+              <span className=" relative font-bold">Search</span>
+            </div>
+          </Link>
         </div>
       </div>
     </div>
