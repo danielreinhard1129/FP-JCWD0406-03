@@ -11,6 +11,7 @@ datasource db {
 }
 
 model User {
+
   id          Int           @id @default(autoincrement())
   username    String
   email       String        @unique
@@ -26,6 +27,7 @@ model User {
   Review      Review[]
   Comment     Comment[]
   Property    Property[]
+
   Transaction Transaction[]
 }
 
@@ -51,16 +53,18 @@ enum RoomType {
 }
 
 model Room {
-  id          Int           @id @default(autoincrement())
+  id          Int      @id @default(autoincrement())
   propertyId  Int
   type        RoomType
   price       Int
   description String
+
   createdAt   DateTime      @default(now())
   updatedAt   DateTime      @updatedAt
   property    Property      @relation(fields: [propertyId], references: [id])
   images      RoomPicture[]
   status      RoomStatus
+
   transaction Transaction[]
 }
 
@@ -83,6 +87,7 @@ enum PropertyType {
 }
 
 model Property {
+
   id                 Int              @id @default(autoincrement())
   name               String
   description        String
@@ -99,6 +104,7 @@ model Property {
   Review             Review[]
   type               PropertyType
   images             ProperyPicture[]
+  
 }
 
 model ProperyPicture {
@@ -109,6 +115,8 @@ model ProperyPicture {
   Property   Property? @relation(fields: [propertyId], references: [id])
   propertyId Int?
 }
+
+
 
 model PeakSeasonRate {
   id                          Int      @id @default(autoincrement())
@@ -127,6 +135,7 @@ model Transaction {
   roomId            Int
   userId            Int
   paymentMethod     PaymentMethod
+  choosePayment     ChosePayment
   checkIn           DateTime
   checkOut          DateTime
   total             Int
@@ -135,19 +144,29 @@ model Transaction {
   createdAt         DateTime          @default(now())
   updatedAt         DateTime          @updatedAt
   room              Room              @relation(fields: [roomId], references: [id])
-  user              User              @relation(fields: [userId], references: [id])
+  user              User            @relation(fields: [userId], references: [id])
+
+}
+
+enum ChosePayment {
+  CREDIT
+  CASH
+
 }
 
 enum PaymentMethod {
   MANDIRI
   BCA
   BNI
+  PayPal
 }
 
 enum StatusTransaction {
   CONFIRM
   REJECT
   PENDING
+  EXPIRED
+  CANCEL
 }
 
 model Review {

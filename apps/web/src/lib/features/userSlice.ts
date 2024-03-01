@@ -1,5 +1,5 @@
-import { createSlice } from "@reduxjs/toolkit";
-import type { PayloadAction } from "@reduxjs/toolkit";
+import { createSlice } from '@reduxjs/toolkit';
+import type { PayloadAction } from '@reduxjs/toolkit';
 
 interface UserState {
   id: number;
@@ -12,15 +12,15 @@ interface UserState {
 
 const initialState: UserState = {
   id: 0,
-  username: "",
-  email: "",
+  username: '',
+  email: '',
   isVerified: false,
   image: null,
   roleId: 0,
 };
 
 export const userSlice = createSlice({
-  name: "user",
+  name: 'user',
   initialState,
   reducers: {
     loginAction: (state, action: PayloadAction<UserState>) => {
@@ -33,8 +33,8 @@ export const userSlice = createSlice({
     },
     logoutAction: (state) => {
       state.id = 0;
-      state.username = "";
-      state.email = "";
+      state.username = '';
+      state.email = '';
       state.isVerified = false;
       state.image = null;
     },

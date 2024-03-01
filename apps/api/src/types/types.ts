@@ -21,6 +21,7 @@ export interface ITransaction {
   roomId: number;
   userId: number;
   paymentMethod: any;
+  choosePayment: any;
   checkIn: Date;
   checkOut: Date;
   total: number;

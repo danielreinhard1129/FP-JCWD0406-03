@@ -6,6 +6,7 @@ import express, {
   Response,
   NextFunction,
   static as static_,
+
 } from "express";
 import cors from "cors";
 import { UserRouter } from "./routers/user.router";
@@ -14,7 +15,9 @@ import { RoomRouter } from "./routers/room.router";
 import { ReviewRouter } from "./routers/review.router";
 import { PropertyRouter } from "./routers/property.router";
 import { TransactionRouter } from "./routers/transaction.router";
-import { join } from "path";
+import { join } from "path"
+
+
 
 export default class App {
   private app: Express;

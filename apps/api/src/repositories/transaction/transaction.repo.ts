@@ -11,6 +11,7 @@ export const transactionRepo = async (data: ITransaction) => {
       checkOut,
       total,
       paymentProof,
+      choosePayment,
     } = data;
     const result = await prisma.transaction.create({
       data: {
@@ -19,9 +20,13 @@ export const transactionRepo = async (data: ITransaction) => {
         paymentMethod,
         checkIn,
         checkOut,
+        choosePayment,
         total,
         statusTransaction: "PENDING",
         paymentProof,
+      },
+      include: {
+        user: true,
       },
     });
     return result;
