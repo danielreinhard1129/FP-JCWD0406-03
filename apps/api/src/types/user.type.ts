@@ -4,7 +4,7 @@ export interface IUser {
   email: string;
   password: string;
   roleId: number;
-  contact: string;
+  contact: string | null;
   alamat: string;
   isVerified: boolean;
   createdAt: Date;

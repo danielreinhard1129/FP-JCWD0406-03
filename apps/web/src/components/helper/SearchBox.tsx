@@ -1,7 +1,19 @@
 import { CalendarDaysIcon, MapIcon } from "@heroicons/react/16/solid";
 import React from "react";
 
-const SearchBox = () => {
+interface Props {
+  setStartDate: (value: string) => void;
+  setLocation: (value: string) => void;
+  setEndDate: (value: string) => void;
+  setGuest: (value: number) => void;
+}
+
+const SearchBox = ({
+  setStartDate,
+  setLocation,
+  setEndDate,
+  setGuest,
+}: Props) => {
   return (
     <div className=" bg-white rounded-lg p-8  grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 items-center justify-center gap-[2rem] mt-[3rem] w-[80%]">
       {/* first search input */}
@@ -11,6 +23,7 @@ const SearchBox = () => {
           <p className=" text-[18px] font-semibold mb-[0.2rem]">Location</p>
           <input
             type="text"
+            onChange={(e) => setLocation(e.target.value)}
             className=" outline-none border-none"
             placeholder=" Where are you going?"
           />
@@ -23,6 +36,7 @@ const SearchBox = () => {
           <p className=" text-[18px] font-semibold mb-[0.2rem]">Start Date</p>
           <input
             type="date"
+            onChange={(e) => setStartDate(e.target.value)}
             className=" outline-none border-none"
             placeholder=" Where are you going?"
           />
@@ -35,6 +49,7 @@ const SearchBox = () => {
           <p className=" text-[18px] font-semibold mb-[0.2rem]">End Date</p>
           <input
             type="date"
+            onChange={(e) => setEndDate(e.target.value)}
             className=" outline-none border-none"
             placeholder=" Where are you going?"
           />

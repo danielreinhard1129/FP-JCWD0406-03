@@ -6,13 +6,18 @@ import express, {
   Response,
   NextFunction,
   static as static_,
+
 } from "express";
 import cors from "cors";
 import { UserRouter } from "./routers/user.router";
 import { PORT } from "./config";
+import { RoomRouter } from "./routers/room.router";
 import { ReviewRouter } from "./routers/review.router";
+import { PropertyRouter } from "./routers/property.router";
 import { TransactionRouter } from "./routers/transaction.router";
-import { join } from "path";
+import { join } from "path"
+
+
 
 export default class App {
   private app: Express;
@@ -56,16 +61,19 @@ export default class App {
 
   private routes(): void {
     const userRouter = new UserRouter();
+    const reviewRouter = new ReviewRouter();
+    const transactionRouter = new TransactionRouter();
+    const propertyRouter = new PropertyRouter();
+    const roomRouter = new RoomRouter();
     this.app.get("/api", (req: Request, res: Response) => {
       res.send(`Hello, Purwadhika Student !`);
     });
 
     this.app.use("/api/user", userRouter.getRouter());
-
-    const reviewRouter = new ReviewRouter();
-    const transactionRouter = new TransactionRouter();
-
+    this.app.use("/api", propertyRouter.getRouter());
     this.app.use("/api", reviewRouter.getRouter());
+    this.app.use("/api", roomRouter.getRouter());
+
     this.app.use("/api/transaction", transactionRouter.getRouter());
   }
 
