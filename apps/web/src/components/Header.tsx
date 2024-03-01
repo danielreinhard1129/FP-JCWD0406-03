@@ -1,17 +1,17 @@
 "use client";
 
+import { loginAction, logoutAction } from "@/lib/features/userSlice";
+import { useAppDispatch, useAppSelector } from "@/lib/hooks";
+import { baseUrl } from "@/utils/config";
+import axios from "axios";
 import { X } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { GiHamburgerMenu } from "react-icons/gi";
+import { toast } from "react-toastify";
 import Button1 from "./ui/button1";
-import { useAppDispatch, useAppSelector } from "@/lib/hooks";
-import { loginAction, logoutAction } from "@/lib/features/userSlice";
-import { baseUrl } from "@/utils/config";
-import axios from "axios";
-import { useRouter } from "next/navigation";
-import { ToastContainer, toast } from "react-toastify";
 
 function Header() {
   const router = useRouter();
@@ -34,7 +34,7 @@ function Header() {
     dispatch(logoutAction());
     toast.success(" Logout  successful", {
       position: "top-center",
-      autoClose: 10000,
+      autoClose: 1000,
       theme: "light",
     });
 

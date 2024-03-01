@@ -63,7 +63,6 @@ const LoginCard = () => {
 
   return (
     <>
-      <ToastContainer />
       <div className="min-h-screen flex justify-center items-center bg-gradient-to-r ">
         <div className="container max-w-4xl flex flex-col md:flex-row bg-slate-700 rounded-md mx-4">
           <div className="w-full md:w-1/2 pl-[10px] flex flex-col justify-center items-center">

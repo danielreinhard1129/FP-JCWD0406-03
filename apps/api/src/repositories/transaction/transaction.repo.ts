@@ -1,5 +1,5 @@
-import prisma from '@/prisma';
-import { ITransaction } from '@/types/types';
+import prisma from "@/prisma";
+import { ITransaction } from "@/types/types";
 
 export const transactionRepo = async (data: ITransaction) => {
   try {
@@ -22,7 +22,7 @@ export const transactionRepo = async (data: ITransaction) => {
         checkOut,
         choosePayment,
         total,
-        statusTransaction: 'PENDING',
+        statusTransaction: "PENDING",
         paymentProof,
       },
       include: {
