@@ -11,22 +11,21 @@ datasource db {
 }
 
 model User {
-
-  id          Int           @id @default(autoincrement())
-  username    String
-  email       String        @unique
-  password    String
-  roleId      Int
-  contact     String?
-  alamat      String        @default("")
-  isVerified  Boolean       @default(false)
-  createdAt   DateTime      @default(now())
-  updatedAt   DateTime      @updatedAt
-  image       String?
-  role        Role          @relation(fields: [roleId], references: [id])
-  Review      Review[]
-  Comment     Comment[]
-  Property    Property[]
+  id         Int        @id @default(autoincrement())
+  username   String
+  email      String     @unique
+  password   String
+  roleId     Int
+  contact    String?
+  alamat     String     @default("")
+  isVerified Boolean    @default(false)
+  createdAt  DateTime   @default(now())
+  updatedAt  DateTime   @updatedAt
+  image      String?
+  role       Role       @relation(fields: [roleId], references: [id])
+  Review     Review[]
+  Comment    Comment[]
+  Property   Property[]
 
   Transaction Transaction[]
 }
@@ -59,11 +58,11 @@ model Room {
   price       Int
   description String
 
-  createdAt   DateTime      @default(now())
-  updatedAt   DateTime      @updatedAt
-  property    Property      @relation(fields: [propertyId], references: [id])
-  images      RoomPicture[]
-  status      RoomStatus
+  createdAt DateTime      @default(now())
+  updatedAt DateTime      @updatedAt
+  property  Property      @relation(fields: [propertyId], references: [id])
+  images    RoomPicture[]
+  status    RoomStatus
 
   transaction Transaction[]
 }
@@ -87,7 +86,6 @@ enum PropertyType {
 }
 
 model Property {
-
   id                 Int              @id @default(autoincrement())
   name               String
   description        String
@@ -104,7 +102,6 @@ model Property {
   Review             Review[]
   type               PropertyType
   images             ProperyPicture[]
-  
 }
 
 model ProperyPicture {
@@ -115,8 +112,6 @@ model ProperyPicture {
   Property   Property? @relation(fields: [propertyId], references: [id])
   propertyId Int?
 }
-
-
 
 model PeakSeasonRate {
   id                          Int      @id @default(autoincrement())
@@ -144,14 +139,12 @@ model Transaction {
   createdAt         DateTime          @default(now())
   updatedAt         DateTime          @updatedAt
   room              Room              @relation(fields: [roomId], references: [id])
-  user              User            @relation(fields: [userId], references: [id])
-
+  user              User              @relation(fields: [userId], references: [id])
 }
 
 enum ChosePayment {
   CREDIT
   CASH
-
 }
 
 enum PaymentMethod {
