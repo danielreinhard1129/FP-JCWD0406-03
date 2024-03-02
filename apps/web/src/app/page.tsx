@@ -36,16 +36,6 @@ export default function Home() {
   }, []);
 
   return (
-<<<<<<< HEAD
-    <div>
-<<<<<<< HEAD
-      <h1>ini adalah halaman judul</h1>
-=======
-      <h1 className=" text-3xl font-bold underline">
-        ini adalah halaman judul
-      </h1>
->>>>>>> 1f98e1932fc741cf6eefb905261f9c6d96ff1449
-=======
     <div className=" overflow-x-hidden">
       <Hero />
       <TopDestination />
@@ -53,7 +43,6 @@ export default function Home() {
       <Hootel />
       <Review />
       <Contact />
->>>>>>> b07b87504aee5122d92dbd168a95c50c67c285cd
     </div>
   );
 }
