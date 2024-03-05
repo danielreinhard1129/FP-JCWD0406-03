@@ -1,13 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'next/navigation';
-import axios from 'axios';
-import { baseUrl } from '@/utils/config';
+import { useRouter } from 'next/navigation';
+import { toast } from 'react-toastify';
 
-const Countdown = ({ input }: any) => {
-  const params = useParams();
+const Countdown = ({ data }: any) => {
+  const router = useRouter();
 
   const [countdown, setCountdown] = useState(() => {
-    // Ambil nilai countdown dari localStorage jika ada, atau set ke 3600 jika tidak ada
     const storedCountdown = localStorage.getItem('countdown');
     return storedCountdown ? parseInt(storedCountdown, 10) : 3600;
   });
@@ -15,23 +13,11 @@ const Countdown = ({ input }: any) => {
   const [userInput, setUserInput] = useState('');
 
   useEffect(() => {
-    setUserInput(input);
-
-    const handleGetTransaction = async () => {
-      try {
-        await axios.patch(baseUrl + `/transaction`, {
-          uuid: params.uuid,
-        });
-      } catch (error) {
-        console.error('Error fetching transaction data:', error);
-      }
-    };
-
     const timer = setInterval(() => {
       if (countdown > 0 && userInput === '') {
         setCountdown((prevCountdown) => {
           const newCountdown = prevCountdown - 1;
-          // localStorage.setItem('countdown', newCountdown.toString()); // Simpan nilai countdown ke localStorage
+          localStorage.setItem('countdown', newCountdown.toString());
           return newCountdown;
         });
       }
@@ -39,13 +25,23 @@ const Countdown = ({ input }: any) => {
 
     if (countdown === 0) {
       clearInterval(timer);
-      handleGetTransaction();
+      toast.success('time has run out, transaction expired', {
+        position: 'top-right',
+        autoClose: 3000,
+        theme: 'light',
+      });
+      router.replace('/');
+      localStorage.removeItem('countdown'); // Hapus nilai countdown dari localStorage
+    }
+
+    if (data?.statusTransaction === 'PROCESS') {
+      localStorage.removeItem('countdown');
     }
 
     return () => clearInterval(timer);
-  }, [countdown, input, params.uuid, userInput]);
+  }, [countdown, userInput]);
 
-  const formatTime = (seconds: number) => {
+  const formatTime = (seconds: any) => {
     const hours = Math.floor(seconds / 3600);
     const minutes = Math.floor((seconds % 3600) / 60);
     const remainingSeconds = seconds % 60;

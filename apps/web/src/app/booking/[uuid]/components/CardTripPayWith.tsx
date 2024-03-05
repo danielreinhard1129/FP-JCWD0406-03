@@ -50,11 +50,22 @@ const CardTripPayWith = ({
           theme: 'light',
         });
       }
-
+      const utcStartDate = dateRange.startDate
+        ? new Date(
+            dateRange.startDate?.getTime() -
+              dateRange.startDate?.getTimezoneOffset() * 60000,
+          )
+        : null;
+      const utcEndDate = dateRange.endDate
+        ? new Date(
+            dateRange.endDate.getTime() -
+              dateRange.endDate.getTimezoneOffset() * 60000,
+          )
+        : null;
       await axios.post(baseUrl + '/transaction', {
         roomId: room.id,
-        checkIn: dateRange.startDate?.toISOString(),
-        checkOut: dateRange.endDate?.toISOString(),
+        checkIn: utcStartDate,
+        checkOut: utcEndDate,
         userId: user.id,
         paymentMethod: paymentMethod,
         choosePayment: valueTripChoose,

@@ -104,6 +104,8 @@ model Property {
   Review           Review[]
   type             PropertyType
   property_pics    Property_pic[]
+  Transaction      Transaction?       @relation(fields: [transactionId], references: [id])
+  transactionId    Int?
 }
 
 model Property_pic {
@@ -131,6 +133,7 @@ model Peak_Season_Rate {
 model Transaction {
   id                Int               @id @default(autoincrement())
   uuid              String            @unique @default(uuid())
+  orderId           String            @unique
   roomId            Int
   userId            Int
   paymentMethod     PaymentMethod
@@ -144,6 +147,7 @@ model Transaction {
   updatedAt         DateTime          @updatedAt
   room              Room              @relation(fields: [roomId], references: [id])
   user              User              @relation(fields: [userId], references: [id])
+  property          Property[]
 }
 
 enum ChosePayment {
@@ -164,6 +168,7 @@ enum StatusTransaction {
   PENDING
   EXPIRED
   CANCEL
+  PROCESS
 }
 
 model Review {

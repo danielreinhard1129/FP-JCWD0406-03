@@ -10,8 +10,7 @@ export interface DataTransaction {
 }
 const Transaction = () => {
   const params = useParams();
-  const [getData, setGetData] = useState([]);
-  console.log('ini transaksi', getData);
+  const [getData, setGetData] = useState<DataTransaction | null>(null);
 
   const handleGetTransaction = async () => {
     const { data } = await axios.get(baseUrl + `/transaction/${params.uuid}`);
