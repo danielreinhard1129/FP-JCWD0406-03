@@ -3,13 +3,14 @@ import { registerAction } from "@/actions/user/Register.action";
 import { forgotPasswordAction } from "@/actions/user/forgotpassword.action";
 import { keepLoginAction } from "@/actions/user/keep.login.action";
 import { resetPasswordAction } from "@/actions/user/resetpassword.action";
+import { sendEmailVerificationUser } from "@/actions/user/sendEmailVerification.action";
+import { userVerificationAction } from "@/actions/user/verifyUser.action";
+import { decodeToken } from "@/lib/jwt";
 import prisma from "@/prisma";
-import fs from "fs";
-import { join } from "path";
-
 import { getUserById } from "@/repositories/user/getUserByIdRepo";
 import { NextFunction, Request, Response } from "express";
-import { log } from "handlebars/runtime";
+import fs from "fs";
+import { join } from "path";
 interface AuthenticatedRequest extends Request {
   user?: any;
 }
@@ -67,6 +68,46 @@ export class UserController {
     }
   }
 
+  async sendEmailVerify(req: Request, res: Response, next: NextFunction) {
+    try {
+      const result = await sendEmailVerificationUser(req.body.email);
+      return res.status(200).send(result);
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async userVerification(req: Request, res: Response, next: NextFunction) {
+    try {
+      const authHeader = req.headers["authorization"];
+      if (!authHeader) {
+        return res
+          .status(401)
+          .json({ message: "Authorization header is missing" });
+      }
+
+      const token = authHeader.split(" ")[1];
+      if (!token) {
+        return res
+          .status(401)
+          .json({ message: "Token is missing from Authorization header" });
+      }
+
+      const decodedToken = decodeToken(token);
+      const userEmail = decodedToken.email; // Dapatkan email dari token
+
+      // Temukan user berdasarkan email untuk mendapatkan userId
+      const user = await prisma.user.findUnique({
+        where: { email: userEmail },
+      });
+
+      const result = await userVerificationAction(userEmail);
+      res.status(200).json(result);
+    } catch (error) {
+      next(error);
+    }
+  }
+
   async uploadPhotoProfile(
     req: AuthenticatedRequest,
     res: Response,
@@ -101,8 +142,8 @@ export class UserController {
   }
   async getUserById(req: Request, res: Response, next: NextFunction) {
     try {
-      const userId = parseInt(req.params.id); // Mengambil ID dari params
-      const user = await getUserById(userId); // Memanggil repository untuk mengambil user by ID
+      const userId = parseInt(req.params.id);
+      const user = await getUserById(userId);
       if (!user) {
         return res.status(404).json({ message: "User not found" });
       }

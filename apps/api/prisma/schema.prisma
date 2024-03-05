@@ -58,17 +58,16 @@ model Room {
   price       Int
   description String
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  property  Property @relation(fields: [propertyId], references: [id])
-
-  pictures Room_pic[]
-  status   RoomStatus
+  createdAt DateTime      @default(now())
+  updatedAt DateTime      @updatedAt
+  property  Property      @relation(fields: [propertyId], references: [id])
+  images    RoomPicture[]
+  status    RoomStatus
 
   transaction Transaction[]
 }
 
-model Room_pic {
+model RoomPicture {
   id        Int      @id @default(autoincrement())
   roomId    Int
   image     String?
@@ -87,6 +86,7 @@ enum PropertyType {
 }
 
 model Property {
+
   id         Int    @id @default(autoincrement())
   name       String
   descripion String
@@ -109,17 +109,36 @@ model Property {
 }
 
 model Property_pic {
-  id        Int      @id @default(autoincrement())
-  roomId    Int
-  image     String?
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+ 
+=======
+  id                 Int              @id @default(autoincrement())
+  name               String
+  description        String
+  location           String
+  ownerId            Int
+  createdAt          DateTime         @default(now())
+  updatedAt          DateTime         @updatedAt
+  Room               Room[]
+  user               User             @relation(fields: [ownerId], references: [id])
+  availableStartDate String
+  availableEndDate   String
+  maxGuest           Int
+  PeakSeasonRate     PeakSeasonRate[]
+  Review             Review[]
+  type               PropertyType
+  images             ProperyPicture[]
+}
 
+model ProperyPicture {
+  id         Int       @id @default(autoincrement())
+  image      String?
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
   Property   Property? @relation(fields: [propertyId], references: [id])
   propertyId Int?
 }
 
-model Peak_Season_Rate {
+model PeakSeasonRate {
   id                          Int      @id @default(autoincrement())
   propertyId                  Int
   startDate                   DateTime
@@ -168,7 +187,9 @@ enum StatusTransaction {
   PENDING
   EXPIRED
   CANCEL
+
   PROCESS
+
 }
 
 model Review {

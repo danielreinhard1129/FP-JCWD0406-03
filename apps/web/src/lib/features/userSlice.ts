@@ -7,6 +7,7 @@ interface UserState {
   email: string;
   roleId: number;
   isVerified: boolean;
+  image: string | null;
 }
 
 const initialState: UserState = {
@@ -14,7 +15,7 @@ const initialState: UserState = {
   username: '',
   email: '',
   isVerified: false,
-
+  image: null,
   roleId: 0,
 };
 
@@ -28,12 +29,14 @@ export const userSlice = createSlice({
       state.email = action.payload.email;
       state.roleId = action.payload.roleId;
       state.isVerified = action.payload.isVerified;
+      state.image = action.payload.image;
     },
     logoutAction: (state) => {
       state.id = 0;
       state.username = '';
       state.email = '';
       state.isVerified = false;
+      state.image = null;
     },
   },
 });

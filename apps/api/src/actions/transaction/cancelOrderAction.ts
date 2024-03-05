@@ -5,7 +5,9 @@ export const cancelOrderAction = async (uuid: string) => {
     const data = await cancelOrderRepo(uuid);
     return {
       status: 200,
+
       message: 'Success Cancel Order',
+
       data,
     };
   } catch (error) {

@@ -8,3 +8,12 @@ export const createToken = (data: any): string => {
 
   return jwt.sign(data, secretKeys, { expiresIn });
 };
+
+export const decodeToken = (token: string): any => {
+  try {
+    const decoded: any = jwt.verify(token, secretKeys);
+    return decoded;
+  } catch (error) {
+    throw new Error("Invalid token");
+  }
+};

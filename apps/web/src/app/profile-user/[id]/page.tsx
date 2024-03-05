@@ -3,7 +3,7 @@ import UserProfile from "./components/CardProfile";
 
 const page = () => {
   return (
-    <main className=" w-[100%] items-center  ">
+    <main className=" items-center   ">
       <UserProfile />
     </main>
   );

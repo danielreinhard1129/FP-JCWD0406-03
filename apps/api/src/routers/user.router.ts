@@ -24,6 +24,13 @@ export class UserRouter {
     this.router.post("/login", this.userController.loginUser);
     this.router.get("/keeplogin", verifyToken, this.userController.keepLogin);
     this.router.post("/forgot-password", this.userController.forgotPassword);
+    this.router.post("/send-email", this.userController.sendEmailVerify);
+    this.router.patch(
+      "/verification",
+      verifyToken,
+      this.userController.userVerification
+    );
+
     this.router.patch(
       "/reset-password",
       verifyToken,
