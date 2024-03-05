@@ -6,8 +6,9 @@ export const uploadPaymentRepo = async (uuid: string, file: string) => {
       where: {
         uuid: uuid,
       },
-      data: { paymentProof: file },
+      data: { paymentProof: file, statusTransaction: 'PROCESS' },
     });
+
     return result;
   } catch (error) {
     throw error;

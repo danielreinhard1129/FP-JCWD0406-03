@@ -1,3 +1,5 @@
+
+
 import prisma from "@/prisma";
 import { ITransaction } from "@/types/types";
 
@@ -34,3 +36,4 @@ export const transactionRepo = async (data: ITransaction) => {
     throw error;
   }
 };
+

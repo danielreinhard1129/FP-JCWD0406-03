@@ -27,6 +27,19 @@ export class TransactionRouter {
       this.transactionController.paymentProof,
     );
     this.router.get('/:uuid', this.transactionController.transactionUuid);
+    this.router.post(
+      '/order-list',
+      this.transactionController.orderListController,
+    );
+    this.router.post(
+      '/order-id',
+      this.transactionController.findOrderIdController,
+    );
+
+    this.router.get(
+      '/order-list/:id',
+      this.transactionController.getAllTransaction,
+    );
   }
 
   getRouter(): Router {

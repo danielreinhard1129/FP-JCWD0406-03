@@ -86,6 +86,31 @@ enum PropertyType {
 }
 
 model Property {
+
+  id         Int    @id @default(autoincrement())
+  name       String
+  descripion String
+
+  tenantId  Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  Room Room[]
+
+  image String?
+
+  user             User               @relation(fields: [tenantId], references: [id])
+  Peak_Season_Rate Peak_Season_Rate[]
+  Review           Review[]
+  type             PropertyType
+  property_pics    Property_pic[]
+  Transaction      Transaction?       @relation(fields: [transactionId], references: [id])
+  transactionId    Int?
+}
+
+model Property_pic {
+ 
+=======
   id                 Int              @id @default(autoincrement())
   name               String
   description        String
@@ -127,6 +152,7 @@ model PeakSeasonRate {
 model Transaction {
   id                Int               @id @default(autoincrement())
   uuid              String            @unique @default(uuid())
+  orderId           String            @unique
   roomId            Int
   userId            Int
   paymentMethod     PaymentMethod
@@ -140,6 +166,7 @@ model Transaction {
   updatedAt         DateTime          @updatedAt
   room              Room              @relation(fields: [roomId], references: [id])
   user              User              @relation(fields: [userId], references: [id])
+  property          Property[]
 }
 
 enum ChosePayment {
@@ -160,6 +187,9 @@ enum StatusTransaction {
   PENDING
   EXPIRED
   CANCEL
+
+  PROCESS
+
 }
 
 model Review {

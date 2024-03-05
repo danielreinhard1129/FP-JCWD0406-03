@@ -8,11 +8,18 @@ import { Banner, Card } from 'flowbite-react';
 import { HiInformationCircle } from 'react-icons/hi';
 import PaymentProof from './PaymentProof';
 import Countdown from './CountDown';
+import { useRouter } from 'next/navigation';
 const MainTransaction = ({ data }: any) => {
   const [placeholder, setPlaceHolder] = useState<string>('Rp.0');
   const [input, setInput] = useState('');
-
+  const router = useRouter();
   useEffect(() => {
+    if (
+      data?.statusTransaction === 'PROCESS' ||
+      data?.statusTransaction === 'CANCEL'
+    ) {
+      router.replace('/');
+    }
     if (data && data.total !== undefined) {
       setPlaceHolder(`Rp.${data?.total?.toLocaleString('id-ID')}`);
     }
@@ -29,7 +36,7 @@ const MainTransaction = ({ data }: any) => {
             <h2 className="text-3xl font-extrabold text-[#333]">
               Payment Instructions
             </h2>
-            <Countdown input={input} />
+            <Countdown data={data} />
             <p className="text-[#333] text-base mt-4">
               Complete your transaction swiftly and securely with our
               easy-to-use payment process.
