@@ -11,23 +11,23 @@ datasource db {
 }
 
 model User {
-  id         Int        @id @default(autoincrement())
-  username   String
-  email      String     @unique
-  password   String
-  roleId     Int
-  contact    String?
-  alamat     String     @default("")
-  isVerified Boolean    @default(false)
-  createdAt  DateTime   @default(now())
-  updatedAt  DateTime   @updatedAt
-  image      String?
-  role       Role       @relation(fields: [roleId], references: [id])
-  Review     Review[]
-  Comment    Comment[]
-  Property   Property[]
-
-  Transaction Transaction[]
+  id             Int           @id @default(autoincrement())
+  username       String
+  email          String        @unique
+  password       String
+  roleId         Int
+  contact        String?
+  alamat         String        @default("")
+  identityNumber String?
+  isVerified     Boolean       @default(false)
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
+  image          String?
+  role           Role          @relation(fields: [roleId], references: [id])
+  Review         Review[]
+  Comment        Comment[]
+  Property       Property[]
+  Transaction    Transaction[]
 }
 
 model Role {
@@ -86,31 +86,6 @@ enum PropertyType {
 }
 
 model Property {
-
-  id         Int    @id @default(autoincrement())
-  name       String
-  descripion String
-
-  tenantId  Int
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  Room Room[]
-
-  image String?
-
-  user             User               @relation(fields: [tenantId], references: [id])
-  Peak_Season_Rate Peak_Season_Rate[]
-  Review           Review[]
-  type             PropertyType
-  property_pics    Property_pic[]
-  Transaction      Transaction?       @relation(fields: [transactionId], references: [id])
-  transactionId    Int?
-}
-
-model Property_pic {
- 
-=======
   id                 Int              @id @default(autoincrement())
   name               String
   description        String
@@ -127,6 +102,8 @@ model Property_pic {
   Review             Review[]
   type               PropertyType
   images             ProperyPicture[]
+  Transaction        Transaction?     @relation(fields: [transactionId], references: [id])
+  transactionId      Int?
 }
 
 model ProperyPicture {
@@ -150,13 +127,13 @@ model PeakSeasonRate {
 }
 
 model Transaction {
-  id                Int               @id @default(autoincrement())
-  uuid              String            @unique @default(uuid())
-  orderId           String            @unique
-  roomId            Int
-  userId            Int
-  paymentMethod     PaymentMethod
-  choosePayment     ChosePayment
+  id            Int           @id @default(autoincrement())
+  uuid          String        @unique @default(uuid())
+  orderId       String        @unique
+  roomId        Int
+  userId        Int
+  paymentMethod PaymentMethod
+
   checkIn           DateTime
   checkOut          DateTime
   total             Int
@@ -167,11 +144,6 @@ model Transaction {
   room              Room              @relation(fields: [roomId], references: [id])
   user              User              @relation(fields: [userId], references: [id])
   property          Property[]
-}
-
-enum ChosePayment {
-  CREDIT
-  CASH
 }
 
 enum PaymentMethod {
@@ -189,7 +161,6 @@ enum StatusTransaction {
   CANCEL
 
   PROCESS
-
 }
 
 model Review {
