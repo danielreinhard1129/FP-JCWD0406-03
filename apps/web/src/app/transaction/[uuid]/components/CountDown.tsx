@@ -6,7 +6,7 @@ const Countdown = ({ data }: any) => {
   const router = useRouter();
 
   const [countdown, setCountdown] = useState(() => {
-    const storedCountdown = localStorage.getItem('countdown');
+    const storedCountdown = localStorage?.getItem('countdown');
     return storedCountdown ? parseInt(storedCountdown, 10) : 3600;
   });
 
