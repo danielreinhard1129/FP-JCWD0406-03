@@ -10,19 +10,14 @@ const formatDate = (date: Date): string => {
   return new Date(date).toLocaleDateString('id-ID', options);
 };
 
-const formatDateRange = (
-  startDate: Date | null,
-  endDate: Date | null,
-): string => {
-  if (!startDate || !endDate) return '';
-
-  const startMonth = startDate.toLocaleDateString('en-US', { month: 'short' });
-  const endMonth = endDate.toLocaleDateString('en-US', { month: 'short' });
+const formatDateRange = (startDate: Date, endDate: Date): String => {
+  const startMonth = startDate?.toLocaleDateString('en-US', { month: 'short' });
+  const endMonth = endDate?.toLocaleDateString('en-US', { month: 'short' });
 
   const options: Intl.DateTimeFormatOptions = { day: 'numeric' };
 
-  const formattedStartDate = startDate.toLocaleDateString('en-US', options);
-  const formattedEndDate = endDate.toLocaleDateString('en-US', options);
+  const formattedStartDate = startDate?.toLocaleDateString('en-US', options);
+  const formattedEndDate = endDate?.toLocaleDateString('en-US', options);
 
   if (startMonth === endMonth) {
     return `${startMonth} ${formattedStartDate}-${formattedEndDate}`;

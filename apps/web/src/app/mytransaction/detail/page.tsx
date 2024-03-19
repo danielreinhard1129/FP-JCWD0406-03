@@ -1,20 +1,23 @@
+'use client';
 import { useState } from 'react';
-import DateRangePicker from './DatePicker';
+
 import { ITransaction } from '../../../../types/types';
+import { useSearchParams } from 'next/navigation';
 
-const MainTransaction = ({ data }: any) => {
-  const [getDate, setGetDate] = useState<ITransaction[]>([]);
+const DetailSearch = () => {
+  const search = useSearchParams();
+  const searchQuery = search ? search.get('q') : null;
 
-  const handleGetDate = (date: any) => {
-    setGetDate(date);
-  };
+  const encodedSearchQuery = encodeURI(searchQuery || '');
+
+  console.log('riski babi', encodedSearchQuery);
 
   return (
     <div className="rounded-lg overflow-hidden mx-4 md:mx-10">
       <h1 className="text-2xl font-extrabold text-gray-800 py-4 px-6 lg:mt-10 md:mt-20 sm:mt-10 md:z-20">
         Transaction History
       </h1>
-      <DateRangePicker onChange={handleGetDate} />
+
       <div className="overflow-x-auto">
         <table className="w-full table-fixed">
           <thead>
@@ -34,14 +37,14 @@ const MainTransaction = ({ data }: any) => {
             </tr>
           </thead>
           <tbody className="bg-white">
-            {data?.map((item: any) => (
+            {/* {data?.map((item: any) => (
               <tr key={item.id}>
                 <td className="py-2 px-6">{item.orderId}</td>
                 <td className="py-2 px-6">{item?.room?.property?.name}</td>
                 <td className="py-2 px-6">{item.total}</td>
                 <td className="py-2 px-6">{item.statusTransaction}</td>
               </tr>
-            ))}
+            ))} */}
           </tbody>
         </table>
       </div>
@@ -49,4 +52,4 @@ const MainTransaction = ({ data }: any) => {
   );
 };
 
-export default MainTransaction;
+export default DetailSearch;

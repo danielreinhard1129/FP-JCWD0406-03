@@ -18,6 +18,7 @@ export interface IComment {
 export interface ITransaction {
   id: number;
   uuid: string;
+  orderId: string;
   roomId: number;
   userId: number;
   paymentMethod: any;
@@ -26,6 +27,7 @@ export interface ITransaction {
   checkOut: Date;
   total: number;
   statusId: number;
+  card_number: string;
   paymentProof: string;
   createdAt: Date;
   updatedAt: Date;

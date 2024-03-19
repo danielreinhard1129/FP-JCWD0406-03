@@ -1,17 +1,17 @@
-"use client";
+'use client';
 
-import { loginAction, logoutAction } from "@/lib/features/userSlice";
-import { useAppDispatch, useAppSelector } from "@/lib/hooks";
-import { baseUrl } from "@/utils/config";
-import axios from "axios";
-import { X } from "lucide-react";
-import Image from "next/image";
-import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
-import { GiHamburgerMenu } from "react-icons/gi";
-import { toast } from "react-toastify";
-import Button1 from "./ui/button1";
+import { loginAction, logoutAction } from '@/lib/features/userSlice';
+import { useAppDispatch, useAppSelector } from '@/lib/hooks';
+import { baseUrl } from '@/utils/config';
+import axios from 'axios';
+import { X } from 'lucide-react';
+import Image from 'next/image';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import { useEffect, useState } from 'react';
+import { GiHamburgerMenu } from 'react-icons/gi';
+import { toast } from 'react-toastify';
+import Button1 from './ui/button1';
 
 function Header() {
   const router = useRouter();
@@ -30,22 +30,22 @@ function Header() {
   const dispatch = useAppDispatch();
 
   const handleLogout = () => {
-    localStorage.removeItem("token_auth");
+    localStorage.removeItem('token_auth');
     dispatch(logoutAction());
-    toast.success(" Logout  successful", {
-      position: "top-center",
+    toast.success(' Logout  successful', {
+      position: 'top-center',
       autoClose: 1000,
-      theme: "light",
+      theme: 'light',
     });
 
-    router.push("/login");
+    router.push('/login');
   };
   useEffect(() => {
-    const token = localStorage.getItem("token_auth");
+    const token = localStorage.getItem('token_auth');
 
     const keepLogin = async () => {
       try {
-        const { data } = await axios.get(baseUrl + "/user/keeplogin", {
+        const { data } = await axios.get(baseUrl + '/user/keeplogin', {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -67,7 +67,7 @@ function Header() {
             <Link href="/" className="flex items-center text-[25px]">
               <Image src="/images/logo.png" alt="logo" width={40} height={30} />
               <h1 className=" text-white font-bold">
-                Rumah.<span className=" text-orange-500">123</span>{" "}
+                Rumah.<span className=" text-orange-500">123</span>{' '}
               </h1>
             </Link>
             <div className="flex gap-[20px] xl:gap-[50px] text-[16px] items-center select-none">
@@ -121,7 +121,7 @@ function Header() {
         {/* MOBILE */}
         <div
           className={` block lg:hidden shadow-sm  fixed top-0 w-full z-[9999]   py-4 animate-in fade-in zoom-in  ${
-            menu ? " bg-gray-500 py-2" : "bg-blue-900"
+            menu ? ' bg-gray-500 py-2' : 'bg-blue-900'
           } `}
         >
           <div className="flex justify-between mx-[10px]">
@@ -134,7 +134,7 @@ function Header() {
                   height={30}
                 />
                 <h1 className=" text-white font-bold">
-                  Rumah.<span className=" text-orange-500">123</span>{" "}
+                  Rumah.<span className=" text-orange-500">123</span>{' '}
                 </h1>
               </Link>
             </div>

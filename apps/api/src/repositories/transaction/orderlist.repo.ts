@@ -2,14 +2,14 @@ import prisma from '@/prisma';
 import { ITransaction } from '@/types/types';
 
 export const orderListRepo = async (
-  userId: number,
+  orderId: string,
   checkIn: Date,
   checkOut: Date,
 ) => {
   try {
     const result = await prisma.transaction.findMany({
       where: {
-        userId: userId,
+        orderId: orderId,
         AND: [
           {
             checkOut: {
@@ -18,7 +18,7 @@ export const orderListRepo = async (
           },
           {
             checkIn: {
-              lte: checkIn, // checkIn sebelum atau pada tanggal checkOut yang diminta
+              lte: checkIn,
             },
           },
         ],

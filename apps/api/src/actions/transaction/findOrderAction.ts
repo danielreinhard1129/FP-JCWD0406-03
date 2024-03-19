@@ -1,6 +1,5 @@
 import { cancelOrderRepo } from '@/repositories/transaction/cancelOrder.repo';
 import { findOrderIdRepo } from '@/repositories/transaction/findorderidrepo';
-import { orderListRepo } from '@/repositories/transaction/orderlist.repo';
 
 export const findOrderIdAction = async (userId: number, orderId: string) => {
   try {
