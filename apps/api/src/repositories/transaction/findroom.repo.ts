@@ -7,23 +7,15 @@ export const findRoomRepo = async (
   checkOut: Date,
 ) => {
   try {
-    // 1. Periksa ketersediaan kamar pada tanggal yang dipilih
+    // Periksa ketersediaan kamar pada rentang tanggal yang dipilih
     const result = await prisma.transaction.findFirst({
       where: {
         id: roomId,
-
-        AND: [
-          {
-            checkIn: {
-              lte: checkIn,
-            },
-          },
-          {
-            checkOut: {
-              gte: checkOut,
-            },
-          },
-        ],
+        checkIn: { lte: checkIn },
+        checkOut: { gte: checkOut },
+        NOT: {
+          OR: [{ checkIn: { gte: checkOut } }, { checkOut: { lte: checkIn } }],
+        },
       },
     });
     return result;

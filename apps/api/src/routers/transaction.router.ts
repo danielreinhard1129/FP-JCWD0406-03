@@ -16,6 +16,16 @@ export class TransactionRouter {
   private initializeRoutes(): void {
     this.router.post('/', this.transactionController.transaction);
     this.router.patch('/', this.transactionController.updatedTransaction);
+    this.router.post(
+      '/find-reservation',
+      this.transactionController.findRoomReservationController,
+    );
+
+    this.router.get(
+      '/transaction-userid/:userId',
+      this.transactionController.getTransactionByUserIdController,
+    );
+
     this.router.patch(
       '/cancel-order/:uuid',
       this.transactionController.cancelOrderController,
