@@ -11,23 +11,23 @@ datasource db {
 }
 
 model User {
-  id         Int        @id @default(autoincrement())
-  username   String
-  email      String     @unique
-  password   String
-  roleId     Int
-  contact    String?
-  alamat     String     @default("")
-  isVerified Boolean    @default(false)
-  createdAt  DateTime   @default(now())
-  updatedAt  DateTime   @updatedAt
-  image      String?
-  role       Role       @relation(fields: [roleId], references: [id])
-  Review     Review[]
-  Comment    Comment[]
-  Property   Property[]
-
-  Transaction Transaction[]
+  id             Int           @id @default(autoincrement())
+  username       String
+  email          String        @unique
+  password       String
+  roleId         Int
+  contact        String?
+  alamat         String        @default("")
+  identityNumber String?
+  isVerified     Boolean       @default(false)
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
+  image          String?
+  role           Role          @relation(fields: [roleId], references: [id])
+  Review         Review[]
+  Comment        Comment[]
+  Property       Property[]
+  Transaction    Transaction[]
 }
 
 model Role {
@@ -102,6 +102,8 @@ model Property {
   Review             Review[]
   type               PropertyType
   images             ProperyPicture[]
+  Transaction        Transaction?     @relation(fields: [transactionId], references: [id])
+  transactionId      Int?
 }
 
 model ProperyPicture {
@@ -127,31 +129,21 @@ model PeakSeasonRate {
 model Transaction {
   id                Int               @id @default(autoincrement())
   uuid              String            @unique @default(uuid())
+  orderId           String            @unique
   roomId            Int
   userId            Int
-  paymentMethod     PaymentMethod
-  choosePayment     ChosePayment
   checkIn           DateTime
   checkOut          DateTime
   total             Int
+  card_number       String?
   statusTransaction StatusTransaction
   paymentProof      String?
   createdAt         DateTime          @default(now())
   updatedAt         DateTime          @updatedAt
   room              Room              @relation(fields: [roomId], references: [id])
   user              User              @relation(fields: [userId], references: [id])
-}
 
-enum ChosePayment {
-  CREDIT
-  CASH
-}
-
-enum PaymentMethod {
-  MANDIRI
-  BCA
-  BNI
-  PayPal
+  Property Property[]
 }
 
 enum StatusTransaction {
@@ -160,6 +152,8 @@ enum StatusTransaction {
   PENDING
   EXPIRED
   CANCEL
+
+  PROCESS
 }
 
 model Review {

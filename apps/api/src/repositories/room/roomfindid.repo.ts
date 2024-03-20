@@ -8,9 +8,12 @@ export const findRoomIdRepo = async (roomId: number) => {
         id: roomId,
       },
       include: {
-        property: true,
+        property: {
+          include: {
+            user: true,
+          },
+        },
         transaction: true,
-        pictures: true,
       },
     });
 

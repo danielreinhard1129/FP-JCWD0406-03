@@ -1,14 +1,14 @@
-"use client";
+'use client';
 
-import Contact from "@/components/Contact";
-import Hero from "@/components/Hero";
-import Review from "@/components/Review";
-import Hootel from "@/components/Room";
-import CategorySection from "@/components/Services";
-import TopDestination from "@/components/TopDestination";
-import AOS from "aos";
-import "aos/dist/aos.css";
-import { useEffect } from "react";
+import Contact from '@/components/Contact';
+import Hero from '@/components/Hero';
+import Review from '@/components/Review';
+import Hootel from '@/components/Room';
+import CategorySection from '@/components/Services';
+import TopDestination from '@/components/TopDestination';
+import AOS from 'aos';
+import 'aos/dist/aos.css';
+import { useEffect } from 'react';
 
 export default function Home() {
   // setting aos
@@ -16,9 +16,9 @@ export default function Home() {
     AOS.init({
       // Global settings:
       disable: false,
-      startEvent: "DOMContentLoaded",
-      initClassName: "aos-init",
-      animatedClassName: "aos-animate",
+      startEvent: 'DOMContentLoaded',
+      initClassName: 'aos-init',
+      animatedClassName: 'aos-animate',
       useClassNames: false,
       disableMutationObserver: false,
       debounceDelay: 50,
@@ -28,10 +28,10 @@ export default function Home() {
       offset: 120,
       delay: 0,
       duration: 700,
-      easing: "ease",
+      easing: 'ease',
       once: true,
       mirror: false,
-      anchorPlacement: "top-bottom",
+      anchorPlacement: 'top-bottom',
     });
   }, []);
 
