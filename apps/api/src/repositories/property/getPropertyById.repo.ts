@@ -7,8 +7,9 @@ export const getPropertyByIdRepo = async (propertyId: number) => {
         id: propertyId,
       },
       include: {
-        user: true,
+        images: true,
         Room: true,
+        user: true,
         PeakSeasonRate: true,
         Review: true,
       },

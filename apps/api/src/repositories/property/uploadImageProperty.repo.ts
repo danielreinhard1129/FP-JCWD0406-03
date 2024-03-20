@@ -1,14 +1,14 @@
 import prisma from "@/prisma";
 
 export const uploadPropertyPictureRepo = async (
-  propertyId: number,
+  id: number,
   imagePath: string
 ) => {
   try {
     const result = await prisma.properyPicture.create({
       data: {
         image: imagePath,
-        Property: { connect: { id: propertyId } },
+        Property: { connect: { id: id } },
       },
     });
     return result;

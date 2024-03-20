@@ -1,10 +1,19 @@
 "use client";
 
-import withAuthRedirect from "@/utils/HOC/AdminGuard";
+import withAdminRedirect from "@/utils/HOC/AdminGuard";
 import React from "react";
+import SeacrhItems from "./components/SeacrhItems";
+import HeroSection from "./components/HeroSection";
 
 const AdminPage = () => {
-  return <div>AdminPage</div>;
+  return (
+    <div className=" ">
+      <div className=" basis-[80%] border">
+        <SeacrhItems />
+        <HeroSection />
+      </div>
+    </div>
+  );
 };
 
-export default withAuthRedirect(AdminPage);
+export default withAdminRedirect(AdminPage);

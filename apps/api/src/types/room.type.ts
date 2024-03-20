@@ -3,7 +3,7 @@
 export enum RoomStatus {
   AVAILABLE = "AVAILABLE",
   OCCUPIED = "OCCUPIED",
-  UNDER_RENOVATION = "UNDER_RENOVATION",
+  RENOVATION = "RENOVATION",
 }
 
 export enum RoomType {
@@ -24,6 +24,9 @@ export interface IRoom {
   createdAt: Date;
   updatedAt: Date;
   status: RoomStatus;
+  bedroom: string
+  bathroom: string
+  spaciousRoom: string
 }
 
 export interface RoomPicture {

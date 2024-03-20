@@ -25,7 +25,7 @@ const CardForgotPassword = () => {
         autoClose: 1000,
         theme: "light",
       });
-      router.push("/");
+      router.push("/login");
     } catch (error) {
       if (error instanceof AxiosError) {
         const errorMsg = error.response?.data || error.message;

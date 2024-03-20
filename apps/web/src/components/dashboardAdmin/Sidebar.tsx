@@ -1,36 +1,36 @@
-'use client';
-import { useAppSelector } from '@/lib/hooks';
-import Image from 'next/image';
-import Link from 'next/link';
+"use client";
+import { useAppSelector } from "@/lib/hooks";
+import Image from "next/image";
+import Link from "next/link";
 import {
   MdAttachMoney,
   MdDashboard,
   MdShoppingBag,
   MdSupervisedUserCircle,
-} from 'react-icons/md';
+} from "react-icons/md";
 
 const menuItems = [
   {
-    title: 'Pages',
+    title: "Pages",
     list: [
       {
-        title: 'Dashboard',
-        path: '/dashboard',
+        title: "Dashboard",
+        path: "/admin",
         icon: <MdDashboard />,
       },
       {
-        title: 'Property',
-        path: '/dashboard/users',
+        title: "Property",
+        path: "/admin/property",
         icon: <MdSupervisedUserCircle />,
       },
       {
-        title: 'Room',
-        path: '/dashboard/events',
+        title: "Room",
+        path: "/admin/room",
         icon: <MdShoppingBag />,
       },
       {
-        title: 'Transactions',
-        path: '/admin/transaction',
+        title: "Transactions",
+        path: "/admin/transactions",
         icon: <MdAttachMoney />,
       },
     ],
@@ -40,11 +40,10 @@ const menuItems = [
 const CardSidebar = () => {
   const user = useAppSelector((state) => state.user);
   const { id } = useAppSelector((state) => state.user);
-  console.log(id);
 
   const imageUrl = user?.image
-    ? `http://localhost:8000/photo-profile/${user?.image}`
-    : '/images/no-profile.svg';
+    ? `http://localhost:8000/photo-profile/${user.image}`
+    : "/images/no-profile.svg";
 
   return (
     <div className="sticky min-h-[100vh]">
@@ -57,10 +56,7 @@ const CardSidebar = () => {
           height="50"
         />
         <div className="flex flex-col">
-          <p className="font-[500]">{user.username ?? user?.email}</p>
-          <p className="text-[12px] text-[#b7bac1]">
-            {user.username ?? user?.roleId}
-          </p>
+          <p className="font-[500]">{user.username}</p>
         </div>
       </div>
       <ul className="list-none">

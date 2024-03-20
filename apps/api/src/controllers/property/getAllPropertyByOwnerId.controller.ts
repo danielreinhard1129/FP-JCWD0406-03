@@ -8,8 +8,11 @@ export class GetAllPropertyByOwnerIdController {
     next: NextFunction
   ) {
     try {
-      const id = parseInt(req.params.id);
-      const result = await getAllPropertyByOwnerIdAction(id);
+      const ownerId = parseInt(req.params.id);
+      const page = parseInt(req.query.page as string) || 1;
+      const pageSize = parseInt(req.query.pageSize as string) || 10;
+
+      const result = await getAllPropertyByOwnerIdAction(ownerId, page, pageSize);
       return res.status(result.status).json({
         message: result.message,
         properties: result.properties,

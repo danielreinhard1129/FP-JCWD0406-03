@@ -16,11 +16,8 @@ const useGetAllRooms = () => {
     useEffect(() => {
         const fetchRooms = async () => {
             try {
-                const response = await axios.get<GetRoomsResponse>('http://localhost:8000/api/room/');
+                const response = await axios.get<GetRoomsResponse>('http://localhost:8000/api/room');
                 setRooms(response.data.rooms);
-                console.log("ini adalah respon data", response.data);
-
-
                 setLoading(false);
             } catch (error: any) {
                 setError(error);

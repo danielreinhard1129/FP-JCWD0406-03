@@ -11,8 +11,15 @@ const config: Config = {
   theme: {
     extend: {
       fontFamily: {
-        primary: ['Lato'],
+        primary: ['Ubuntu', ' sans-serif'],
       },
+      colors: {
+        primary: "#0F4068",
+        secondary: "#295A82",
+        tertiary: "#B9D2E7",
+        quaternary: "#FFFFFF"
+
+      }
     },
   },
   plugins: [flowbite],

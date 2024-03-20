@@ -12,9 +12,6 @@ const SendEmailForVerifyUser = () => {
 
   const handleVerifyEmailUser = async () => {
     try {
-      if (!email) {
-        return toast("Input cannot be empty !");
-      }
       await axios.post(baseUrl + "/user/send-email", { email });
 
       toast.success("Send Email Verify successful", {

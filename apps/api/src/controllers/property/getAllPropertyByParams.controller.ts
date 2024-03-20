@@ -5,28 +5,12 @@ export class GetAllPropertyByParams {
     async getPropertyByLocation(req: Request, res: Response, next: NextFunction) {
         try {
             const { location, startDate, endDate, guest } = req.query;
-
-            if (
-                typeof location !== 'string' ||
-                typeof startDate !== 'string' ||
-                typeof endDate !== 'string' ||
-                typeof guest !== 'string'
-            ) {
-                throw new Error('Missing or invalid query parameters');
-            }
-
-            // Konversi tipe data guest menjadi number
-            const guestNumber = parseInt(guest, 10);
-
-            // Pastikan guestNumber bukan NaN setelah konversi
-            if (isNaN(guestNumber)) {
-                throw new Error('Invalid guest parameter');
-            }
+            const guestNumber: number = typeof guest === 'string' ? parseInt(guest, 10) : 1; // Atau berikan nilai default yang sesuai
 
             const properties = await getPropertyByLocationAction(
-                location,
-                startDate,
-                endDate,
+                String(location),
+                String(startDate),
+                String(endDate),
                 guestNumber
             );
 

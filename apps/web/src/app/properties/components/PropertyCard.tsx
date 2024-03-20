@@ -1,60 +1,68 @@
-import { property } from "cypress/types/lodash";
-import { StarIcon } from "lucide-react";
+import { StarIcon } from "@heroicons/react/16/solid";
 import Image from "next/image";
-import React from "react";
+import { FcLike } from "react-icons/fc";
+import { MdAddShoppingCart } from "react-icons/md";
 import { Property } from "../../../../types/properties.type";
 interface Props {
   property: Property;
 }
 
 const PropertyCard = ({ property }: Props) => {
+  const propertyImage =
+    property && property.images.length
+      ? `
+  http://localhost:8000/property-pictures/${property.images[0].image}`
+      : "/images/logo.png";
   return (
-    <div>
-      <div className=" cursor-pointer bg-white rounded-md overflow-hidden">
-        <div className=" relative overflow-hidden w-[100%] h-[20rem]">
-          {/* <Image src={`${roomImage}`} alt="image" /> */}
-          <Image
-            src={`${"/images/logo.png"}`}
-            alt={"in adalah image"}
-            className="transform object-cover transition-all duration-700 scale-100 hover:scale-125"
-            layout="fill"
-          />
-        </div>
-        <div className=" p-[1.4rem]">
-          <div className=" flex items-center">
-            <StarIcon className=" text-orange-600 w-[1rem] h-[1rem]" />
-            <StarIcon className=" text-orange-600 w-[1rem] h-[1rem]" />
-            <StarIcon className=" text-orange-600 w-[1rem] h-[1rem]" />
-            <StarIcon className=" text-orange-600 w-[1rem] h-[1rem]" />
-            <StarIcon className=" text-orange-600 w-[1rem] h-[1rem]" />
+    <div className=" max-w-full">
+      <div className="w-full  flex-wrap flex justify-center items-center ">
+        <div className=" w-60 p-2 bg-white rounded-xl transform transition-all hover:-translate-y-2 duration-300 shadow-lg hover:shadow-2xl mt-4 mb-4 lg:mt-0">
+          {property.images && property.images.length > 0 ? (
+            <Image
+              src={`http://localhost:8000/property-pictures/${property.images[0].image}`}
+              alt="destination"
+              width={200}
+              height={300}
+              className=" h-40  w-full object-cover rounded-xl"
+            />
+          ) : (
+            <Image
+              src={"/images/logo.jfif"}
+              alt="placeholder"
+              width={200}
+              height={100}
+              className=" h-40 w-full object-cover rounded-xl"
+            />
+          )}
+          <div className="">
+            <h2 className="font-bold text-lg ">{property.type}</h2>
+            <span className="text-lg font-semibold"> {property.location}</span>
           </div>
-          <h1 className=" mt-[0.4rem] text-[20px] text-black capitalize font-bold">
-            {property.name}
-          </h1>
-          <p className=" text-[15px] text-black opacity-70 mt-[0.4rem]">
-            {property.name}
+
+          <div className=" flex items-center mt-2 gap-1">
+            <StarIcon className=" text-orange-600 w-[1rem] h-[1rem]" />
+            <StarIcon className=" text-orange-600 w-[1rem] h-[1rem]" />
+            <StarIcon className=" text-orange-600 w-[1rem] h-[1rem]" />
+            <StarIcon className=" text-orange-600 w-[1rem] h-[1rem]" />
+            <StarIcon className=" text-orange-600 w-[1rem] h-[1rem]" />
+            <p className=" font-bold text-xs text-gray-700"> Best Ratings</p>
+          </div>
+          <p className=" text-sm text-gray-600 mt-2 mb-2">
+            {property.description.length > 50
+              ? `${property.description.substring(0, 50)}...`
+              : property.description}
           </p>
-          <div className=" w-[100%] opacity-60 h-[0.7px] mt-[1rem] mb-[1rem] bg-gray-800"></div>
-          <div className=" flex mt-[0.5rem] items-center space-x-3">
-            <h1 className=" border-[2px] rounded-md border-opacity-50 text-blue-700 font-bold px-3 py-1 border-blue-500">
-              5/5
-            </h1>
-            <h1 className=" text-[16px] flex items-center space-x-4 font-bold text-black">
-              <span className=" text-[15px] text-black opacity-70 font-normal">
-                {property.name}
-              </span>
-            </h1>
+          <div className=" flex items-center justify-center gap-2 mb-3">
+            <button className=" px-3 py-1 rounded-lg bg-tertiary hover:bg-primary">
+              Buy
+            </button>
+            <button className=" px-3 py-1 rounded-lg bg-tertiary hover:bg-secondary">
+              <MdAddShoppingCart className=" text-[24px] w-6" />
+            </button>
+            <button className=" px-3 py-1 rounded-lg bg-tertiary hover:bg-secondary">
+              <FcLike className=" text-[24px] w-6" />
+            </button>
           </div>
-          <h1 className=" text-[15px] mt-[1rem] flex items-center space-x-3">
-            <span className=" text-[15px] text-black opacity-70">From:</span>
-            <span className=" text-[16px] text-orange-600 font-bold ">
-              {property.name}
-              <span className=" text-[15px] text-black opacity-70">
-                {" "}
-                /Night
-              </span>
-            </span>
-          </h1>
         </div>
       </div>
     </div>
