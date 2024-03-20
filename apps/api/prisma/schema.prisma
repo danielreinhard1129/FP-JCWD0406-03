@@ -154,7 +154,6 @@ enum StatusTransaction {
   PENDING
   EXPIRED
   CANCEL
-
   PROCESS
 }
 
