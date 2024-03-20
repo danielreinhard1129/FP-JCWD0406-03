@@ -18,6 +18,9 @@ export interface Room {
     type: RoomType;
     price: number;
     description: string;
+    bedroom: string
+    bathroom: string
+    spaciousRoom: string
     createdAt: Date;
     updatedAt: Date;
     status: RoomStatus

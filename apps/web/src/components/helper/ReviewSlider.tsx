@@ -1,8 +1,9 @@
 "use client";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 import ClientReview from "./ClientReview";
+import axios from "axios";
 const responsive = {
   desktop: {
     breakpoint: { max: 3000, min: 1300 },
@@ -21,7 +22,48 @@ const responsive = {
   },
 };
 
+export interface ITeams {
+  name: {
+    title: string;
+    first: string;
+    last: string;
+  };
+  email: string;
+  phone: string;
+  login: {
+    uuid: string;
+  };
+  picture: {
+    large: string;
+  };
+}
+
 const ReviewSlider = () => {
+  const [userData, setUserData] = useState<ITeams[] | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(
+          "https://randomuser.me/api/?results=6&nat=au"
+        );
+        const data: ITeams[] = response.data.results;
+        console.log(data);
+        setUserData(data);
+        setLoading(false);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, []);
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
   return (
     <Carousel
       additionalTransfrom={0}
@@ -33,10 +75,14 @@ const ReviewSlider = () => {
       responsive={responsive}
       itemClass="item"
     >
-      <ClientReview image="/images/user1.jpg" name="naruto" />
-      <ClientReview image="/images/user2.jpg" name="amanda" />
-      <ClientReview image="/images/user3.jpg" name="alwi" />
-      <ClientReview image="/images/user4.jpg" name="fadhil" />
+      {userData &&
+        userData.map((user: ITeams, index: number) => (
+          <ClientReview
+            key={index}
+            image={user.picture.large}
+            name={user.name.first}
+          />
+        ))}
     </Carousel>
   );
 };

@@ -2,6 +2,7 @@
 export interface IProperty {
   name: string;
   description: string;
+  about: string
   ownerId: number;
   location: string;
   availableStartDate: string

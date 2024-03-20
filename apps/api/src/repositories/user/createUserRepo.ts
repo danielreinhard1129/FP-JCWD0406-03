@@ -3,7 +3,7 @@ import { IUser } from '@/types/user.type';
 
 export const createUser = async (data: IUser) => {
   try {
-    const { username, password, email, contact, alamat, roleId } = data;
+    const { username, password, email, contact, alamat, roleId, identityNumber } = data;
     const result = await prisma.user.create({
       data: {
         username,
@@ -12,6 +12,7 @@ export const createUser = async (data: IUser) => {
         contact,
         alamat,
         roleId,
+        identityNumber,
       },
     });
     return result;

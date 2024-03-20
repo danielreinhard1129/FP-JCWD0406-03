@@ -11,7 +11,7 @@ const Contact = () => {
             alt="bandara"
             width={600}
             height={400}
-            className=" object-contain rounded-xl mx-auto p-[1rem]"
+            className=" object-contain rounded-2xl mx-auto "
           />
         </div>
         <div
@@ -26,13 +26,13 @@ const Contact = () => {
             {" "}
             Subscribe to see the secret deals prices drop the moment you sign up
           </p>
-          <div className=" flex mt-[1.4rem] rounded-lg bg-gray-300 mb-[3rem] items-center space-x-2 w-[80%] h-[4vh] md:h-[6.3vh]">
+          <div className=" flex mt-[1.4rem] rounded-lg bg-gray-300 mb-[3rem] items-center space-x-2 w-[80%] h-[5vh] md:h-[6.3vh]">
             <input
               type="email"
               placeholder="email address"
-              className=" ml-[1rem] bg-transparent w-[80%] h-[100%] border-none outline-none"
+              className=" ml-[1rem] bg-transparent w-[80%]  h-[100%] border-none outline-none"
             />
-            <button className=" ml-[1rem] px-4 py-2 bg-blue-600 text-white font-bold rounded-lg h-[100%]">
+            <button className=" ml-[1rem] px-4 md:py-0 hover:bg-primary bg-blue-600 text-white font-bold rounded-lg h-[100%]">
               Subscribe
             </button>
           </div>

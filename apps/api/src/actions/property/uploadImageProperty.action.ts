@@ -1,12 +1,12 @@
 import { uploadPropertyPictureRepo } from "@/repositories/property/uploadImageProperty.repo";
 
 export const uploadPropertyPictureAction = async (
-  propertyId: number,
+  id: number,
   imagePath: string
 ) => {
   try {
     const propertyPicture = await uploadPropertyPictureRepo(
-      propertyId,
+      id,
       imagePath
     );
     return {

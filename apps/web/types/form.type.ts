@@ -4,6 +4,17 @@ export interface IForm {
   email: string;
   contact: string;
   alamat: string;
-  roleId: number; // Update roleId to accept only "admin" or "user"
+  roleId: number;
   confirmPassword: string;
+  identityNumber: string
+}
+export interface IFormUser {
+  username: string;
+  password: string;
+  email: string;
+  contact: string;
+  alamat: string;
+  roleId: number;
+  confirmPassword: string;
+
 }

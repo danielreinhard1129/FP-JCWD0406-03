@@ -1,6 +1,6 @@
-import { StarIcon } from "@heroicons/react/16/solid";
 import Image from "next/image";
 import { Room } from "../../../types/room.type";
+import { BiArea, BiBath, BiBed } from "react-icons/bi";
 interface Props {
   room: Room;
 }
@@ -10,52 +10,49 @@ const RoomCard = ({ room }: Props) => {
     room && room.images.length
       ? `http://localhost:8000/room-pictures/${room.images[0].image}`
       : "/images/logo.png";
-  console.log("ini adalah dat room pictures", room);
 
   return (
-    <div className=" cursor-pointer bg-white rounded-md overflow-hidden">
-      <div className=" relative overflow-hidden w-[100%] h-[20rem]">
-        {/* <Image src={`${roomImage}`} alt="image" /> */}
+    <div className=" bg-quaternary shadow-xl p-5 rounded-lg rounded-tl-[90px] w-full max-w-[340px] mx-auto cursor-pointer hover:shadow-2xl ">
+      <div className=" w-[100%] h-[12rem] relative overflow-hidden transition mb-5">
         <Image
           src={`${roomImage}`}
           alt={"in adalah image"}
-          className="transform object-cover transition-all duration-700 scale-100 hover:scale-125"
           layout="fill"
+          className="rounded-tl-[66px] rounded-br-[15px] mb-8 object-fill"
         />
       </div>
-      <div className=" p-[1.4rem]">
-        <div className=" flex items-center">
-          <StarIcon className=" text-orange-600 w-[1rem] h-[1rem]" />
-          <StarIcon className=" text-orange-600 w-[1rem] h-[1rem]" />
-          <StarIcon className=" text-orange-600 w-[1rem] h-[1rem]" />
-          <StarIcon className=" text-orange-600 w-[1rem] h-[1rem]" />
-          <StarIcon className=" text-orange-600 w-[1rem] h-[1rem]" />
-        </div>
-        <h1 className=" mt-[0.4rem] text-[20px] text-black capitalize font-bold">
+      <div className=" mb-3 flex gap-x-2 text-sm">
+        <div className=" bg-green-500 rounded-full text-white px-3">
           {room.type}
-        </h1>
-        <p className=" text-[15px] text-black opacity-70 mt-[0.4rem]">
-          {room.status}
-        </p>
-        <div className=" w-[100%] opacity-60 h-[0.7px] mt-[1rem] mb-[1rem] bg-gray-800"></div>
-        <div className=" flex mt-[0.5rem] items-center space-x-3">
-          <h1 className=" border-[2px] rounded-md border-opacity-50 text-blue-700 font-bold px-3 py-1 border-blue-500">
-            5/5
-          </h1>
-          <h1 className=" text-[16px] flex items-center space-x-4 font-bold text-black">
-            <span className=" text-[15px] text-black opacity-70 font-normal">
-              {room.description}
-            </span>
-          </h1>
         </div>
-        <h1 className=" text-[15px] mt-[1rem] flex items-center space-x-3">
-          <span className=" text-[15px] text-black opacity-70">From:</span>
-          <span className=" text-[16px] text-orange-600 font-bold ">
-            {room.price}
-            <span className=" text-[15px] text-black opacity-70"> /Night</span>
-          </span>
-        </h1>
+        <div className=" bg-violet-500 rounded-full text-white px-3">
+          {room.status}
+        </div>
       </div>
+      <div className=" text-sm font-semibold max-w-[250px] line-clamp-2">
+        {room.description}
+      </div>
+      <div className=" flex gap-x-3 my-2">
+        <div className=" flex items-center text-gray-600 gap-1">
+          <div className=" text-[20px]">
+            <BiBed />
+          </div>
+          <div>{room.bedroom}</div>
+        </div>
+        <div className=" flex items-center text-gray-600 gap-1">
+          <div className=" text-[20px]">
+            <BiBath />
+          </div>
+          <div>{room.bathroom}</div>
+        </div>
+        <div className=" flex items-center text-gray-600 gap-1">
+          <div className=" text-[20px]">
+            <BiArea />
+          </div>
+          <div>{room.spaciousRoom} sq ft</div>
+        </div>
+      </div>
+      <div>{room.price}</div>
     </div>
   );
 };

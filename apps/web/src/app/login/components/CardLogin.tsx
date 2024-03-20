@@ -10,7 +10,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 
 const LoginCard = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -37,6 +37,7 @@ const LoginCard = () => {
         autoClose: 1000,
         theme: "light",
       });
+
       setTimeout(() => {
         if (data.data.roleId === 1) {
           // Admin redirects to "/admin"
@@ -73,11 +74,21 @@ const LoginCard = () => {
               Please Enter your personal details
               <br /> and start journey with us !
             </p>
-            <Link href={"/register"}>
-              <button className="mt-20 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
-                Sign Up
-              </button>
-            </Link>
+            <h2 className="mt-10  text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline underline">
+              Sign Up
+            </h2>
+            <div className="flex  justify-center gap-3 items-center pt-2">
+              <Link href={"/register/user"}>
+                <button className=" bg-blue-500 hover:bg-blue-700 text-white font-semibold py-1 px-3 rounded focus:outline-none focus:shadow-outline ">
+                  User
+                </button>
+              </Link>
+              <Link href={"/register/admin"}>
+                <button className=" bg-blue-500 hover:bg-blue-700 text-white font-semibold py-1 px-3 rounded focus:outline-none focus:shadow-outline">
+                  Admin
+                </button>
+              </Link>
+            </div>
           </div>
           <div className="w-full md:w-1/2 p-5">
             <div className="bg-white h-full rounded-md">

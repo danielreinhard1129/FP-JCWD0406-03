@@ -42,7 +42,6 @@ export class PropertyRouter {
     );
     this.router.get(
       "/property/:id",
-      verifyToken,
       this.getPropertyByIdController.getPropertyById
     );
 

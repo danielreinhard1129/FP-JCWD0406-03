@@ -38,7 +38,9 @@ function CategorySection() {
   ];
   return (
     <section className=" mb-8">
-      <p className=" heading">We Offer Best Services</p>
+      <h1 className=" my-8 border-l-8 border-blue-900 py-2 pl-2 text-3xl font-bold">
+        We Ofer Best Services
+      </h1>
       <div className="flex flex-col gap-8 md:flex-row justify-between w-full mt-16">
         {features.map((feature) => (
           <CatergoryCard
