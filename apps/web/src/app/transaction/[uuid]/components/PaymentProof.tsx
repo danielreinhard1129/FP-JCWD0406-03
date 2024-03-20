@@ -45,7 +45,12 @@ export default function PaymentProof({ data, onInputChange }: any) {
       });
 
       window.location.reload();
-      alert('Image uploaded successfully!');
+      toast.success('Success cancel your order', {
+        position: 'top-right',
+        autoClose: 1000,
+        theme: 'light',
+      });
+      router.replace('/');
     } catch (error) {
       console.error(error);
       alert('Failed to upload image. Please try again.');
@@ -62,12 +67,11 @@ export default function PaymentProof({ data, onInputChange }: any) {
     const allowedExtensions = ['jpg', 'jpeg', 'png'];
     const fileExtension = selectedFile.name.split('.').pop()?.toLowerCase();
     if (!allowedExtensions.includes(fileExtension || '')) {
-      // Jika ekstensi file tidak diizinkan, tampilkan pesan kesalahan
       toast.error('File must be JPG or PNG format.');
       return;
     }
 
-    const maxSize = 1024 * 1024; // 1MB dalam byte
+    const maxSize = 1024 * 1024;
     if (selectedFile.size > maxSize) {
       toast.error('File size must be less than 1MB.');
       return;
@@ -79,7 +83,6 @@ export default function PaymentProof({ data, onInputChange }: any) {
     };
     reader.readAsDataURL(selectedFile);
 
-    // Jika file lolos validasi, lanjutkan dengan mengirimkan data
     const formData = new FormData();
     formData.append('file', selectedFile);
     await updatePhotePayment(formData);

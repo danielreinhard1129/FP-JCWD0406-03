@@ -19,6 +19,8 @@ export interface IComment {
 }
 
 export interface ITransaction {
+  orderId: string;
+  name: string;
   id: number;
   uuid: string;
   roomId: number;
@@ -28,7 +30,7 @@ export interface ITransaction {
   checkIn: Date;
   checkOut: Date;
   total: number;
-  statusId: number;
+  statusTransaction: string;
   paymentProof: string;
   createdAt: Date;
   updatedAt: Date;

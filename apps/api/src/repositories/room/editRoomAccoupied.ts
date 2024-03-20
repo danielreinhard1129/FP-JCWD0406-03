@@ -1,6 +1,6 @@
 import prisma from '@/prisma';
 
-export const updateRoomStatus = async (roomId: number) => {
+export const editRoomAccoupied = async (roomId: number) => {
   try {
     const result = await prisma.room.update({
       where: {

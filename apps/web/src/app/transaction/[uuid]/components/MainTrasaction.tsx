@@ -8,11 +8,18 @@ import { Banner, Card } from 'flowbite-react';
 import { HiInformationCircle } from 'react-icons/hi';
 import PaymentProof from './PaymentProof';
 import Countdown from './CountDown';
+import { useRouter } from 'next/navigation';
 const MainTransaction = ({ data }: any) => {
   const [placeholder, setPlaceHolder] = useState<string>('Rp.0');
   const [input, setInput] = useState('');
-
+  const router = useRouter();
   useEffect(() => {
+    if (
+      data?.statusTransaction === 'PROCESS' ||
+      data?.statusTransaction === 'CANCEL'
+    ) {
+      router.replace('/');
+    }
     if (data && data.total !== undefined) {
       setPlaceHolder(`Rp.${data?.total?.toLocaleString('id-ID')}`);
     }
@@ -22,91 +29,51 @@ const MainTransaction = ({ data }: any) => {
     setInput(data);
   };
   return (
-    <Card className="font-[sans-serif] p-4 min-h-screen">
-      <div className="lg:max-w-6xl max-w-xl mx-auto">
-        <div className="grid lg:grid-cols-3 gap-8">
-          <div className="lg:col-span-2 max-lg:order-1">
-            <h2 className="text-3xl font-extrabold text-[#333]">
-              Payment Instructions
-            </h2>
-            <Countdown input={input} />
-            <p className="text-[#333] text-base mt-4">
-              Complete your transaction swiftly and securely with our
-              easy-to-use payment process.
-            </p>
-            <div className="mt-12 max-w-lg">
-              <h2 className="text-lg font-extrabold text-[#333] mb-5">
-                Transfer to
-              </h2>
-              <div className="flex flex-row  items-center gap-3  mb-4">
-                <Image
-                  src={'/images/bca.svg'}
-                  alt="Payment Method"
-                  width={50}
-                  height={50}
-                  className="object-contain"
-                />
-                <h2 className="text-sm font-semibold text-[#333] ">
-                  BCA Virtual Account
+    <div className="p-10">
+      <h2 className="text-3xl font-extrabold text-[#333]">
+        Payment Instructions
+      </h2>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div className="lg:max-w-6xl max-w-xl mx-auto">
+          <div className="grid lg:grid-cols-3 gap-8">
+            <div className="lg:col-span-2 max-lg:order-1">
+              <Countdown data={data} />
+              <p className="text-[#333] text-base mt-4">
+                Complete your transaction swiftly and securely with our
+                easy-to-use payment process.
+              </p>
+              <div className="mt-12 max-w-lg">
+                <h2 className="text-lg font-extrabold text-[#333] mb-5">
+                  Transfer to
                 </h2>
-              </div>
-              <div className="grid gap-3">
-                <ClipBoard />
 
-                <label
-                  htmlFor="amountInput"
-                  className=" font-semibold text-[#333]"
-                >
-                  Total Payment
-                </label>
-                <input
-                  type="text"
-                  id="amountInput"
-                  value={placeholder}
-                  className="px-4 py-3.5 bg-gray-100 text-black w-full text-bold border rounded-md outline-none"
-                  disabled
-                  readOnly
-                />
-                <div className="bg-yellow-400 px-3 py-4 mx-2 my-4 rounded-md text-lg flex items-center  max-w-lg">
-                  <div className="animate-ping absolute bg-red-600 rounded-full w-6 h-6"></div>
-                  <HiInformationCircle className="mr-3 text-red-600 " />
-                  <span className="text-sm">
-                    Change a few things up and try submitting again.
-                  </span>
-                </div>
+                <PaymentProof data={data} onInputChange={handleInputChange} />
               </div>
-              <PaymentProof data={data} onInputChange={handleInputChange} />
             </div>
           </div>
-          <div className=" p-6 rounded-md">
-            <Banner>
-              <div className="flex w-full justify-between border-b border-gray-200 bg-gray-50 p-4 dark:border-gray-600 dark:bg-gray-700">
-                <div className="mx-auto flex items-center">
-                  <p className="flex items-center text-sm font-normal text-gray-500 dark:text-gray-400">
-                    <MdAnnouncement className="mr-4 h-4 w-4" />
-                    <span className="[&_p]:inline">
-                      New brand identity has been launched for the&nbsp;
-                      <a
-                        href="https://flowbite.com"
-                        className="decoration-600 dark:decoration-500 inline font-medium text-cyan-600 underline decoration-solid underline-offset-2 hover:no-underline dark:text-cyan-500"
-                      >
-                        Flowbite Library
-                      </a>
-                    </span>
-                  </p>
-                </div>
-                <Banner.CollapseButton
-                  color="gray"
-                  className="border-0 bg-transparent text-gray-500 dark:text-gray-400"
-                >
-                  <HiX className="h-4 w-4" />
-                </Banner.CollapseButton>
-              </div>
-            </Banner>
-          </div>
         </div>
+
+        <aside className="">
+          <div className="bg-gray-100 p-8 rounded">
+            <h2 className="font-bold text-2xl">Instructions</h2>
+            <ul className="list-disc mt-4 list-inside">
+              <li>
+                Press the upload payment proof button and the modal will appear
+                upload proof of payment!
+              </li>
+              <li>
+                If you press the cancel order button, you will automatically
+                will exit this page and the payment status will be cancel!
+              </li>
+              <li>
+                If you don t upload proof of payment for 1 hour then it will
+                automatically Your payment has expired
+              </li>
+            </ul>
+          </div>
+        </aside>
       </div>
-    </Card>
+    </div>
   );
 };
 

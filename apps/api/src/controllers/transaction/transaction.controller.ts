@@ -1,18 +1,45 @@
 import { NextFunction, Request, Response } from 'express';
-
-import { transactionAction } from '@/actions/transaction/transaction.action';
 import { uploadPaymentAction } from '@/actions/transaction/uploadpayment.action';
 import { transactionGetUuidAction } from '@/actions/transaction/transactiongetuuid.action';
 import { updateTransactionAction } from '@/actions/transaction/updateTransaction';
 import { cancelOrderAction } from '@/actions/transaction/cancelOrderAction';
 
+import { findOrderIdAction } from '@/actions/transaction/findOrderAction';
+import { getTransactionAction } from '@/actions/transaction/getTransaction';
+import { createTransaction } from '@/actions/transaction/createTransactionAction';
+import { findRoomReservation } from '@/actions/transaction/findReservation';
+import { orderListAction } from '@/actions/transaction/orderList.action';
+
 export class TransactionController {
-  async transaction(req: Request, res: Response, next: NextFunction) {
+  getTransactionByUserIdController(
+    arg0: string,
+    getTransactionByUserIdController: any,
+  ) {
+    throw new Error('Method not implemented.');
+  }
+  async findRoomReservationController(
+    req: Request,
+    res: Response,
+    next: NextFunction,
+  ) {
     try {
-      const result = await transactionAction(req.body);
+      const { roomId, checkIn, checkOut } = req.body;
+
+      const result = await findRoomReservation(
+        Number(roomId),
+        checkIn,
+        checkOut,
+      );
       res.status(result.status).send(result);
     } catch (error) {
-      next(error);
+      throw error;
+    }
+  }
+  async transaction(req: Request, res: Response, next: NextFunction) {
+    try {
+      const result = await createTransaction(req.body);
+      res.status(result.status).send(result);
+    } catch (error) {
       throw error;
     }
   }
@@ -61,6 +88,48 @@ export class TransactionController {
     try {
       const uuid = req.params.uuid;
       const result = await cancelOrderAction(uuid);
+      res.status(result.status).send(result);
+    } catch (error) {
+      next(error);
+      throw error;
+    }
+  }
+
+  async scheduleTransaction(req: Request, res: Response, next: NextFunction) {
+    try {
+      const uuid = req.params.uuid;
+      const result = await cancelOrderAction(uuid);
+      res.status(result.status).send(result);
+    } catch (error) {
+      next(error);
+      throw error;
+    }
+  }
+
+  async orderListController(req: Request, res: Response, next: NextFunction) {
+    try {
+      const result = await orderListAction(req.body);
+      res.status(result.status).send(result);
+    } catch (error) {
+      next(error);
+      throw error;
+    }
+  }
+
+  async findOrderIdController(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { userId, orderId } = req.body;
+      const result = await findOrderIdAction(userId, orderId);
+      res.status(result.status).send(result);
+    } catch (error) {
+      next(error);
+      throw error;
+    }
+  }
+  async getAllTransaction(req: Request, res: Response, next: NextFunction) {
+    try {
+      const id = req.params.id;
+      const result = await getTransactionAction(Number(id));
       res.status(result.status).send(result);
     } catch (error) {
       next(error);

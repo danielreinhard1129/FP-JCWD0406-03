@@ -1,4 +1,4 @@
-const Summary = ({ room, dataRange, getTotalSummary }: any) => {
+const Summary = ({ room, dataRange, getTotalSummary, dataGues }: any) => {
   let totalPrice = 0;
   let differenceInDays = 0;
   if (dataRange.startDate && dataRange.endDate) {
@@ -8,7 +8,8 @@ const Summary = ({ room, dataRange, getTotalSummary }: any) => {
 
     totalPrice = room?.price * differenceInDays;
   }
-  const totalSummary = totalPrice + 450000;
+  const guestFee = dataGues * 100000;
+  const totalSummary = totalPrice + 450000 + guestFee;
   const handleGetTotal = (getTotal: number) => {
     getTotalSummary(getTotal);
   };
@@ -27,6 +28,13 @@ const Summary = ({ room, dataRange, getTotalSummary }: any) => {
           </p>
         </div>
         <div className="flex justify-between">
+          <p className="text-sm text-gray-800">Guest {dataGues} x Rp.100.000</p>
+          <p className="text-sm text-gray-600">
+            {' '}
+            Rp.{guestFee.toLocaleString('id-ID')}
+          </p>
+        </div>
+        <div className="flex justify-between">
           <p className="text-sm text-gray-800">Cleaning fee</p>
           <p className="text-sm text-gray-600">Rp.200,000</p>
         </div>
@@ -38,13 +46,6 @@ const Summary = ({ room, dataRange, getTotalSummary }: any) => {
           <p className="text-sm text-gray-800">PPN</p>
           <p className="text-sm text-gray-600">Rp.100,000</p>
         </div>
-      </div>
-      <hr className="my-6 border-t border-gray-200" />
-      <div className="flex justify-between">
-        <p className="text-base font-semibold text-gray-800">Total</p>
-        <p className="text-base font-semibold text-gray-600">
-          Rp.{totalSummary.toLocaleString('id-ID')}
-        </p>
       </div>
     </>
   );
