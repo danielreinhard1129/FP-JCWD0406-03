@@ -3,7 +3,7 @@
 export enum RoomStatus {
   AVAILABLE = "AVAILABLE",
   OCCUPIED = "OCCUPIED",
-  UNDER_RENOVATION = "UNDER_RENOVATION",
+  RENOVATION = "RENOVATION",
 }
 
 export enum RoomType {
