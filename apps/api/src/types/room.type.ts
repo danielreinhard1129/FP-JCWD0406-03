@@ -24,6 +24,9 @@ export interface IRoom {
   createdAt: Date;
   updatedAt: Date;
   status: RoomStatus;
+  bedroom: string
+  bathroom: string
+  spaciousRoom: string
 }
 
 export interface RoomPicture {

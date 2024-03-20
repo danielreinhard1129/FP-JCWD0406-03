@@ -15,22 +15,22 @@ const menuItems = [
     list: [
       {
         title: "Dashboard",
-        path: "/dashboard",
+        path: "/admin",
         icon: <MdDashboard />,
       },
       {
         title: "Property",
-        path: "/dashboard/users",
+        path: "/admin/property",
         icon: <MdSupervisedUserCircle />,
       },
       {
         title: "Room",
-        path: "/dashboard/events",
+        path: "/admin/room",
         icon: <MdShoppingBag />,
       },
       {
         title: "Transactions",
-        path: "/dashboard/transactions",
+        path: "/admin/transactions",
         icon: <MdAttachMoney />,
       },
     ],
@@ -40,7 +40,6 @@ const menuItems = [
 const CardSidebar = () => {
   const user = useAppSelector((state) => state.user);
   const { id } = useAppSelector((state) => state.user);
-  console.log(id);
 
   const imageUrl = user?.image
     ? `http://localhost:8000/photo-profile/${user.image}`
@@ -57,10 +56,7 @@ const CardSidebar = () => {
           height="50"
         />
         <div className="flex flex-col">
-          <p className="font-[500]">{user.username ?? user?.email}</p>
-          <p className="text-[12px] text-[#b7bac1]">
-            {user.username ?? user?.roleId}
-          </p>
+          <p className="font-[500]">{user.username}</p>
         </div>
       </div>
       <ul className="list-none">

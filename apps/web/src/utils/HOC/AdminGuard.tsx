@@ -1,30 +1,24 @@
 " use client";
-import { useRouter } from "next/navigation";
+
 import { useEffect } from "react";
 import { useAppSelector } from "@/lib/hooks";
+import { redirect } from "next/navigation";
 
-const withAuthRedirect = <P extends object>(
-  WrappedComponent: React.ComponentType<P>
-) => {
-  const AuthRedirectWrapper: React.FC<P> = (props) => {
-    const router = useRouter();
-    const roleID = useAppSelector((state) => state.user.roleId);
+export default function withAdminRedirect(Component: any) {
+  return function IsAuth(props: any) {
+    const user = useAppSelector((state) => state.user);
+    const auth = user.id;
+
     useEffect(() => {
-      if (!roleID) {
-        router.push("/login");
-      } else {
-        if (roleID === 1) {
-          router.push("/admin");
-        } else {
-          router.push("/");
-        }
+      if (!auth || auth !== 1) {
+        return redirect("/");
       }
-    }, [roleID, router]);
+    }, [auth]);
 
-    return <WrappedComponent {...props} />;
+    if (!auth) {
+      return null;
+    }
+
+    return <Component {...props} />;
   };
-
-  return AuthRedirectWrapper;
-};
-
-export default withAuthRedirect;
+}

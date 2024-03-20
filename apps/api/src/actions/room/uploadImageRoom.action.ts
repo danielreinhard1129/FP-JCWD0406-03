@@ -1,11 +1,11 @@
 import { uploadRoomPictureRepo } from "@/repositories/room/uploadImageRoom.repo";
 
 export const uploadRoomPictureAction = async (
-    roomId: number,
+    id: number,
     imagePath: string
 ) => {
     try {
-        const roomPicture = await uploadRoomPictureRepo(roomId, imagePath);
+        const roomPicture = await uploadRoomPictureRepo(id, imagePath);
         return {
             status: 200,
             message: "Room picture uploaded successfully",

@@ -1,10 +1,12 @@
 import { loginAction } from "@/actions/user/Login.action";
 import { registerAction } from "@/actions/user/Register.action";
+import { updateAction } from "@/actions/user/editUserData.action";
 import { forgotPasswordAction } from "@/actions/user/forgotpassword.action";
 import { keepLoginAction } from "@/actions/user/keep.login.action";
 import { resetPasswordAction } from "@/actions/user/resetpassword.action";
 import { sendEmailVerificationUser } from "@/actions/user/sendEmailVerification.action";
 import { userVerificationAction } from "@/actions/user/verifyUser.action";
+import { comparePasswords } from "@/lib/bcrypt";
 import { decodeToken } from "@/lib/jwt";
 import prisma from "@/prisma";
 import { getUserById } from "@/repositories/user/getUserByIdRepo";
@@ -99,7 +101,18 @@ export class UserController {
       // Temukan user berdasarkan email untuk mendapatkan userId
       const user = await prisma.user.findUnique({
         where: { email: userEmail },
+        select: { id: true, password: true, isVerified: true },
       });
+
+      if (!user) {
+        return res.status(404).json({ message: "User not found" });
+      }
+
+      const isPasswordValid = await comparePasswords(req.body.password, user.password);
+      if (!isPasswordValid) {
+        return res.status(401).json({ message: "Invalid password" });
+      }
+
 
       const result = await userVerificationAction(userEmail);
       res.status(200).json(result);
@@ -148,6 +161,16 @@ export class UserController {
         return res.status(404).json({ message: "User not found" });
       }
       return res.status(200).json({ message: "User found", user });
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async updateUser(req: Request, res: Response, next: NextFunction) {
+    try {
+      const userId = parseInt(req.params.id);
+      const result = await updateAction(userId, req.body);
+      res.status(result.status).json({ message: result.message });
     } catch (error) {
       next(error);
     }

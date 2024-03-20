@@ -1,6 +1,8 @@
 import { CreateRoomController } from "@/controllers/room/creteRoom.controller";
+import { DeleteRoomController } from "@/controllers/room/deleteRoom.controller";
 import { EditRoomController } from "@/controllers/room/editRoom.controller";
 import { GetAllRoomsController } from "@/controllers/room/getAllRooms.controller";
+import { GetRoomsByOwnerIdController } from "@/controllers/room/getRoomByOwnerId.controller";
 import { GetRoomByPropertyIdController } from "@/controllers/room/getRoomByPropertyId.controller";
 import { RoomPictureController } from "@/controllers/room/uploadImageRoom.controller";
 
@@ -14,6 +16,8 @@ export class RoomRouter {
   private editRoomController: EditRoomController;
   private getAllRoomsController: GetAllRoomsController;
   private roomPictureController: RoomPictureController
+  private getRoomsByOwnerIdController: GetRoomsByOwnerIdController
+  private deleteRoomController: DeleteRoomController
 
   private router: Router;
 
@@ -23,25 +27,36 @@ export class RoomRouter {
     this.editRoomController = new EditRoomController();
     this.getAllRoomsController = new GetAllRoomsController();
     this.roomPictureController = new RoomPictureController();
+    this.getRoomsByOwnerIdController = new GetRoomsByOwnerIdController();
+    this.deleteRoomController = new DeleteRoomController();
     this.router = Router();
     this.initializeRoutes();
   }
 
   private initializeRoutes(): void {
     this.router.post(
-      "/room/create",
+      "/room/create/:propertyId",
       verifyToken,
       this.createRoomController.createRoom
     );
     this.router.get(
-      "/room/:propertyId",
-      verifyToken,
+      "/room/property/:propertyId",
+
       this.getRoomByPropertyIdController.getRoomsByPropertyId
+    );
+    this.router.delete(
+      "/room/:id",
+
+      this.deleteRoomController.deleteRoom
     );
     this.router.put("/room/:id", verifyToken, this.editRoomController.editRoom);
     this.router.get(
       "/room/",
       this.getAllRoomsController.getAllRooms
+    );
+    this.router.get(
+      "/room/owner/:id",
+      this.getRoomsByOwnerIdController.getRoomsByOwnerId
     );
     this.router.patch(
       "/room/picture/:id",
