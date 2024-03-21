@@ -7,13 +7,11 @@ import TripInfo from './OrderDetail';
 
 import { formatDateRange } from '@/utils/formatDate';
 
-import { IRoom } from '../../../../../types/types';
 import { useParams } from 'next/navigation';
 import axios from 'axios';
 import { baseUrl } from '@/utils/config';
 
 export interface RoomBooking {
-  room: IRoom[];
   dataRange: DateRange;
 }
 

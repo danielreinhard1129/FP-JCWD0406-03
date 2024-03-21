@@ -6,51 +6,15 @@ import Image from 'next/image';
 import { HiOutlineExclamationCircle } from 'react-icons/hi';
 import { Modal, Button } from 'flowbite-react';
 import { useState } from 'react';
+import { IProperty } from '../../../../../types/types';
 
-const YourComponent = () => {
+const YourComponent = ({ data }: any) => {
   const [openModal, setOpenModal] = useState(false);
   const [openFailed, setOpenFailed] = useState(false);
   const [openAccept, setOpenAccept] = useState(false);
-  const [trans, setTrans] = useState(null);
-
-  const transactions = [
-    {
-      id: 1,
-      title: 'Event 1 Ticket',
-      transaction: [
-        {
-          createdAt: '2024-03-10T08:00:00Z',
-          user: { name: 'John Doe', email: 'john.doe@example.com' },
-          status: { title: 'success' },
-          total: 50,
-        },
-      ],
-    },
-    {
-      id: 2,
-      title: 'Event 2 Ticket',
-      transaction: [
-        {
-          createdAt: '2024-03-09T10:00:00Z',
-          user: { name: 'Jane Smith', email: 'jane.smith@example.com' },
-          status: { title: 'failed' },
-          total: 30,
-        },
-      ],
-    },
-    {
-      id: 3,
-      title: 'Event 3 Ticket',
-      transaction: [
-        {
-          createdAt: '2024-03-08T12:00:00Z',
-          user: { name: 'Alice Johnson', email: 'alice.johnson@example.com' },
-          status: { title: 'pending' },
-          total: 40,
-        },
-      ],
-    },
-  ];
+  const [getData, setGetData] = useState([]);
+  setGetData(data);
+  console.log(getData, 'hello');
 
   return (
     <div className="bg-[#182237] p-[20px] rounded-[10px] mt-[20px]">
@@ -124,7 +88,7 @@ const YourComponent = () => {
         <thead>
           <tr>
             <td>Name</td>
-            <td>Ticket</td>
+            <td>Destination</td>
             <td>Status</td>
             <td>Date</td>
             <td>Amount</td>
@@ -132,8 +96,8 @@ const YourComponent = () => {
           </tr>
         </thead>
         <tbody>
-          {transactions.map((item) => {
-            const date = new Date(`${item.transaction[0]?.createdAt}`);
+          {/* {getData?.map((item) => {
+            const date = new Date(`${item?.transactio[0]?.createdAt}`);
             const formatDate = date.toLocaleDateString('en-US', {
               year: 'numeric',
               month: 'long',
@@ -192,7 +156,7 @@ const YourComponent = () => {
                 </td>
               </tr>
             );
-          })}
+          })} */}
         </tbody>
       </table>
     </div>
