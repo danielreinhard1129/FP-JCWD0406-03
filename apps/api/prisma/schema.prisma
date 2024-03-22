@@ -39,7 +39,7 @@ model Role {
 enum RoomStatus {
   AVAILABLE
   OCCUPIED
-  UNDER_RENOVATION
+  RENOVATION
 }
 
 enum RoomType {
@@ -52,19 +52,20 @@ enum RoomType {
 }
 
 model Room {
-  id          Int      @id @default(autoincrement())
-  propertyId  Int
-  type        RoomType
-  price       Int
-  description String
-
-  createdAt DateTime      @default(now())
-  updatedAt DateTime      @updatedAt
-  property  Property      @relation(fields: [propertyId], references: [id])
-  images    RoomPicture[]
-  status    RoomStatus
-
-  transaction Transaction[]
+  id           Int           @id @default(autoincrement())
+  propertyId   Int
+  type         RoomType
+  price        Int
+  description  String
+  bedroom      String
+  bathroom     String
+  spaciousRoom String
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+  property     Property      @relation(fields: [propertyId], references: [id])
+  images       RoomPicture[]
+  status       RoomStatus
+  transaction  Transaction[]
 }
 
 model RoomPicture {
@@ -88,7 +89,8 @@ enum PropertyType {
 model Property {
   id                 Int              @id @default(autoincrement())
   name               String
-  description        String
+  description        String           @db.LongText
+  about              String           @db.LongText
   location           String
   ownerId            Int
   createdAt          DateTime         @default(now())
@@ -152,7 +154,6 @@ enum StatusTransaction {
   PENDING
   EXPIRED
   CANCEL
-
   PROCESS
 }
 

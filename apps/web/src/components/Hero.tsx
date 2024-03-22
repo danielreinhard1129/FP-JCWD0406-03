@@ -9,7 +9,6 @@ const Hero = () => {
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
   const [guest, setGuest] = useState(1);
-  console.log(location);
 
   return (
     <div className=" relative w-[100%] h-[100vh]">
@@ -28,7 +27,7 @@ const Hero = () => {
             <h1 className=" text-[25px] mb-[1rem] md:mb-[0] text-center md:text-[35px] lg:text-[45px] tracking-[0.7rem] text-white font-bold uppercase">
               Lets Enjoy The Journey
             </h1>
-            <p className=" md:text-[16px] text-center text-[18px] text-white font-normal[word-spacing:5px]">
+            <p className=" md:text-[16px] text-center text-[18px] text-quaternary font-normal[word-spacing:5px]">
               Dapatkan harga terbaik sampai 200.000+ di semua room
             </p>
           </div>
@@ -42,7 +41,7 @@ const Hero = () => {
           <Link
             href={`/properties?location=${location}&startDate=${startDate}&endDate=${endDate}&guest=${guest}`}
           >
-            <div className="rounded px-14 md:px-28 mt-[-1rem] py-2.5 overflow-hidden group bg-red-500 relative hover:bg-gradient-to-r hover:from-red-500 hover:to-red-400 text-white hover:ring-2 hover:ring-offset-2 hover:ring-red-400 transition-all ease-out duration-300">
+            <div className="rounded px-14 md:px-28 mt-[-1rem] py-2.5 overflow-hidden group bg-secondary relative hover:bg-gradient-to-r hover:from-tertiary hover:to-primary text-quaternary hover:ring-2 hover:ring-offset-2 hover:ring-primary transition-all ease-out duration-300">
               <span className=" absolute right-0 w-8 h-32 -mt-12 transition-all duration-100 transform translate-x-12 bg-white opacity-10 rotate-12 group-hover:-translate-x-40 ease-linear">
                 {" "}
               </span>

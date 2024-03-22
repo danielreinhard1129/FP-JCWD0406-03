@@ -10,4 +10,5 @@ export interface IUser {
   createdAt: Date;
   updatedAt: Date;
   image?: string | null;
+  identityNumber: string
 }

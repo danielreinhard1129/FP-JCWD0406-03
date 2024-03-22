@@ -36,6 +36,7 @@ export const forgotPasswordAction = async (email: string) => {
     return {
       message: "Send Email success",
       status: 200,
+      token
     };
   } catch (error) {
     throw error;

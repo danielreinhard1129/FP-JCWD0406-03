@@ -8,7 +8,7 @@ import { IUser } from '@/types/user.type';
 
 export const registerAction = async (body: IUser) => {
   try {
-    const { email, password } = body;
+    const { email, password, roleId, identityNumber } = body;
 
     const userEmail = await getUserByEmail(email);
 
@@ -19,9 +19,22 @@ export const registerAction = async (body: IUser) => {
       };
     }
 
-    // Hashing password
+
     const hashedPassword = await hashPassword(password);
     body.password = hashedPassword;
+
+    if (roleId === 1 && !identityNumber) {
+      return {
+        status: 400,
+        message: 'Identity number is required for admin registration',
+      };
+    }
+    if (roleId === 2 && identityNumber) {
+      return {
+        status: 400,
+        message: 'Identity number should not be provided for regular user registration',
+      };
+    }
 
     await createUser(body);
 
@@ -33,3 +46,4 @@ export const registerAction = async (body: IUser) => {
     throw error;
   }
 };
+

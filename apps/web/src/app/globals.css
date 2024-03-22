@@ -44,19 +44,33 @@
   .red-gradient {
     background-color: linear-gradient(180deg, #ff946d 0%, #ff7d68 100%);
   }
-  .bg {
-    background: linear-gradient(0deg, rgba(0, 0, 0, 0.3), rgba(0, 0, 46, 0.7)),
-      url('/images/banner.jpg');
+
+  .bg-login {
+    background: url('/login-bg.svg');
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
   }
-  .bg-banner {
-    background: linear-gradient(0deg, rgba(0, 0, 0, 0.3), rgba(0, 0, 46, 0.7)),
-      url('/images/banner-register.jpg');
+  .bg-register {
+    background: url('/register.svg');
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
+  }
+
+  .bg-register-admin {
+    background: url('/register-admin.svg');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
+  /* Global.css */
+
+  .input-shadow {
+    box-shadow: 0.3px 10px 15px rgba(0, 0, 0, 0.6);
+  }
+  .myElement {
+    z-index: 1000;
   }
 }
 

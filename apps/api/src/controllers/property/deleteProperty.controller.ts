@@ -4,10 +4,8 @@ import { Request, Response, NextFunction } from "express";
 export class DeletePropertyController {
   async deleteProperty(req: Request, res: Response, next: NextFunction) {
     try {
-      const id = parseInt(req.params.propertyId);
-
+      const id = parseInt(req.params.id);
       const result = await deletePropertyAction(id);
-
       return res.status(result.status).json({
         message: result.message,
         deletedProperty: result.deletedProperty,

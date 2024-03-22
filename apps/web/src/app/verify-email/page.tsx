@@ -4,16 +4,22 @@ import { baseUrl } from "@/utils/config";
 import axios, { AxiosError } from "axios";
 import { useRouter, useSearchParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
+import { FaEye, FaEyeSlash } from "react-icons/fa6";
 import { toast } from "react-toastify";
 
 const EmailVerify = () => {
   const searchParams = useSearchParams();
+  const [showPassword, setShowPassword] = useState(false);
   const token = searchParams.get("token");
   const router = useRouter();
+  const [password, setPassword] = useState("");
   const [userId, setUserId] = useState(null);
 
   const handleVerifyEmail = async () => {
     try {
+      if (!password) {
+        return toast.error("Inputs cannot be empty");
+      }
       const axiosInstance = axios.create({
         baseURL: baseUrl,
         headers: {
@@ -21,7 +27,9 @@ const EmailVerify = () => {
         },
       });
 
-      const response = await axiosInstance.patch("/user/verification");
+      const response = await axiosInstance.patch("/user/verification", {
+        password,
+      });
       const { id } = response.data.user;
       setUserId(id);
 
@@ -49,9 +57,9 @@ const EmailVerify = () => {
 
   useEffect(() => {
     if (userId) {
-      router.push(`/profile-user/${userId}`);
+      router.push(`/`);
     }
-  }, [userId]);
+  }, [router, userId]);
   return (
     <main className="flex justify-center items-center min-h-screen bg-banner p-5 ">
       <div className="flex justify-center items-center bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 w-full max-w-md mx-auto rounded-lg shadow-md p-6">
@@ -60,7 +68,30 @@ const EmailVerify = () => {
             Verify Email
           </h1>
           <div className="flex justify-center items-center"></div>
+          <div>
+            <div className="mb-2 block">
+              <label htmlFor="password" className="mb-2 block">
+                Password
+              </label>
+            </div>
+            <div className="relative">
+              <input
+                onChange={(e) => setPassword(e.target.value)}
+                id="password"
+                type={showPassword ? "text" : "password"}
+                required
+                className="shadow-md border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              />
 
+              <button
+                type="button"
+                className="absolute inset-y-0 right-0 pr-3 flex items-center"
+                onClick={() => setShowPassword(!showPassword)}
+              >
+                {showPassword ? <FaEye /> : <FaEyeSlash />}
+              </button>
+            </div>
+          </div>
           <button
             disabled={!token}
             onClick={handleSubmit}

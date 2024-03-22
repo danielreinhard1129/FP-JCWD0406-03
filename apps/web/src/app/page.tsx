@@ -1,48 +1,52 @@
-'use client';
+"use client";
 
-import Contact from '@/components/Contact';
-import Hero from '@/components/Hero';
-import Review from '@/components/Review';
-import Hootel from '@/components/Room';
-import CategorySection from '@/components/Services';
-import TopDestination from '@/components/TopDestination';
-import AOS from 'aos';
-import 'aos/dist/aos.css';
-import { useEffect } from 'react';
+import BannerPic from "@/components/Banner";
+import Contact from "@/components/Contact";
+import Hero from "@/components/Hero";
+import Marque from "@/components/Marque";
+import Review from "@/components/Review";
+import Hootel from "@/components/Room";
+import CategorySection from "@/components/Services";
+import TopDestination from "@/components/TopDestination";
+import withUserRedirect from "@/utils/HOC/UserGuard";
+import AOS from "aos";
+import "aos/dist/aos.css";
+import { useEffect } from "react";
 
-export default function Home() {
+function Home() {
   // setting aos
   useEffect(() => {
     AOS.init({
-      // Global settings:
       disable: false,
-      startEvent: 'DOMContentLoaded',
-      initClassName: 'aos-init',
-      animatedClassName: 'aos-animate',
+      startEvent: "DOMContentLoaded",
+      initClassName: "aos-init",
+      animatedClassName: "aos-animate",
       useClassNames: false,
       disableMutationObserver: false,
       debounceDelay: 50,
       throttleDelay: 99,
-
-      // Settings that can be overridden on per-element basis, by `data-aos-*` attributes:
       offset: 120,
       delay: 0,
       duration: 700,
-      easing: 'ease',
+      easing: "ease",
       once: true,
       mirror: false,
-      anchorPlacement: 'top-bottom',
+      anchorPlacement: "top-bottom",
     });
   }, []);
 
   return (
     <div className=" overflow-x-hidden">
       <Hero />
+      <Marque />
+
       <TopDestination />
-      <CategorySection />
+      <BannerPic img={"/images/banner-page.png"} />
       <Hootel />
+      <CategorySection />
       <Review />
       <Contact />
     </div>
   );
 }
+export default withUserRedirect(Home);

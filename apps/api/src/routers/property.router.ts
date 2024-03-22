@@ -42,7 +42,6 @@ export class PropertyRouter {
     );
     this.router.get(
       "/property/:id",
-      verifyToken,
       this.getPropertyByIdController.getPropertyById
     );
 
@@ -63,7 +62,7 @@ export class PropertyRouter {
     );
     this.router.get(
       "/property/location/date",
-      this.getAllPropertyByParams.getPropertyByLocation
+      this.getAllPropertyByParams.getPropertyByLocation.bind(this.getAllPropertyByParams)
     );
     this.router.get(
       "/property/owner/:id",
