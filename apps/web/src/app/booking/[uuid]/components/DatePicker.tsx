@@ -2,8 +2,7 @@
 
 import { baseUrl } from '@/utils/config';
 import axios, { AxiosError } from 'axios';
-import { error } from 'console';
-import React, { useState, useRef } from 'react';
+import React, { useState } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { TiPlus, TiMinus } from 'react-icons/ti';

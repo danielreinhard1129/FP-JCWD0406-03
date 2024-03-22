@@ -2,7 +2,6 @@
 import { useAppSelector } from '@/lib/hooks';
 import Image from 'next/image';
 
-import { usePaymentByMidtrans } from '@/hooks/payment';
 import { useRouter } from 'next/navigation';
 import { toast } from 'react-toastify';
 
@@ -85,72 +84,3 @@ const Checkout = ({ room, dateRange, totalSummary }: any) => {
 };
 
 export default Checkout;
-
-// const utcStartDate = new Date(
-//   dateRange.startDate?.getTime() -
-//     dateRange.startDate?.getTimezoneOffset() * 60000,
-// );
-
-// const utcEndDate = new Date(
-//   dateRange.endDate?.getTime() -
-//     dateRange.endDate?.getTimezoneOffset() * 60000,
-// );
-
-// const { handlePaymentByMidtrans } = usePaymentByMidtrans({
-//   roomId: room.id,
-//   checkIn: utcStartDate,
-//   checkOut: utcEndDate,
-//   userId: user.id,
-//   total: totalSummary,
-// });
-//   if (!user.email) {
-//     return toast.error('You must log in to place an order', {
-//       position: 'top-right',
-//       autoClose: 1000,
-//       theme: 'light',
-//     });
-//   }
-//   try {
-//     if (!dateRange.startDate || !dateRange.endDate) {
-//       return toast.error('Check-in and check-out dates are required!', {
-//         position: 'top-right',
-//         autoClose: 1000,
-//         theme: 'light',
-//       });
-//     }
-
-//     if (!paymentMethod) {
-//       return toast.error('Payment method is required!', {
-//         position: 'top-right',
-//         autoClose: 1000,
-//         theme: 'light',
-//       });
-//     }
-
-//
-//     await axios.post(baseUrl + '/transaction', {
-//       roomId: room.id,
-//       checkIn: utcStartDate,
-//       checkOut: utcEndDate,
-//       userId: user.id,
-//       total: totalSummary,
-//     });
-
-//     toast.success(
-//       '  Order placed! Please check your email and complete payment promptly',
-//       {
-//         position: 'top-right',
-//         autoClose: 3000,
-//         theme: 'light',
-//       },
-//     );
-//     setTimeout(() => {
-//       router.replace('/');
-//     }, 3000);
-//   } catch (error) {
-//     if (error instanceof AxiosError) {
-//       const errorMsg = error.response?.data.message || error.message;
-//       toast.error(errorMsg);
-//     }
-//   }
-// };

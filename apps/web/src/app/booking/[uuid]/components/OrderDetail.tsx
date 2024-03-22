@@ -1,7 +1,6 @@
 'use client';
 
 import { useState } from 'react';
-import { IRoom } from '../../../../../types/types';
 
 import DateRangePicker, { DateRange } from './DatePicker';
 import Summary from './Summary';
@@ -9,7 +8,6 @@ import Image from 'next/image';
 import Checkout from './Checkout';
 
 export interface RoomBooking {
-  room: IRoom[];
   dataRange: DateRange;
 }
 
