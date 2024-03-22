@@ -70,6 +70,7 @@ export interface IProperyPicture {
 }
 
 export interface ITransaction {
+  data: any;
   id: number;
   uuid: string;
   orderId: string;
@@ -83,10 +84,8 @@ export interface ITransaction {
   paymentProof: string;
   createdAt: Date;
   updatedAt: Date;
-  room: Room[];
+  room: Property[];
   user: IUser;
-
-  Property: Property[];
 }
 
 enum StatusTransaction {

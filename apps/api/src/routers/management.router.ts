@@ -16,6 +16,23 @@ export class MangamentTransactionRouter {
       '/property/:id',
       this.managementTransactionController.OrderList,
     );
+    this.router.get(
+      '/:id',
+      this.managementTransactionController.FindPropertyIdController,
+    );
+    this.router.patch(
+      '/success/:uuid',
+      this.managementTransactionController.SuccessController,
+    );
+    this.router.patch(
+      '/resend/:uuid',
+      this.managementTransactionController.ResendEmailController,
+    );
+
+    this.router.patch(
+      '/reject/:uuid',
+      this.managementTransactionController.RejectController,
+    );
   }
 
   getRouter(): Router {
