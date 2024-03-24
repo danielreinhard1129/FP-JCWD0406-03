@@ -36,6 +36,7 @@ const Checkout = ({ room, dateRange, totalSummary }: any) => {
         userId: user.id,
         total: totalSummary,
         price: room?.price,
+        image: room?.property?.images[0].image,
       }),
     );
 
@@ -43,7 +44,7 @@ const Checkout = ({ room, dateRange, totalSummary }: any) => {
   };
 
   return (
-    <div className="flex flex-col justify-center px-4 py-6 md:p-6 xl:p-8 w-full bg-gray-50 dark:bg-gray-800 space-y-6">
+    <div className="flex flex-col justify-center px-4 py-6 md:p-6 xl:p-8 w-full shadow-sm  space-y-6">
       <Image
         src={'/images/pay.svg'}
         alt="payment"
