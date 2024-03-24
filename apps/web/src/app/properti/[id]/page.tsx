@@ -1,19 +1,19 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-"use client";
+'use client';
 
-import axios from "axios";
-import Image from "next/image";
-import { useParams } from "next/navigation";
-import { useEffect, useState } from "react";
-import { FaRegUserCircle } from "react-icons/fa";
-import { FaMapLocationDot } from "react-icons/fa6";
-import "react-multi-carousel/lib/styles.css";
-import { Property } from "../../../../types/properties.type";
-import BenefitProperty from "./components/BenefitProperty";
-import RoomListTable from "./components/ListRoom";
-import LoadingProperty from "./components/LoadingProperty";
-import Carousel from "react-multi-carousel";
-import "react-multi-carousel/lib/styles.css";
+import axios from 'axios';
+import Image from 'next/image';
+import { useParams } from 'next/navigation';
+import { useEffect, useState } from 'react';
+import { FaRegUserCircle } from 'react-icons/fa';
+import { FaMapLocationDot } from 'react-icons/fa6';
+import 'react-multi-carousel/lib/styles.css';
+import { Property } from '../../../../types/properties.type';
+import BenefitProperty from './components/BenefitProperty';
+import RoomListTable from './components/ListRoom';
+import LoadingProperty from './components/LoadingProperty';
+import Carousel from 'react-multi-carousel';
+import 'react-multi-carousel/lib/styles.css';
 
 const baseUrl = process.env.NEXT_PUBLIC_BASE_API_URL;
 
@@ -42,7 +42,7 @@ interface PropertyDetail {
 const PropertieDetail = () => {
   const { id } = useParams();
   const [propertyDetail, setPropertyDetail] = useState<PropertyDetail | null>(
-    null
+    null,
   );
 
   const getPropertieById = async () => {
@@ -51,7 +51,7 @@ const PropertieDetail = () => {
       const propertieData = response.data;
       setPropertyDetail(propertieData);
     } catch (error) {
-      console.error("Error fetching event detail:", error);
+      console.error('Error fetching event detail:', error);
     }
   };
 
@@ -70,9 +70,9 @@ const PropertieDetail = () => {
     propertyDetail.property.images &&
     propertyDetail.property.images.length
       ? propertyDetail.property.images.map(
-          (image) => `http://localhost:8000/property-pictures/${image.image}`
+          (image) => `http://localhost:8000/property-pictures/${image.image}`,
         )
-      : ["/images/logo.jfif"];
+      : ['/images/logo.jfif'];
 
   return (
     <div className=" container mx-auto bg-black">
@@ -105,7 +105,7 @@ const PropertieDetail = () => {
 
             <div className="">
               <h2 className=" text-center border-b-2 text-primary text-[22px] sm:text-[30px] md:text-[38px] font-bold capitalize">
-                Room Available{" "}
+                Room Available{' '}
               </h2>
             </div>
             {/* roomCard */}
@@ -148,7 +148,7 @@ const PropertieDetail = () => {
                       <div className="flex items-center">
                         {/* nama yang punya acaranya */}
                         <Image
-                          src={"/images/no-profile.svg"}
+                          src={'/images/no-profile.svg'}
                           alt="logo"
                           width={40}
                           height={40}

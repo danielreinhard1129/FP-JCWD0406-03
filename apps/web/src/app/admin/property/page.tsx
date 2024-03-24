@@ -1,26 +1,26 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-"use client";
+'use client';
 
-import { useAppSelector } from "@/lib/hooks";
-import { baseUrl } from "@/utils/config";
-import axios from "axios";
-import Image from "next/image";
+import { useAppSelector } from '@/lib/hooks';
+import { baseUrl } from '@/utils/config';
+import axios from 'axios';
+import Image from 'next/image';
 
-import { useEffect, useState } from "react";
-import { FaEnvelope, FaRegBell, FaSearch } from "react-icons/fa";
-import { toast } from "react-toastify";
-import AddImageForProperty from "./components/AddImageProperty";
+import { useEffect, useState } from 'react';
+import { FaEnvelope, FaRegBell, FaSearch } from 'react-icons/fa';
+import { toast } from 'react-toastify';
+import AddImageForProperty from './components/AddImageProperty';
 
-import Link from "next/link";
-import FormAddRoom, { AddRoom } from "./components/AddRoomProperty";
+import Link from 'next/link';
+import FormAddRoom, { AddRoom } from './components/AddRoomProperty';
 
-export enum PropertyType {
-  APARTMENT = "APARTMENT",
-  VILLA = "VILLA",
-  TOWNHOUSE = "TOWNHOUSE",
-  OTHER = "OTHER",
-  CONDO = "CONDO",
-  COTTAGE = "COTTAGE",
+enum PropertyType {
+  APARTMENT = 'APARTMENT',
+  VILLA = 'VILLA',
+  TOWNHOUSE = 'TOWNHOUSE',
+  OTHER = 'OTHER',
+  CONDO = 'CONDO',
+  COTTAGE = 'COTTAGE',
 }
 
 export interface Room {
@@ -65,11 +65,11 @@ const GetPropertyOwner = () => {
   const [hasNextPage, setHasNextPage] = useState<boolean>(true);
   const [isAddRoom, setIsAddModalOpen] = useState(false);
   const [selectedPropertyId, setSelectedPropertyId] = useState<number | null>(
-    null
+    null,
   );
 
   const fetchProperties = async () => {
-    const token = localStorage.getItem("token_auth");
+    const token = localStorage.getItem('token_auth');
     try {
       const response = await axios.get(
         `${baseUrl}/property/owner/${id}?page=${currentPage}&search=`,
@@ -77,13 +77,13 @@ const GetPropertyOwner = () => {
           headers: {
             Authorization: `Bearer ${token}`,
           },
-        }
+        },
       );
       const propertiesData: PropertyOwner[] = response.data.properties;
       setProperties(propertiesData);
       setHasNextPage(propertiesData.length > 0);
     } catch (error) {
-      console.error("Error fetching properties:", error);
+      console.error('Error fetching properties:', error);
     }
   };
 
@@ -91,7 +91,7 @@ const GetPropertyOwner = () => {
     if (hasNextPage) {
       setCurrentPage((prevPage) => prevPage + 1);
     } else {
-      toast.warning("Tidak ada lagi data properti yang tersedia.");
+      toast.warning('Tidak ada lagi data properti yang tersedia.');
     }
   };
 
@@ -100,9 +100,9 @@ const GetPropertyOwner = () => {
   };
 
   const deleteProperty = async (id: number) => {
-    const token = localStorage.getItem("token_auth");
+    const token = localStorage.getItem('token_auth');
     const confirmDelete = window.confirm(
-      "Apakah Anda yakin ingin menghapus properti ini?"
+      'Apakah Anda yakin ingin menghapus properti ini?',
     );
 
     if (confirmDelete) {
@@ -115,7 +115,7 @@ const GetPropertyOwner = () => {
 
         fetchProperties();
       } catch (error) {
-        console.error("Error deleting property:", error);
+        console.error('Error deleting property:', error);
       }
     }
   };
@@ -130,10 +130,10 @@ const GetPropertyOwner = () => {
   };
 
   const handleAddRoom = async (roomData: AddRoom) => {
-    const token = localStorage.getItem("token_auth");
+    const token = localStorage.getItem('token_auth');
     try {
       if (!selectedPropertyId) {
-        throw new Error("Selected property ID is not set.");
+        throw new Error('Selected property ID is not set.');
       }
       await axios.post(
         `${baseUrl}/room/create/${selectedPropertyId}`,
@@ -142,14 +142,14 @@ const GetPropertyOwner = () => {
           headers: {
             Authorization: `Bearer ${token}`,
           },
-        }
+        },
       );
       handleAddModalClose();
-      toast.success("Room added successfully");
+      toast.success('Room added successfully');
       fetchProperties();
     } catch (error) {
-      console.error("Error adding room:", error);
-      toast.error("Failed to add room");
+      console.error('Error adding room:', error);
+      toast.error('Failed to add room');
     }
   };
 
@@ -160,7 +160,7 @@ const GetPropertyOwner = () => {
   return (
     <div className=" py-7 bg-[#e9ebf2] ">
       <button className="  text-white  bg-secondary hover:text-black hover:bg-tertiary px-4 shadow-xl rounded-tr-lg py-3">
-        <Link href={"/admin/property/add-property"}>Add property</Link>
+        <Link href={'/admin/property/add-property'}>Add property</Link>
       </button>
       <div className=" flex items-center justify-between h-[70px] shadow-lg px-[25px]">
         <div className=" flex items-center rounded-[5px]">
@@ -192,7 +192,7 @@ const GetPropertyOwner = () => {
                 >
                   <div className="flex items-center">
                     <Image
-                      src={"/images/icon-property/name-property.png"}
+                      src={'/images/icon-property/name-property.png'}
                       alt="Add image"
                       width={25}
                       className=""
@@ -207,7 +207,7 @@ const GetPropertyOwner = () => {
                 >
                   <div className="flex items-center">
                     <Image
-                      src={"/images/icon-property/total.png"}
+                      src={'/images/icon-property/total.png'}
                       alt="Add image"
                       width={25}
                       height={25}
@@ -221,7 +221,7 @@ const GetPropertyOwner = () => {
                 >
                   <div className="flex items-center">
                     <Image
-                      src={"/images/icon-property/type.png"}
+                      src={'/images/icon-property/type.png'}
                       alt="Add image"
                       width={25}
                       height={25}
@@ -235,7 +235,7 @@ const GetPropertyOwner = () => {
                 >
                   <div className="flex items-center">
                     <Image
-                      src={"/images/icon-property/posisi.png"}
+                      src={'/images/icon-property/posisi.png'}
                       alt="Add image"
                       width={25}
                       height={25}
@@ -269,7 +269,7 @@ const GetPropertyOwner = () => {
                   <td className="px-6 py-4 whitespace-nowrap text-sm font-medium flex items-center">
                     <button className="text-indigo-600 hover:text-indigo-900 mr-4">
                       <Image
-                        src={"/images/icon-property/edit.png"}
+                        src={'/images/icon-property/edit.png'}
                         alt="delete property"
                         width={30}
                         height={30}
@@ -280,7 +280,7 @@ const GetPropertyOwner = () => {
                       onClick={() => deleteProperty(property.id)}
                     >
                       <Image
-                        src={"/images/icon-property/delete.png"}
+                        src={'/images/icon-property/delete.png'}
                         alt="delete property"
                         width={30}
                         height={30}
@@ -291,7 +291,7 @@ const GetPropertyOwner = () => {
                       onClick={() => handleAddRoomClick(property.id)}
                     >
                       <Image
-                        src={"/images/icon-property/add-room.gif"}
+                        src={'/images/icon-property/add-room.gif'}
                         alt="delete property"
                         width={30}
                         height={30}
@@ -317,7 +317,7 @@ const GetPropertyOwner = () => {
         <button
           onClick={nextPage}
           className={`bg-red-600 hover:bg-gray-300 px-4 py-2 rounded-lg ${
-            !hasNextPage && "opacity-50 cursor-not-allowed"
+            !hasNextPage && 'opacity-50 cursor-not-allowed'
           }`}
           disabled={!hasNextPage}
         >
@@ -328,7 +328,7 @@ const GetPropertyOwner = () => {
         <div className="flex justify-center items-center w-[100%] min-h-min">
           <div className=" text-center ">
             <Image
-              src={"/images/nodata.png"}
+              src={'/images/nodata.png'}
               alt="nodata"
               width={96}
               height={96}
