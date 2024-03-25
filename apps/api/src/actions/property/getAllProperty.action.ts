@@ -7,9 +7,14 @@ interface GetAllPropertyResponse {
   properties: Property[];
 }
 
-export const getAllPropertyAction = async (page: number = 1, perPage: number = 10): Promise<GetAllPropertyResponse> => {
+export const getAllPropertyAction = async (
+  page: number = 1,
+  perPage: number = 10,
+  name?: string,
+  location?: string
+): Promise<GetAllPropertyResponse> => {
   try {
-    const properties = await getAllPropertyRepo(page, perPage);
+    const properties = await getAllPropertyRepo(page, perPage, name, location);
     return {
       status: 200,
       message: "Properties retrieved successfully",

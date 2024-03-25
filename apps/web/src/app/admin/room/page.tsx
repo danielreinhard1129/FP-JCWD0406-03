@@ -6,25 +6,16 @@ import { baseUrl } from "@/utils/config";
 import axios from "axios";
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { FaEnvelope, FaRegBell, FaSearch } from "react-icons/fa";
 import { toast } from "react-toastify";
 import { Property } from "../../../../types/properties.type";
 import AddImageForRoom from "./components/AddImageRoom";
-
-export enum RoomType {
-  LUXURY = "LUXURY",
-  DELUXE = "DELUXE",
-  SUPERIOR = "SUPERIOR",
-  EXECUTIVE = "EXECUTIVE",
-  CLUB = "CLUB",
-  STANDARD = "STANDARD",
-}
-export enum RoomStatus {
-  AVAILABLE = "AVAILABLE",
-  OCCUPIED = "OCCUPIED",
-  UNDER_RENOVATION = "UNDER_RENOVATION",
-}
+import EditRoomForm, { EditRoom } from "./components/EditRoom";
+import FormPeakSeosenRate, {
+  AddPeakSeosenRate,
+} from "./components/PeakSeosenRate";
+import { RoomStatus, RoomType } from "../../../../types/room.type";
 
 export interface RoomPicture {
   id: number;
@@ -55,19 +46,44 @@ const GetRoomOwner = () => {
   const [rooms, setRooms] = useState<RoomOwner[]>([]);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [hasNextPage, setHasNextPage] = useState<boolean>(true);
-  const [isAddRoom, setIsAddModalOpen] = useState(false);
+  const [isEditRoom, setIsEditModalOpen] = useState(false);
+  const [editRoomData, setEditRoomData] = useState<RoomOwner | null>(null);
+  const editFormRef = useRef<HTMLDivElement>(null);
+  const [shouldScroll, setShouldScroll] = useState<boolean>(false);
+  const [isAddRate, setIsAddModalOpen] = useState(false);
+  const [selectedRoomId, setSelectedRoomId] = useState<number | null>(null);
+  const [searchQuery, setSearchQuery] = useState<string>("");
+
+  const handleSearchInputChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const { value } = event.target;
+    setSearchQuery(value);
+  };
 
   const fetchRooms = async () => {
     const token = localStorage.getItem("token_auth");
+
+    let url = `${baseUrl}/room/owner/${id}?page=${currentPage}`;
+
+    if (searchQuery) {
+      if (
+        searchQuery === "AVAILABLE" ||
+        searchQuery === "OCCUPIED" ||
+        searchQuery === "RENOVATION"
+      ) {
+        url += `&status=${encodeURIComponent(searchQuery)}`;
+      } else {
+        url += `&type=${encodeURIComponent(searchQuery)}`;
+      }
+    }
+
     try {
-      const response = await axios.get(
-        `http://localhost:8000/api/room/owner/${id}?page=${currentPage}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      const response = await axios.get(url, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
 
       const fetchedRooms = response.data.rooms;
       setRooms(fetchedRooms);
@@ -77,10 +93,107 @@ const GetRoomOwner = () => {
     }
   };
 
+  const handleEditClick = (roomId: number) => {
+    const roomToEdit = rooms.find((room) => room.id === roomId);
+    if (roomToEdit) {
+      setEditRoomData(roomToEdit);
+      setIsEditModalOpen(true);
+      setShouldScroll(true);
+    } else {
+      console.error("Room not found for editing");
+    }
+  };
+
+  useEffect(() => {
+    if (shouldScroll && editFormRef.current) {
+      editFormRef.current.scrollIntoView({
+        behavior: "smooth",
+      });
+      setShouldScroll(false);
+    }
+  }, [shouldScroll]);
+
+  const handleAddPeakSeosenrate = async (
+    peakSeosenrateData: AddPeakSeosenRate
+  ) => {
+    const token = localStorage.getItem("token_auth");
+    try {
+      if (!selectedRoomId) {
+        throw toast.error("Selected property ID is not set.");
+      }
+      await axios.post(
+        `${baseUrl}/peak-seosen/room/${selectedRoomId}`,
+        peakSeosenrateData,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      handleAddModalClose();
+      toast.success("Add Peak Seosen rate successfully");
+      fetchRooms();
+    } catch (error) {
+      toast.error("Failed to add room");
+    }
+  };
+
+  const handleAddPeakSeosenrateClick = (roomId: number) => {
+    setSelectedRoomId(roomId);
+    setIsAddModalOpen(true);
+    setShouldScroll(true);
+  };
+
+  const handleAddModalClose = () => {
+    setIsAddModalOpen(false);
+  };
+
+  const handleEditRoom = async (roomData: EditRoom) => {
+    const token = localStorage.getItem("token_auth");
+    const roomToEdit = editRoomData;
+    if (roomToEdit) {
+      const { id } = roomToEdit;
+      try {
+        await axios.put(`${baseUrl}/room/${id}`, roomData, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        toast.info("Edit Room successful", {
+          position: "top-right",
+          autoClose: 1000,
+          theme: "dark",
+        });
+
+        fetchRooms();
+        setIsEditModalOpen(false);
+
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      } catch (error) {
+        console.error("Error updating room:", error);
+        toast.error("Failed to update room");
+      }
+    }
+  };
+
+  const updateRoomsAfterImageUpload = (roomIdToUpdate: number) => {
+    const updatedRooms = rooms.map((room) => {
+      if (room.id === roomIdToUpdate) {
+        const updatedImages = [
+          ...room.images,
+          { id: Math.random(), roomId: roomIdToUpdate } as RoomPicture,
+        ];
+        return { ...room, images: updatedImages };
+      }
+      return room;
+    });
+    setRooms(updatedRooms);
+  };
+
   const deleteRoom = async (id: number) => {
     const token = localStorage.getItem("token_auth");
     const confirmDelete = window.confirm(
-      "Apakah Anda yakin ingin menghapus properti ini?"
+      "Apakah Anda yakin ingin menghapus Room ini?"
     );
 
     if (confirmDelete) {
@@ -109,6 +222,13 @@ const GetRoomOwner = () => {
   const prevPage = () => {
     setCurrentPage((prevPage) => prevPage - 1);
   };
+  const handleFetchRooms = () => {
+    fetchRooms();
+  };
+
+  const handleSearch = () => {
+    fetchRooms();
+  };
 
   useEffect(() => {
     fetchRooms();
@@ -123,13 +243,20 @@ const GetRoomOwner = () => {
         <div className=" flex items-center rounded-[5px]">
           <input
             type="text"
+            value={searchQuery}
+            onChange={handleSearchInputChange}
             className=" text-black bg-quaternary h-[40px] outline-none pl-[13px] w-[350px] rounded-l-lg
            placeholder:text-[14px] leading-[20px] font-normal"
-            placeholder=" Searc For.."
+            placeholder=" Search By Type or Status"
           />
-          <div className="bg-secondary h-[40px] px-[14px] flex items-center justify-center cursor-pointer rounded-r-lg">
+
+          <button
+            className="bg-secondary h-[40px] px-[14px] flex items-center justify-center cursor-pointer rounded-r-lg"
+            onClick={handleSearch}
+            type="button"
+          >
             <FaSearch color="black" />
-          </div>
+          </button>
         </div>
         <div className=" flex items-center gap-[15px] relative">
           <div className=" flex items-center gap-[25px] border-r-[1px] pr-[25px]">
@@ -281,8 +408,21 @@ const GetRoomOwner = () => {
                   <td className="px-6 py-4 whitespace-nowrap text-sm font-medium flex items-center">
                     <button className="text-indigo-600 hover:text-indigo-900 mr-4">
                       <Image
+                        src={"/images/icon-room/sale.gif"}
+                        alt=" peak seosen rate"
+                        width={30}
+                        height={30}
+                        onClick={() => handleAddPeakSeosenrateClick(room.id)}
+                        quality={100}
+                      />
+                    </button>
+                    <button
+                      className="text-indigo-600 hover:text-indigo-900 mr-4"
+                      onClick={() => handleEditClick(room.id)}
+                    >
+                      <Image
                         src={"/images/icon-property/edit.png"}
-                        alt="delete property"
+                        alt="edit room"
                         width={30}
                         height={30}
                       />
@@ -293,7 +433,7 @@ const GetRoomOwner = () => {
                     >
                       <Image
                         src={"/images/icon-property/delete.png"}
-                        alt="delete property"
+                        alt="delete room"
                         width={30}
                         height={30}
                       />
@@ -302,7 +442,11 @@ const GetRoomOwner = () => {
                       {room.images.length}
                     </span>
                     {/* addImage */}
-                    <AddImageForRoom roomId={room.id} />
+                    <AddImageForRoom
+                      fetchRooms={handleFetchRooms}
+                      roomId={room.id}
+                      updateRooms={updateRoomsAfterImageUpload}
+                    />
                   </td>
                 </tr>
               ))}
@@ -329,6 +473,24 @@ const GetRoomOwner = () => {
           Next
         </button>
       </div>
+
+      {isEditRoom && editRoomData && (
+        <div ref={editFormRef}>
+          <EditRoomForm
+            roomData={editRoomData}
+            onCancel={() => setIsEditModalOpen(false)}
+            onSubmit={handleEditRoom}
+          />
+        </div>
+      )}
+      {isAddRate && (
+        <div ref={editFormRef}>
+          <FormPeakSeosenRate
+            onSubmit={handleAddPeakSeosenrate}
+            onCancel={handleAddModalClose}
+          />
+        </div>
+      )}
       {!hasNextPage && (
         <div className="flex justify-center items-center w-[100%] min-h-min">
           <div className=" text-center ">

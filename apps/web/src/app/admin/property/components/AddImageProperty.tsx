@@ -34,15 +34,25 @@ const AddImageForProperty = ({ propertyId }: Props) => {
   const handleAddImageClick = () => {
     const input = document.createElement("input");
     input.type = "file";
-    input.accept = "image/*";
-    input.onchange = (e: any) => {
+    input.accept = ".jpg, .jpeg, .png";
+    input.onchange = async (e: any) => {
       const selectedFile = e.target.files?.[0];
       if (selectedFile) {
+        if (selectedFile.size > 1024 * 1024) {
+          toast.error("File size exceeds the limit of 1MB.");
+          return;
+        }
+        const allowedTypes = ["image/jpeg", "image/jpg", "image/png"];
+        if (!allowedTypes.includes(selectedFile.type)) {
+          toast.error("Only JPG, JPEG, and PNG files are allowed.");
+          return;
+        }
         const formData = new FormData();
         formData.append("file", selectedFile);
-        uploadImage(formData);
+        await uploadImage(formData);
       }
     };
+
     input.click();
   };
 
