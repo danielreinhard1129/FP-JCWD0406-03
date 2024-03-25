@@ -6,6 +6,9 @@ export const transactionGetUuid = async (uuid: string) => {
       where: {
         uuid: uuid,
       },
+      include: {
+        user: true,
+      },
     });
     return result;
   } catch (error) {

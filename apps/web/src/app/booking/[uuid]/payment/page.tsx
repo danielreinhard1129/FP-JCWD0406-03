@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 'use client';
 import { useFormik } from 'formik';
 import Image from 'next/image';
@@ -45,8 +46,8 @@ const PaymentForm = () => {
             theme: 'light',
           },
         );
+        router.replace('/thank');
         localStorage.removeItem('bookingData');
-        router.replace('/');
       } catch (error) {
         if (error instanceof AxiosError) {
           toast.error(error?.response?.data);
@@ -247,7 +248,7 @@ const PaymentForm = () => {
                   <li className="flex justify-between">
                     <div className="inline-flex">
                       <img
-                        src="https://images.unsplash.com/photo-1621607512214-68297480165e?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MjV8fGhhaXIlMjBkcnllcnxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60"
+                        src={`http://localhost:8000/property-pictures/${parsedBookingData?.image}`}
                         alt=""
                         className="max-h-16"
                       />

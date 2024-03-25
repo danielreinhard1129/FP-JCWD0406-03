@@ -1,11 +1,13 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-"use client";
-import React, { useEffect, useState } from "react";
-import MainTransaction from "./components/MainTrasaction";
-import { useParams } from "next/navigation";
-import axios from "axios";
-import { baseUrl } from "@/utils/config";
-import { ITransaction } from "../../../../types/types";
+
+'use client';
+import React, { useEffect, useState } from 'react';
+import MainTransaction from './components/MainTrasaction';
+import { useParams } from 'next/navigation';
+import axios from 'axios';
+import { baseUrl } from '@/utils/config';
+import { ITransaction } from '../../../../types/types';
+
 export interface DataTransaction {
   data: ITransaction[];
 }

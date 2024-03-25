@@ -24,15 +24,6 @@ const Booking = () => {
         </div>
       ) : (
         <div className="p-2">
-          <div className="flex flex-row  items-center gap-3 mt-10">
-            <button className="text-3xl">
-              {' '}
-              <IoIosArrowBack />
-            </button>
-            <h1 className="text-3xl dark:text-white lg:text-4xl font-extrabold leading-7 lg:leading-9 text-gray-800">
-              Confirm and pay
-            </h1>
-          </div>
           <div className="mt-2">
             <Trip />
           </div>
