@@ -4,6 +4,7 @@ import { EditRoomController } from "@/controllers/room/editRoom.controller";
 import { GetAllRoomsController } from "@/controllers/room/getAllRooms.controller";
 import { GetRoomsByOwnerIdController } from "@/controllers/room/getRoomByOwnerId.controller";
 import { GetRoomByPropertyIdController } from "@/controllers/room/getRoomByPropertyId.controller";
+import { GetAllRoomsControllerFilter } from "@/controllers/room/getRoomFilterPrice";
 import { RoomPictureController } from "@/controllers/room/uploadImageRoom.controller";
 
 import { verifyToken } from "@/middleware/jwtVerifyToken";
@@ -18,6 +19,7 @@ export class RoomRouter {
   private roomPictureController: RoomPictureController
   private getRoomsByOwnerIdController: GetRoomsByOwnerIdController
   private deleteRoomController: DeleteRoomController
+  private getAllRoomsControllerFilter: GetAllRoomsControllerFilter
 
   private router: Router;
 
@@ -29,6 +31,7 @@ export class RoomRouter {
     this.roomPictureController = new RoomPictureController();
     this.getRoomsByOwnerIdController = new GetRoomsByOwnerIdController();
     this.deleteRoomController = new DeleteRoomController();
+    this.getAllRoomsControllerFilter = new GetAllRoomsControllerFilter();
     this.router = Router();
     this.initializeRoutes();
   }
@@ -48,11 +51,16 @@ export class RoomRouter {
       "/room/:id",
 
       this.deleteRoomController.deleteRoom
-    );
+    )
+
     this.router.put("/room/:id", verifyToken, this.editRoomController.editRoom);
     this.router.get(
       "/room/",
       this.getAllRoomsController.getAllRooms
+    );
+    this.router.get(
+      "/room/filter",
+      this.getAllRoomsControllerFilter.getAllRoomsFilter
     );
     this.router.get(
       "/room/owner/:id",

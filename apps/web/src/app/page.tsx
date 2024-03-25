@@ -1,14 +1,15 @@
 "use client";
 
 import BannerPic from "@/components/Banner";
+import SliderBanner from "@/components/BannerPromotion";
 import Contact from "@/components/Contact";
 import Hero from "@/components/Hero";
 import Marque from "@/components/Marque";
 import Review from "@/components/Review";
-import Hootel from "@/components/Room";
+import Room from "@/components/Room";
 import CategorySection from "@/components/Services";
 import TopDestination from "@/components/TopDestination";
-import withUserRedirect from "@/utils/HOC/UserGuard";
+import withUserGuard from "@/utils/HOC/UserPageGuard";
 import AOS from "aos";
 import "aos/dist/aos.css";
 import { useEffect } from "react";
@@ -39,14 +40,14 @@ function Home() {
     <div className=" overflow-x-hidden">
       <Hero />
       <Marque />
-
       <TopDestination />
+      <SliderBanner />
+      <Room />
       <BannerPic img={"/images/banner-page.png"} />
-      <Hootel />
       <CategorySection />
       <Review />
       <Contact />
     </div>
   );
 }
-export default withUserRedirect(Home);
+export default withUserGuard(Home);

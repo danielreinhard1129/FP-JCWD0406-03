@@ -47,6 +47,11 @@ export class UserRouter {
       uploader("IMG", "/photo-profile").single("file"),
       this.userController.uploadPhotoProfile
     );
+    this.router.get(
+      "/all-data/:id",
+      verifyToken,
+      this.userController.getAllDataByOwnerId
+    );
   }
 
   getRouter(): Router {

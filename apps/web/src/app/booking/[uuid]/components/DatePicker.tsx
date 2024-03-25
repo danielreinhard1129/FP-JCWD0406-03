@@ -2,8 +2,7 @@
 
 import { baseUrl } from '@/utils/config';
 import axios, { AxiosError } from 'axios';
-import { error } from 'console';
-import React, { useState, useRef } from 'react';
+import React, { useState } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { TiPlus, TiMinus } from 'react-icons/ti';
@@ -85,12 +84,12 @@ const DateRangePicker = ({ onDateChange, handleGues, room }: any) => {
 
   return (
     <div>
-      <button
-        className="mt-6 md:mt-0 dark:border-white dark:hover:bg-gray-900 dark:bg-transparent dark:text-white py-5 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-800 border border-gray-800 font-medium w-96 2xl:w-full text-base font-medium leading-4 text-gray-800"
+      <span
+        className="cursor-pointer text-gray-900 underline font-semibold"
         onClick={() => setShowModal(true)}
       >
         Set trip
-      </button>
+      </span>
 
       {showModal && (
         <div className="fixed left-0 top-0 flex h-full w-full items-center justify-center bg-black bg-opacity-50 py-10 z-50">

@@ -1,128 +1,116 @@
-import { string } from 'yup';
+import Review from '@/components/Review';
+import { Property, PropertyPicture } from './properties.type';
+import { Room } from './room.type';
 import { IUser } from './user.type';
-
-export interface IReview {
+interface IReview {
   id: number;
   userId: number;
   rating: string;
   riview: string;
-  propertyId: number;
+
   createdAt: Date;
   updatedAt: Date;
+
+  user: IUser;
+  TenantReply: Comment[];
+  Property: IProperty[];
+  propertyId: number;
 }
 
-export interface IComment {
+interface IComment {
   id: number;
   riviewId: number;
   tenantId: number;
   reply: string;
-}
-
-export interface ITransaction {
-  orderId: string;
-  name: string;
-  id: number;
-  uuid: string;
-  roomId: number;
-  userId: number;
-  paymentMethod: any;
-  choosePayment: any;
-  checkIn: Date;
-  checkOut: Date;
-  total: number;
-  statusTransaction: string;
-  paymentProof: string;
   createdAt: Date;
   updatedAt: Date;
+  review: IReview[];
+  user: IUser[];
 }
 
-export interface IRoom {
+export interface IPeakSeasonRate {
   id: number;
   propertyId: number;
-  type: RoomType;
-  price: number;
-  description: string;
-
+  startDate: Date;
+  endDate: Date;
+  price_adjustment_percentage: number;
   createdAt: Date;
   updatedAt: Date;
-  property: IProperty[];
-
-  pictures: IRoom_pic[];
-  status: RoomStatus;
-
-  transaction: ITransaction[];
+  property: Property[];
 }
 
 export interface IProperty {
   id: number;
   name: string;
-  descripion: string;
-
-  tenantId: number;
+  description: string;
+  location: string;
+  ownerId: number;
   createdAt: Date;
   updatedAt: Date;
-
-  Room: IRoom[];
-
-  image: string;
-
+  Room: Room[];
   user: IUser[];
-  Peak_Season_Rate: IPeak_Season_Rate[];
+  availableStartDate: string;
+  availableEndDate: string;
+  maxGuest: number;
+  PeakSeasonRate: IPeakSeasonRate[];
   Review: IReview[];
-  type: PropertyType;
-  property_pics: IProperty_pic[];
+  type: PropertyType[];
+  images: PropertyPicture[];
+  Transaction: ITransaction[];
+  transactionId: number;
 }
 
-export interface IProperty_pic {
+export interface IProperyPicture {
+  id: number;
+  image: string;
+  createdAt: Date;
+  updatedAt: Date;
+  Property: Property;
+  propertyId: number;
+}
+
+export interface ITransaction {
+  data: any;
+  id: number;
+  uuid: string;
+  orderId: string;
+  roomId: number;
+  userId: number;
+  checkIn: Date;
+  checkOut: Date;
+  total: number;
+  card_number: string;
+  statusTransaction: StatusTransaction;
+  paymentProof: string;
+  createdAt: Date;
+  updatedAt: Date;
+  room: Property[];
+  user: IUser;
+}
+
+enum StatusTransaction {
+  CONFIRM = 'CONFIRM',
+  REJECT = 'REJECT',
+  PENDING = 'PENDING',
+  EXPIRED = 'EXPIRED',
+  CANCEL = 'CANCEL',
+  PROCESS = 'PROCESS',
+}
+
+interface IRoomPicture {
   id: number;
   roomId: number;
   image: string;
   createdAt: Date;
   updatedAt: Date;
-  propertyId: number;
-  Property: IProperty[];
+  room: Room;
 }
 
-export interface IRoom_pic {
-  id: number;
-  roomId: number;
-  image: string;
-  createdAt: Date;
-  updatedAt: Date;
-  room: IRoom[];
-}
-
-export interface IPeak_Season_Rate {
-  id: number;
-  propertyId: number;
-  startDate: number;
-  endDate: number;
-  price_adjustment_percentage: number;
-  createdAt: Date;
-  updatedAt: Date;
-  property: IProperty[];
-}
-
-enum RoomStatus {
-  AVAILABLE,
-  OCCUPIED,
-  UNDER_RENOVATION,
-}
-
-enum PropertyType {
-  APARTMENT,
-  VILLA,
-  TOWNHOUSE,
-  OTHER,
-  CONDO,
-  COTTAGE,
-}
-
-enum RoomType {
-  LUXURY,
-  DELUXE,
-  SUPERIOR,
-  EXECUTIVE,
-  CLUB,
-  STANDARD,
+export enum PropertyType {
+  APARTMENT = 'APARTMENT',
+  VILLA = 'VILLA',
+  TOWNHOUSE = 'TOWNHOUSE',
+  OTHER = 'OTHER',
+  CONDO = 'CONDO',
+  COTTAGE = 'COTTAGE',
 }

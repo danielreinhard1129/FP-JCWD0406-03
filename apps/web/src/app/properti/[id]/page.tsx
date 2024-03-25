@@ -14,6 +14,9 @@ import RoomListTable from "./components/ListRoom";
 import LoadingProperty from "./components/LoadingProperty";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
+import { Rating, RatingAdvanced, RatingStar } from "flowbite-react";
+import { Card } from "flowbite-react";
+import withUserGuard from "@/utils/HOC/UserPageGuard";
 
 const baseUrl = process.env.NEXT_PUBLIC_BASE_API_URL;
 
@@ -44,6 +47,13 @@ const PropertieDetail = () => {
   const [propertyDetail, setPropertyDetail] = useState<PropertyDetail | null>(
     null
   );
+  const [shoppingCart, setShoppingCart] = useState<string[]>([]);
+  const [totalPrice, setTotalPrice] = useState<number>(0);
+
+  const addToCart = (roomType: string, price: number) => {
+    setShoppingCart([...shoppingCart, roomType]);
+    setTotalPrice(totalPrice + price);
+  };
 
   const getPropertieById = async () => {
     try {
@@ -76,7 +86,7 @@ const PropertieDetail = () => {
 
   return (
     <div className=" container mx-auto bg-black">
-      <div className="bg-quaternary md:pt-0 pt-8 w-full ">
+      <div className="bg-quaternary md:pt-9 pt-8 lg:pt-2  w-full ">
         <div className=" mx-auto max-w-6xl pt-10 px-2 text-black opacity-">
           <div className=" h-auto ">
             <Carousel
@@ -110,11 +120,14 @@ const PropertieDetail = () => {
             </div>
             {/* roomCard */}
             <div className=" items-start">
-              <RoomListTable propertyId={propertyId} />
+              <RoomListTable
+                propertyId={propertyId}
+                addToCart={(roomType, price) => addToCart(roomType, price)}
+              />
             </div>
 
             <div className=" grid grid-cols-3 text-[14px] md:text-[16px] gap-3 ">
-              <div className=" md:col-span-2 col-span-3 ">
+              <div className=" lg:col-span-2 col-span-3 ">
                 <div className="">
                   {/* name Property */}
                   <div className=" flex items-center space-x-2 mt-2">
@@ -168,7 +181,7 @@ const PropertieDetail = () => {
 
                 <div className="  mb-1 pb-8">
                   {/* PropertyDetail Detail */}
-                  <div className="bg-tertiary p-6 rounded">
+                  <div className="bg-gray-50 py-3 pr-2 rounded">
                     <h2 className=" font-semibold text-[35px] border-b pb-2">
                       Property About
                     </h2>
@@ -182,9 +195,114 @@ const PropertieDetail = () => {
                 <div className=" border-t-2 border-primary py-4">
                   <BenefitProperty />
                 </div>
+                <div className=" mb-10">
+                  <Rating className="mb-2">
+                    <RatingStar />
+                    <RatingStar />
+                    <RatingStar />
+                    <RatingStar />
+                    <RatingStar filled={false} />
+                    <p className="ml-2 text-sm font-medium text-gray-500 dark:text-gray-400">
+                      4.95 out of 5
+                    </p>
+                  </Rating>
+                  <p className="mb-4 text-sm font-medium text-gray-500 dark:text-gray-400">
+                    1,745 global ratings
+                  </p>
+                  <RatingAdvanced percentFilled={71} className="mb-2">
+                    5 star
+                  </RatingAdvanced>
+                  <RatingAdvanced percentFilled={17} className="mb-2">
+                    4 star
+                  </RatingAdvanced>
+                  <RatingAdvanced percentFilled={8} className="mb-2">
+                    3 star
+                  </RatingAdvanced>
+                  <RatingAdvanced percentFilled={4} className="mb-2">
+                    2 star
+                  </RatingAdvanced>
+                  <RatingAdvanced percentFilled={0}>1 star</RatingAdvanced>
+                </div>
               </div>
-              <div className=" md:col-span-1 ">
-                <div className=" border">ini adalah card</div>
+              <div className=" lg:col-span-1 col-span-3 mb-5 items-center justify-center ">
+                <div className=" md:sticky   top-[70px] pt-5  ">
+                  <div className=" ">
+                    <Card
+                      className="max-w-full lg:max-w-sm"
+                      imgAlt="Apple Watch Series 7 in colors pink, silver, and black"
+                    >
+                      <a href="#">
+                        <h5 className="text-xl font-semibold tracking-tight text-gray-900 dark:text-white">
+                          Card Shop
+                        </h5>
+                      </a>
+                      {shoppingCart.map((item, index) => (
+                        <span
+                          key={index}
+                          className="bg-gray-200 px-2 py-1 rounded-lg mr-2"
+                        >
+                          {item}
+                        </span>
+                      ))}
+                      <div className="mb-2 mt-2.5 flex items-center">
+                        <svg
+                          className="h-5 w-5 text-yellow-300"
+                          fill="currentColor"
+                          viewBox="0 0 20 20"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                        </svg>
+                        <svg
+                          className="h-5 w-5 text-yellow-300"
+                          fill="currentColor"
+                          viewBox="0 0 20 20"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                        </svg>
+                        <svg
+                          className="h-5 w-5 text-yellow-300"
+                          fill="currentColor"
+                          viewBox="0 0 20 20"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                        </svg>
+                        <svg
+                          className="h-5 w-5 text-yellow-300"
+                          fill="currentColor"
+                          viewBox="0 0 20 20"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                        </svg>
+                        <svg
+                          className="h-5 w-5 text-yellow-300"
+                          fill="currentColor"
+                          viewBox="0 0 20 20"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                        </svg>
+                        <span className="ml-3 mr-2 rounded bg-cyan-100 px-2.5 py-0.5 text-xs font-semibold text-cyan-800 dark:bg-cyan-200 dark:text-cyan-800">
+                          5.0
+                        </span>
+                      </div>
+                      <div className="flex items-center justify-between">
+                        <span className="text-xl font-semibold text-gray-900 dark:text-white">
+                          Total Price: Rp.{totalPrice.toFixed(2)}
+                        </span>
+                        <a
+                          href="#"
+                          className="rounded-lg bg-cyan-700 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-cyan-800 focus:outline-none focus:ring-4 focus:ring-cyan-300 dark:bg-cyan-600 dark:hover:bg-cyan-700 dark:focus:ring-cyan-800"
+                        >
+                          Check Out
+                        </a>
+                      </div>
+                    </Card>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -194,4 +312,4 @@ const PropertieDetail = () => {
   );
 };
 
-export default PropertieDetail;
+export default withUserGuard(PropertieDetail);

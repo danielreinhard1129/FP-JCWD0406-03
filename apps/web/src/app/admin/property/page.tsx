@@ -1,27 +1,18 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 "use client";
-
 import { useAppSelector } from "@/lib/hooks";
 import { baseUrl } from "@/utils/config";
 import axios from "axios";
 import Image from "next/image";
-
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { FaEnvelope, FaRegBell, FaSearch } from "react-icons/fa";
 import { toast } from "react-toastify";
 import AddImageForProperty from "./components/AddImageProperty";
 
 import Link from "next/link";
 import FormAddRoom, { AddRoom } from "./components/AddRoomProperty";
-
-export enum PropertyType {
-  APARTMENT = "APARTMENT",
-  VILLA = "VILLA",
-  TOWNHOUSE = "TOWNHOUSE",
-  OTHER = "OTHER",
-  CONDO = "CONDO",
-  COTTAGE = "COTTAGE",
-}
+import FormLayoutEdit from "./components/EditProperty";
+import { PropertyType } from "../../../../types/formPropertyAdd.type";
 
 export interface Room {
   id: number;
@@ -56,29 +47,45 @@ export interface PropertyOwner {
   availableStartDate: string;
   availableEndDate: string;
   Room: Room[];
+  Transaction: any | null;
 }
 
 const GetPropertyOwner = () => {
   const id = useAppSelector((state: { user: { id: any } }) => state.user.id);
   const [properties, setProperties] = useState<PropertyOwner[]>([]);
+  const [
+    editPropertyData,
+    setEditPropertyData,
+  ] = useState<PropertyOwner | null>(null);
+  const [searchQuery, setSearchQuery] = useState<string>("");
+  const [shouldScroll, setShouldScroll] = useState<boolean>(false);
+
+  const editFormRef = useRef<HTMLDivElement>(null);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [hasNextPage, setHasNextPage] = useState<boolean>(true);
+  const [isEditProperty, setIsEditModalOpen] = useState(false);
   const [isAddRoom, setIsAddModalOpen] = useState(false);
   const [selectedPropertyId, setSelectedPropertyId] = useState<number | null>(
     null
   );
 
+  const handleSearchInputChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    setSearchQuery(event.target.value);
+  };
+
   const fetchProperties = async () => {
     const token = localStorage.getItem("token_auth");
+    const encodedSearchQuery = encodeURIComponent(searchQuery);
+    const url = `${baseUrl}/property/owner/${id}?page=${currentPage}&search=${encodedSearchQuery}`;
+
     try {
-      const response = await axios.get(
-        `${baseUrl}/property/owner/${id}?page=${currentPage}&search=`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      const response = await axios.get(url, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
       const propertiesData: PropertyOwner[] = response.data.properties;
       setProperties(propertiesData);
       setHasNextPage(propertiesData.length > 0);
@@ -123,17 +130,46 @@ const GetPropertyOwner = () => {
   const handleAddRoomClick = (propertyId: number) => {
     setSelectedPropertyId(propertyId);
     setIsAddModalOpen(true);
+    setShouldScroll(true);
   };
+
+  useEffect(() => {
+    if (shouldScroll && editFormRef.current) {
+      editFormRef.current.scrollIntoView({
+        behavior: "smooth",
+      });
+      setShouldScroll(false);
+    }
+  }, [shouldScroll]);
 
   const handleAddModalClose = () => {
     setIsAddModalOpen(false);
+  };
+
+  const handleEditClick = (propertyId: number) => {
+    const propertyToEdit = properties.find(
+      (property) => property.id === propertyId
+    );
+    if (propertyToEdit) {
+      setEditPropertyData(propertyToEdit);
+      setIsEditModalOpen(true);
+      setShouldScroll(true);
+    }
+    setSelectedPropertyId(propertyId);
+  };
+
+  const handleEditModalClose = () => {
+    setIsEditModalOpen(false);
+  };
+  const handleSearch = () => {
+    fetchProperties();
   };
 
   const handleAddRoom = async (roomData: AddRoom) => {
     const token = localStorage.getItem("token_auth");
     try {
       if (!selectedPropertyId) {
-        throw new Error("Selected property ID is not set.");
+        throw toast.error("Selected property ID is not set.");
       }
       await axios.post(
         `${baseUrl}/room/create/${selectedPropertyId}`,
@@ -152,7 +188,6 @@ const GetPropertyOwner = () => {
       toast.error("Failed to add room");
     }
   };
-
   useEffect(() => {
     fetchProperties();
   }, [currentPage]);
@@ -166,13 +201,20 @@ const GetPropertyOwner = () => {
         <div className=" flex items-center rounded-[5px]">
           <input
             type="text"
+            value={searchQuery}
+            onChange={handleSearchInputChange}
             className=" text-black bg-quaternary h-[40px] outline-none pl-[13px] w-[350px] rounded-l-lg
            placeholder:text-[14px] leading-[20px] font-normal"
             placeholder=" Searc For.."
           />
-          <div className="bg-secondary h-[40px] px-[14px] flex items-center justify-center cursor-pointer rounded-r-lg">
+
+          <button
+            className="bg-secondary h-[40px] px-[14px] flex items-center justify-center cursor-pointer rounded-r-lg"
+            onClick={handleSearch}
+            type="button"
+          >
             <FaSearch color="black" />
-          </div>
+          </button>
         </div>
         <div className=" flex items-center gap-[15px] relative">
           <div className=" flex items-center gap-[25px] border-r-[1px] pr-[25px]">
@@ -273,6 +315,7 @@ const GetPropertyOwner = () => {
                         alt="delete property"
                         width={30}
                         height={30}
+                        onClick={() => handleEditClick(property.id)}
                       />
                     </button>
                     <button
@@ -342,7 +385,21 @@ const GetPropertyOwner = () => {
       )}
 
       {isAddRoom && (
-        <FormAddRoom onSubmit={handleAddRoom} onCancel={handleAddModalClose} />
+        <div ref={editFormRef}>
+          <FormAddRoom
+            onSubmit={handleAddRoom}
+            onCancel={handleAddModalClose}
+          />
+        </div>
+      )}
+      {isEditProperty && (
+        <div ref={editFormRef}>
+          <FormLayoutEdit
+            propertyData={editPropertyData}
+            onClose={handleEditModalClose}
+            propertyId={selectedPropertyId!}
+          />
+        </div>
       )}
     </div>
   );
