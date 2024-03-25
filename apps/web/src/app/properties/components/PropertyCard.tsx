@@ -16,7 +16,7 @@ const PropertyCard = ({ property }: Props) => {
   return (
     <div className=" max-w-full">
       <div className="w-full  flex-wrap flex justify-center items-center ">
-        <div className=" w-60 p-2 bg-white rounded-xl transform transition-all hover:-translate-y-2 duration-300 shadow-lg hover:shadow-2xl mt-4 mb-4 lg:mt-0">
+        <div className=" w-[260px] p-2 bg-white rounded-xl transform transition-all hover:-translate-y-2 duration-300 shadow-lg hover:shadow-2xl mt-4 mb-4 lg:mt-0">
           {property.images && property.images.length > 0 ? (
             <Image
               src={`http://localhost:8000/property-pictures/${property.images[0].image}`}
@@ -53,14 +53,29 @@ const PropertyCard = ({ property }: Props) => {
               : property.description}
           </p>
           <div className=" flex items-center justify-center gap-2 mb-3">
-            <button className=" px-3 py-1 rounded-lg bg-tertiary hover:bg-primary">
-              Buy
+            <button className=" px-3 py-1 rounded-lg bg-[#3237c0] hover:bg-primary">
+              <Image
+                src={"/images/icon-property/buy.png"}
+                alt="love"
+                width={30}
+                height={30}
+              />
             </button>
-            <button className=" px-3 py-1 rounded-lg bg-tertiary hover:bg-secondary">
-              <MdAddShoppingCart className=" text-[24px] w-6" />
+            <button className=" px-3 py-1 rounded-lg bg-[#9c33c4] hover:bg-secondary">
+              <Image
+                src={"/images/keranjang.png"}
+                alt="love"
+                width={30}
+                height={30}
+              />
             </button>
-            <button className=" px-3 py-1 rounded-lg bg-tertiary hover:bg-secondary">
-              <FcLike className=" text-[24px] w-6" />
+            <button className=" px-3 py-1 rounded-lg bg-red-500 hover:bg-secondary">
+              <Image
+                src={"/images/love.png"}
+                alt="love"
+                width={30}
+                height={30}
+              />
             </button>
           </div>
         </div>

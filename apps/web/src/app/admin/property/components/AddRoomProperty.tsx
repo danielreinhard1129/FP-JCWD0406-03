@@ -5,6 +5,7 @@ import { useFormik } from "formik";
 import "react-phone-number-input/style.css";
 import { toast } from "react-toastify";
 import * as yup from "yup";
+import { RoomStatus } from "../../../../../types/room.type";
 export interface AddRoom {
   type: RoomType;
   status: RoomStatus;
@@ -22,11 +23,6 @@ export enum RoomType {
   EXECUTIVE = "EXECUTIVE",
   CLUB = "CLUB",
   STANDARD = "STANDARD",
-}
-export enum RoomStatus {
-  AVAILABLE = "AVAILABLE",
-  OCCUPIED = "OCCUPIED",
-  UNDER_RENOVATION = "UNDER_RENOVATION",
 }
 
 interface FormAddRoom {
@@ -60,7 +56,6 @@ const FormAddRoomProperty: React.FC<FormAddRoom> = ({ onSubmit, onCancel }) => {
         onSubmit(values);
 
         formik.resetForm();
-        alert("Room Added successfully");
       } catch (error) {
         console.log(error);
         toast.error("Error adding room", {
@@ -72,7 +67,7 @@ const FormAddRoomProperty: React.FC<FormAddRoom> = ({ onSubmit, onCancel }) => {
     },
   });
   return (
-    <div>
+    <>
       <div className=" min-h-screen pt-2">
         <div className="  bg-[#e9ebf2] w-full h-[100%]">
           <div className=" flex flex-col  lg:flex-row w-10/12 bg-white rounded-xl mx-auto  shadow-lg overflow-hidden">
@@ -126,6 +121,9 @@ const FormAddRoomProperty: React.FC<FormAddRoom> = ({ onSubmit, onCancel }) => {
                     value={formik.values.status}
                     className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                   >
+                    <option value="" disabled className="text-black">
+                      Select your status Room
+                    </option>
                     <option value="AVAILABLE" className="text-black">
                       AVAILABLE
                     </option>
@@ -157,7 +155,7 @@ const FormAddRoomProperty: React.FC<FormAddRoom> = ({ onSubmit, onCancel }) => {
                     type="text"
                     onBlur={formik.handleBlur}
                     onChange={formik.handleChange}
-                    placeholder="Type bathroom Room"
+                    placeholder="Your bathroom Room"
                     required
                     className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                   />
@@ -173,7 +171,7 @@ const FormAddRoomProperty: React.FC<FormAddRoom> = ({ onSubmit, onCancel }) => {
                     type="text"
                     onBlur={formik.handleBlur}
                     onChange={formik.handleChange}
-                    placeholder="Type bathroom Room"
+                    placeholder="Spacious Your Room"
                     required
                     className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                   />
@@ -188,7 +186,7 @@ const FormAddRoomProperty: React.FC<FormAddRoom> = ({ onSubmit, onCancel }) => {
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
                     type="number"
-                    placeholder="Type price Room"
+                    placeholder="Your price Room"
                     required
                     className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                   />
@@ -237,7 +235,7 @@ const FormAddRoomProperty: React.FC<FormAddRoom> = ({ onSubmit, onCancel }) => {
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 

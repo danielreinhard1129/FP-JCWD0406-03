@@ -1,7 +1,9 @@
-import React from "react";
+"use client";
+
+import withAuth from "@/utils/HOC/ProfileGuard";
 import UserProfile from "./components/CardProfile";
 
-const page = () => {
+const Profile = () => {
   return (
     <main className=" items-center  pt-14   ">
       <UserProfile />
@@ -9,4 +11,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default withAuth(Profile);

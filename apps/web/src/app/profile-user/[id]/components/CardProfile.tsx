@@ -65,11 +65,7 @@ const UserProfile = () => {
           },
         }
       );
-      toast.success("Send Email Verify successful", {
-        position: "top-right",
-        autoClose: 1000,
-        theme: "light",
-      });
+      toast.done("Send Email Verify successful");
       router.push(`/profile-user/${user.id}`);
     } catch (error) {
       if (error instanceof AxiosError) {
@@ -96,20 +92,18 @@ const UserProfile = () => {
           },
         }
       );
-      if (response.data.user.email !== userData?.email) {
-        // jika email telah diubah, maka set status verifikasi email ke false
-        setIsUserVerified(false);
-        // beri notifikasi untuk memverifikasi email
-        toast.success("Please verify your new email address");
-      }
-
-      getDataUser();
-
       toast.success("User Update SuccesFully", {
         position: "top-right",
         autoClose: 1000,
         theme: "light",
       });
+      if (response.data.user.email !== userData?.email) {
+        setIsUserVerified(false);
+
+        toast.success("Please verify your new email address");
+      }
+
+      getDataUser();
     } catch (error) {
       if (error instanceof AxiosError) {
         const errorMsg = error.response?.data || error.message;
@@ -166,7 +160,7 @@ const UserProfile = () => {
                 Add Image
               </button>
               <h5 className="mb-1 mt-1 text-xl font-medium text-gray-900 dark:text-white">
-                {user.email}
+                {userData?.email}
               </h5>
               <span className="text-2xl text-blue-900 dark:text-gray-400">
                 {userData?.role.role}

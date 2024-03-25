@@ -15,13 +15,12 @@ import { toast } from "react-toastify";
 
 function Header() {
   const router = useRouter();
-
   const [menu, setMenu] = useState(false);
   const [showDropdown, setShowDropdown] = useState(false);
+  const [loggedOut, setLoggedOut] = useState(false);
   const toggleDropdown = () => {
     setShowDropdown(!showDropdown);
   };
-
   const toggleMenu = () => {
     setMenu(!menu);
   };
@@ -31,21 +30,30 @@ function Header() {
   );
 
   const dispatch = useAppDispatch();
+  useEffect(() => {
+    if (loggedOut) {
+      dispatch(logoutAction());
+
+      router.push("/login");
+    }
+  }, [loggedOut]);
 
   const handleLogout = () => {
     localStorage.removeItem("token_auth");
-    dispatch(logoutAction());
-    toast.success(" Logout  successful", {
+    setLoggedOut(true);
+    toast.success("Logout successful", {
       position: "top-center",
       autoClose: 1000,
       theme: "light",
     });
-
-    router.push("/login");
   };
 
   const getAdminUrl = (url: string): string => {
     if (user.roleId === 1) {
+      if (url === "/properties") {
+        return `/admin/property`;
+      }
+
       return `/admin${url}`;
     }
     return url;
@@ -75,26 +83,29 @@ function Header() {
         {/* DESKTOP */}
         <div className=" hidden lg:block animate-in fade-in zoom-in px-12 mx-auto p-4 ">
           <div className="flex justify-between items-center">
-            <Link href="/" className="flex items-center text-[25px]">
+            <Link
+              href={getAdminUrl("/")}
+              className="flex items-center text-[25px]"
+            >
               <Image src="/images/logo.png" alt="logo" width={40} height={30} />
               <h1 className=" text-white font-bold">
                 Rumah.<span className=" text-tertiary">123</span>{" "}
               </h1>
             </Link>
             <div className="flex gap-[20px] xl:gap-[50px] text-[16px] items-center select-none">
-              <a href={getAdminUrl("/")} className={`nav-link gap-2`}>
+              <Link href={getAdminUrl("/")} className={`nav-link gap-2`}>
                 Home
-              </a>
-              <a
+              </Link>
+              <Link
                 href={getAdminUrl("/properties")}
                 className={` nav-link gap-2`}
               >
                 Property
-              </a>
+              </Link>
 
-              <a href={getAdminUrl("/room")} className={` nav-link gap-2`}>
+              <Link href={getAdminUrl("/room")} className={` nav-link gap-2`}>
                 Room
-              </a>
+              </Link>
               {user.id ? (
                 <div className="relative">
                   <button
@@ -150,7 +161,10 @@ function Header() {
         >
           <div className="flex justify-between mx-[10px]">
             <div className="flex gap-[50px] text-[16px] items-center select-none">
-              <Link href="/" className="flex items-center text-[25px]">
+              <Link
+                href={getAdminUrl("/")}
+                className="flex items-center text-[25px]"
+              >
                 <Image
                   src="/images/logo.png"
                   alt="logo"
@@ -180,24 +194,24 @@ function Header() {
             <div className="my-8 select-none animate-in slide-in-from-right ">
               <div className="flex flex-col gap-8 mt-8 mx-4 ">
                 <div className="flex gap-[20px] xl:gap-[50px] text-[16px] flex-col select-none ">
-                  <a
-                    href="/"
+                  <Link
+                    href={getAdminUrl("/")}
                     className=" nav-link-mobile font-[600] cursor-pointer"
                   >
                     Home
-                  </a>
-                  <a
-                    href="'/property"
+                  </Link>
+                  <Link
+                    href={getAdminUrl("/properties")}
                     className=" nav-link-mobile font-[600] cursor-pointer"
                   >
                     Property
-                  </a>
-                  <a
-                    href="/room"
+                  </Link>
+                  <Link
+                    href={getAdminUrl("/room")}
                     className=" nav-link-mobile font-[600] cursor-pointer"
                   >
                     Room
-                  </a>
+                  </Link>
 
                   {user.id ? (
                     <div className="relative">
