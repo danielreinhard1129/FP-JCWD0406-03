@@ -1,16 +1,16 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-"use client";
-import { loginAction, logoutAction } from "@/lib/features/userSlice";
-import { useAppDispatch, useAppSelector } from "@/lib/hooks";
-import { baseUrl } from "@/utils/config";
-import axios from "axios";
-import { X, Check } from "lucide-react";
-import Image from "next/image";
-import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
-import { GiHamburgerMenu } from "react-icons/gi";
-import { toast } from "react-toastify";
+'use client';
+import { loginAction, logoutAction } from '@/lib/features/userSlice';
+import { useAppDispatch, useAppSelector } from '@/lib/hooks';
+import { baseUrl } from '@/utils/config';
+import axios from 'axios';
+import { X, Check } from 'lucide-react';
+import Image from 'next/image';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import { useEffect, useState } from 'react';
+import { GiHamburgerMenu } from 'react-icons/gi';
+import { toast } from 'react-toastify';
 // import { X, Check } from "react-feather";
 
 function Header() {
@@ -27,21 +27,21 @@ function Header() {
   };
   const user = useAppSelector((state) => state.user);
   const isUserVerified = useAppSelector(
-    (state: { user: { isVerified: boolean } }) => state.user.isVerified
+    (state: { user: { isVerified: boolean } }) => state.user.isVerified,
   );
 
   const dispatch = useAppDispatch();
 
   const handleLogout = () => {
-    localStorage.removeItem("token_auth");
+    localStorage.removeItem('token_auth');
     dispatch(logoutAction());
-    toast.success(" Logout  successful", {
-      position: "top-center",
+    toast.success(' Logout  successful', {
+      position: 'top-center',
       autoClose: 1000,
-      theme: "light",
+      theme: 'light',
     });
 
-    router.push("/login");
+    router.push('/login');
   };
 
   const getAdminUrl = (url: string): string => {
@@ -52,11 +52,11 @@ function Header() {
   };
 
   useEffect(() => {
-    const token = localStorage.getItem("token_auth");
+    const token = localStorage.getItem('token_auth');
 
     const keepLogin = async () => {
       try {
-        const { data } = await axios.get(baseUrl + "/user/keeplogin", {
+        const { data } = await axios.get(baseUrl + '/user/keeplogin', {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -78,21 +78,21 @@ function Header() {
             <Link href="/" className="flex items-center text-[25px]">
               <Image src="/images/logo.png" alt="logo" width={40} height={30} />
               <h1 className=" text-white font-bold">
-                Rumah.<span className=" text-tertiary">123</span>{" "}
+                Rumah.<span className=" text-tertiary">123</span>{' '}
               </h1>
             </Link>
             <div className="flex gap-[20px] xl:gap-[50px] text-[16px] items-center select-none">
-              <a href={getAdminUrl("/")} className={`nav-link gap-2`}>
+              <a href={getAdminUrl('/')} className={`nav-link gap-2`}>
                 Home
               </a>
               <a
-                href={getAdminUrl("/properties")}
+                href={getAdminUrl('/properties')}
                 className={` nav-link gap-2`}
               >
                 Property
               </a>
 
-              <a href={getAdminUrl("/room")} className={` nav-link gap-2`}>
+              <a href={getAdminUrl('/room')} className={` nav-link gap-2`}>
                 Room
               </a>
               {user.id ? (
@@ -115,6 +115,13 @@ function Header() {
                           <Link href={`/profile-user/${user.id}`}>
                             <p className="text-black hover:text-quaternary ">
                               Profile
+                            </p>
+                          </Link>
+                        </li>
+                        <li className="px-4 py-2  hover:bg-secondary rounded-lg">
+                          <Link href={`/transaction`}>
+                            <p className="text-black hover:text-quaternary ">
+                              My transasction
                             </p>
                           </Link>
                         </li>
@@ -145,7 +152,7 @@ function Header() {
         {/* MOBILE */}
         <div
           className={` block lg:hidden shadow-sm  fixed top-0 w-full z-[9999]   py-4 animate-in fade-in zoom-in  ${
-            menu ? " bg-primary" : "bg-blue-900"
+            menu ? ' bg-primary' : 'bg-blue-900'
           } `}
         >
           <div className="flex justify-between mx-[10px]">
@@ -158,7 +165,7 @@ function Header() {
                   height={30}
                 />
                 <h1 className=" text-white font-bold">
-                  Rumah.<span className=" text-tertiary">123</span>{" "}
+                  Rumah.<span className=" text-tertiary">123</span>{' '}
                 </h1>
               </Link>
             </div>

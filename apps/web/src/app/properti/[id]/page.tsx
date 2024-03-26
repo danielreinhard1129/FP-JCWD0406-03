@@ -14,6 +14,7 @@ import RoomListTable from './components/ListRoom';
 import LoadingProperty from './components/LoadingProperty';
 import Carousel from 'react-multi-carousel';
 import 'react-multi-carousel/lib/styles.css';
+import CommentAndRiview from './components/CommentAndRiview';
 
 const baseUrl = process.env.NEXT_PUBLIC_BASE_API_URL;
 
@@ -190,6 +191,7 @@ const PropertieDetail = () => {
           </div>
         </div>
       </div>
+      <CommentAndRiview />
     </div>
   );
 };

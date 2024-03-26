@@ -1,10 +1,11 @@
-"use client";
+'use client';
 
-import { Textarea } from "flowbite-react";
-import { useFormik } from "formik";
-import "react-phone-number-input/style.css";
-import { toast } from "react-toastify";
-import * as yup from "yup";
+import { Textarea } from 'flowbite-react';
+import { useFormik } from 'formik';
+import 'react-phone-number-input/style.css';
+import { toast } from 'react-toastify';
+import * as yup from 'yup';
+import { RoomStatus } from '../../../../../types/room.type';
 export interface AddRoom {
   type: RoomType;
   status: RoomStatus;
@@ -16,17 +17,12 @@ export interface AddRoom {
 }
 
 export enum RoomType {
-  LUXURY = "LUXURY",
-  DELUXE = "DELUXE",
-  SUPERIOR = "SUPERIOR",
-  EXECUTIVE = "EXECUTIVE",
-  CLUB = "CLUB",
-  STANDARD = "STANDARD",
-}
-export enum RoomStatus {
-  AVAILABLE = "AVAILABLE",
-  OCCUPIED = "OCCUPIED",
-  UNDER_RENOVATION = "UNDER_RENOVATION",
+  LUXURY = 'LUXURY',
+  DELUXE = 'DELUXE',
+  SUPERIOR = 'SUPERIOR',
+  EXECUTIVE = 'EXECUTIVE',
+  CLUB = 'CLUB',
+  STANDARD = 'STANDARD',
 }
 
 interface FormAddRoom {
@@ -35,13 +31,13 @@ interface FormAddRoom {
 }
 
 const validationSchema = yup.object({
-  type: yup.string().required("Type Room is required"),
-  status: yup.string().required("Status is required"),
-  price: yup.number().required("Price is required"),
-  description: yup.string().required("Description is required"),
-  bedroom: yup.number().required("bedroom is required"),
-  bathroom: yup.string().required("bathroom is required"),
-  spaciousRoom: yup.string().required("Spacious Room is required"),
+  type: yup.string().required('Type Room is required'),
+  status: yup.string().required('Status is required'),
+  price: yup.number().required('Price is required'),
+  description: yup.string().required('Description is required'),
+  bedroom: yup.number().required('bedroom is required'),
+  bathroom: yup.string().required('bathroom is required'),
+  spaciousRoom: yup.string().required('Spacious Room is required'),
 });
 const FormAddRoomProperty: React.FC<FormAddRoom> = ({ onSubmit, onCancel }) => {
   const formik = useFormik({
@@ -49,10 +45,10 @@ const FormAddRoomProperty: React.FC<FormAddRoom> = ({ onSubmit, onCancel }) => {
       type: RoomType.LUXURY,
       status: RoomStatus.AVAILABLE,
       price: 0,
-      description: "",
-      bedroom: "",
-      bathroom: "",
-      spaciousRoom: "",
+      description: '',
+      bedroom: '',
+      bathroom: '',
+      spaciousRoom: '',
     },
     validationSchema,
     onSubmit: async (values) => {
@@ -60,19 +56,18 @@ const FormAddRoomProperty: React.FC<FormAddRoom> = ({ onSubmit, onCancel }) => {
         onSubmit(values);
 
         formik.resetForm();
-        alert("Room Added successfully");
       } catch (error) {
         console.log(error);
-        toast.error("Error adding room", {
-          position: "top-right",
+        toast.error('Error adding room', {
+          position: 'top-right',
           autoClose: 3000,
-          theme: "light",
+          theme: 'light',
         });
       }
     },
   });
   return (
-    <div>
+    <>
       <div className=" min-h-screen pt-2">
         <div className="  bg-[#e9ebf2] w-full h-[100%]">
           <div className=" flex flex-col  lg:flex-row w-10/12 bg-white rounded-xl mx-auto  shadow-lg overflow-hidden">
@@ -86,7 +81,7 @@ const FormAddRoomProperty: React.FC<FormAddRoom> = ({ onSubmit, onCancel }) => {
 
             <div className=" w-full lg:w-1/2 py-5 px-12 ">
               <h2 className=" text-3xl mb-4 text-black text-center">
-                {" "}
+                {' '}
                 Add Room
               </h2>
               <form onSubmit={formik.handleSubmit} className=" w-[100%] h-full">
@@ -126,6 +121,9 @@ const FormAddRoomProperty: React.FC<FormAddRoom> = ({ onSubmit, onCancel }) => {
                     value={formik.values.status}
                     className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                   >
+                    <option value="" disabled className="text-black">
+                      Select your status Room
+                    </option>
                     <option value="AVAILABLE" className="text-black">
                       AVAILABLE
                     </option>
@@ -157,7 +155,7 @@ const FormAddRoomProperty: React.FC<FormAddRoom> = ({ onSubmit, onCancel }) => {
                     type="text"
                     onBlur={formik.handleBlur}
                     onChange={formik.handleChange}
-                    placeholder="Type bathroom Room"
+                    placeholder="Your bathroom Room"
                     required
                     className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                   />
@@ -173,7 +171,7 @@ const FormAddRoomProperty: React.FC<FormAddRoom> = ({ onSubmit, onCancel }) => {
                     type="text"
                     onBlur={formik.handleBlur}
                     onChange={formik.handleChange}
-                    placeholder="Type bathroom Room"
+                    placeholder="Spacious Your Room"
                     required
                     className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                   />
@@ -188,7 +186,7 @@ const FormAddRoomProperty: React.FC<FormAddRoom> = ({ onSubmit, onCancel }) => {
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
                     type="number"
-                    placeholder="Type price Room"
+                    placeholder="Your price Room"
                     required
                     className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                   />
@@ -237,7 +235,7 @@ const FormAddRoomProperty: React.FC<FormAddRoom> = ({ onSubmit, onCancel }) => {
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 
