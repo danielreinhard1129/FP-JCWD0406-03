@@ -1,11 +1,13 @@
-"use client";
+'use client';
 
-import { Textarea } from "flowbite-react";
-import { useFormik } from "formik";
-import "react-phone-number-input/style.css";
-import { toast } from "react-toastify";
-import * as yup from "yup";
-import { RoomStatus } from "../../../../../types/room.type";
+
+import { Textarea } from 'flowbite-react';
+import { useFormik } from 'formik';
+import 'react-phone-number-input/style.css';
+import { toast } from 'react-toastify';
+import * as yup from 'yup';
+import { RoomStatus } from '../../../../../types/room.type';
+
 export interface AddRoom {
   type: RoomType;
   status: RoomStatus;
@@ -17,12 +19,14 @@ export interface AddRoom {
 }
 
 export enum RoomType {
-  LUXURY = "LUXURY",
-  DELUXE = "DELUXE",
-  SUPERIOR = "SUPERIOR",
-  EXECUTIVE = "EXECUTIVE",
-  CLUB = "CLUB",
-  STANDARD = "STANDARD",
+
+  LUXURY = 'LUXURY',
+  DELUXE = 'DELUXE',
+  SUPERIOR = 'SUPERIOR',
+  EXECUTIVE = 'EXECUTIVE',
+  CLUB = 'CLUB',
+  STANDARD = 'STANDARD',
+
 }
 
 interface FormAddRoom {
@@ -31,13 +35,13 @@ interface FormAddRoom {
 }
 
 const validationSchema = yup.object({
-  type: yup.string().required("Type Room is required"),
-  status: yup.string().required("Status is required"),
-  price: yup.number().required("Price is required"),
-  description: yup.string().required("Description is required"),
-  bedroom: yup.number().required("bedroom is required"),
-  bathroom: yup.string().required("bathroom is required"),
-  spaciousRoom: yup.string().required("Spacious Room is required"),
+  type: yup.string().required('Type Room is required'),
+  status: yup.string().required('Status is required'),
+  price: yup.number().required('Price is required'),
+  description: yup.string().required('Description is required'),
+  bedroom: yup.number().required('bedroom is required'),
+  bathroom: yup.string().required('bathroom is required'),
+  spaciousRoom: yup.string().required('Spacious Room is required'),
 });
 const FormAddRoomProperty: React.FC<FormAddRoom> = ({ onSubmit, onCancel }) => {
   const formik = useFormik({
@@ -45,10 +49,10 @@ const FormAddRoomProperty: React.FC<FormAddRoom> = ({ onSubmit, onCancel }) => {
       type: RoomType.LUXURY,
       status: RoomStatus.AVAILABLE,
       price: 0,
-      description: "",
-      bedroom: "",
-      bathroom: "",
-      spaciousRoom: "",
+      description: '',
+      bedroom: '',
+      bathroom: '',
+      spaciousRoom: '',
     },
     validationSchema,
     onSubmit: async (values) => {
@@ -58,10 +62,10 @@ const FormAddRoomProperty: React.FC<FormAddRoom> = ({ onSubmit, onCancel }) => {
         formik.resetForm();
       } catch (error) {
         console.log(error);
-        toast.error("Error adding room", {
-          position: "top-right",
+        toast.error('Error adding room', {
+          position: 'top-right',
           autoClose: 3000,
-          theme: "light",
+          theme: 'light',
         });
       }
     },
@@ -81,7 +85,7 @@ const FormAddRoomProperty: React.FC<FormAddRoom> = ({ onSubmit, onCancel }) => {
 
             <div className=" w-full lg:w-1/2 py-5 px-12 ">
               <h2 className=" text-3xl mb-4 text-black text-center">
-                {" "}
+                {' '}
                 Add Room
               </h2>
               <form onSubmit={formik.handleSubmit} className=" w-[100%] h-full">

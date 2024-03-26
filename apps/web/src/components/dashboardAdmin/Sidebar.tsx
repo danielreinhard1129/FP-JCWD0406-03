@@ -1,36 +1,36 @@
-"use client";
-import { useAppSelector } from "@/lib/hooks";
-import Image from "next/image";
-import Link from "next/link";
+'use client';
+import { useAppSelector } from '@/lib/hooks';
+import Image from 'next/image';
+import Link from 'next/link';
 import {
   MdAttachMoney,
   MdDashboard,
   MdShoppingBag,
   MdSupervisedUserCircle,
-} from "react-icons/md";
+} from 'react-icons/md';
 
 const menuItems = [
   {
-    title: "Pages",
+    title: 'Pages',
     list: [
       {
-        title: "Dashboard",
-        path: "/admin",
+        title: 'Dashboard',
+        path: '/admin',
         icon: <MdDashboard />,
       },
       {
-        title: "Property",
-        path: "/admin/property",
+        title: 'Property',
+        path: '/admin/property',
         icon: <MdSupervisedUserCircle />,
       },
       {
-        title: "Room",
-        path: "/admin/room",
+        title: 'Room',
+        path: '/admin/room',
         icon: <MdShoppingBag />,
       },
       {
-        title: "Transactions",
-        path: "/admin/transactions",
+        title: 'Transactions',
+        path: '/admin/transaction',
         icon: <MdAttachMoney />,
       },
       {
@@ -55,7 +55,7 @@ const CardSidebar = () => {
 
   const imageUrl = user?.image
     ? `http://localhost:8000/photo-profile/${user.image}`
-    : "/images/no-profile.svg";
+    : '/images/no-profile.svg';
 
   return (
     <div className="sticky min-h-[100vh]">

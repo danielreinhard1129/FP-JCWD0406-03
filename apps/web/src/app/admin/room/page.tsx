@@ -1,21 +1,30 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 
-import { useAppSelector } from "@/lib/hooks";
-import { baseUrl } from "@/utils/config";
-import axios from "axios";
-import Image from "next/image";
-import Link from "next/link";
+
+import { useAppSelector } from '@/lib/hooks';
+import { baseUrl } from '@/utils/config';
+import axios from 'axios';
+import Image from 'next/image';
+import Link from 'next/link';
+
+import { FaEnvelope, FaRegBell, FaSearch } from 'react-icons/fa';
+import { toast } from 'react-toastify';
+import { Property } from '../../../../types/properties.type';
+import AddImageForRoom from './components/AddImageRoom';
+import { RoomStatus, RoomType } from '../../../../types/room.type';
+
+
+
 import { useEffect, useRef, useState } from "react";
-import { FaEnvelope, FaRegBell, FaSearch } from "react-icons/fa";
-import { toast } from "react-toastify";
-import { Property } from "../../../../types/properties.type";
-import AddImageForRoom from "./components/AddImageRoom";
+
+
 import EditRoomForm, { EditRoom } from "./components/EditRoom";
 import FormPeakSeosenRate, {
   AddPeakSeosenRate,
 } from "./components/PeakSeosenRate";
-import { RoomStatus, RoomType } from "../../../../types/room.type";
+
+
 
 export interface RoomPicture {
   id: number;

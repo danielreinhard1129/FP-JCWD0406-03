@@ -22,7 +22,7 @@ export class TransactionRouter {
     );
 
     this.router.get(
-      '/transaction-userid/:userId',
+      '/transaction-userid/:id',
       this.transactionController.getTransactionByUserIdController,
     );
 

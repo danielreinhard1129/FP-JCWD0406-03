@@ -14,6 +14,11 @@ export class ReviewRouter {
   private initializeRoutes(): void {
     this.router.post('/review', this.reviewController.Riview);
     this.router.post('/comment', this.reviewController.Comment);
+    this.router.get('/review/all', this.reviewController.getRiviewController);
+    this.router.get(
+      '/review/:id',
+      this.reviewController.findRiviewByIdController,
+    );
   }
 
   getRouter(): Router {
