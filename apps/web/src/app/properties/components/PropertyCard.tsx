@@ -1,8 +1,8 @@
-import { StarIcon } from "@heroicons/react/16/solid";
-import Image from "next/image";
-import { FcLike } from "react-icons/fc";
-import { MdAddShoppingCart } from "react-icons/md";
-import { Property } from "../../../../types/properties.type";
+import { StarIcon } from '@heroicons/react/16/solid';
+import Image from 'next/image';
+import { FcLike } from 'react-icons/fc';
+import { MdAddShoppingCart } from 'react-icons/md';
+import { Property } from '../../../../types/properties.type';
 interface Props {
   property: Property;
 }
@@ -12,7 +12,7 @@ const PropertyCard = ({ property }: Props) => {
     property && property.images.length
       ? `
   http://localhost:8000/property-pictures/${property.images[0].image}`
-      : "/images/logo.png";
+      : '/images/logo.png';
   return (
     <div className=" max-w-full">
       <div className="w-full  flex-wrap flex justify-center items-center ">
@@ -27,7 +27,7 @@ const PropertyCard = ({ property }: Props) => {
             />
           ) : (
             <Image
-              src={"/images/logo.jfif"}
+              src={'/images/logo.jfif'}
               alt="placeholder"
               width={200}
               height={100}

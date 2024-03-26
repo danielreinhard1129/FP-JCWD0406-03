@@ -191,7 +191,7 @@ const PropertieDetail = () => {
           </div>
         </div>
       </div>
-      <CommentAndRiview />
+      <CommentAndRiview data={propertyDetail} />
     </div>
   );
 };

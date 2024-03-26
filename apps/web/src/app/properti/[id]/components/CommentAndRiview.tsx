@@ -1,62 +1,161 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @next/next/no-img-element */
-const CommentAndRiview = () => {
+'use client';
+import { handleRiview } from '@/hooks/handleRiview';
+import { useAppSelector } from '@/lib/hooks';
+import { baseUrl } from '@/utils/config';
+import { StarIcon } from '@heroicons/react/16/solid';
+import axios from 'axios';
+import { formatDistance } from 'date-fns';
+import Image from 'next/image';
+import { useEffect, useState } from 'react';
+import CommentTenant from './CommentTenant';
+import { ITransaction } from '../../../../../types/types';
+const CommentAndRiview = ({ data }: any) => {
+  const [rating, setRating] = useState(0); // Nilai awal rating
+  const [value, setValue] = useState('');
+  const [transaction, setTrasnaction] = useState<ITransaction[]>([]);
+  const [review, setReview] = useState([]);
+  const [reviewUserId, setReviewUserId] = useState(null);
+  const user = useAppSelector((state) => state.user);
+
+  console.log(
+    'ini anak babi',
+    review.map((i) => user.image),
+  );
+
+  const handleGetReview = async () => {
+    try {
+      const { data } = await axios.get(`http://localhost:8000/api/review/all`);
+      setReview(data.data);
+    } catch (error) {
+      throw error;
+    }
+  };
+
+  const handleGetReviewUserId = async () => {
+    try {
+      const { data } = await axios.get(
+        `http://localhost:8000/api/review/${user.id}`,
+      );
+      setReviewUserId(data.data);
+    } catch (error) {
+      throw error;
+    }
+  };
+  console.log('asdsad', reviewUserId);
+
+  const handleGetTransaction = async () => {
+    try {
+      const { data } = await axios.get(
+        baseUrl + `/transaction/transaction-userid/${user.id}`,
+      );
+      setTrasnaction(data.data);
+    } catch (error) {
+      throw error;
+    }
+  };
+
+  const handleStarClick = (value: any) => {
+    const newRating = value === 1 ? 1 : value;
+    setRating(newRating);
+  };
+  useEffect(() => {
+    handleGetTransaction();
+    handleGetReview();
+    handleGetReviewUserId();
+  }, []);
+
   return (
     <div className="bg-white p-6">
       <h2 className="text-lg font-bold mb-4">Comments</h2>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-2">
-        <div className="bg-white p-4 rounded-lg shadow-md">
-          <h3 className="text-lg font-bold">John Doe</h3>
-          <p className="text-gray-700 text-sm mb-2">Posted on April 17, 2023</p>
-          <p className="text-gray-700">
-            This is a sample comment. Lorem ipsum dolor sit amet, consectetur
-            adipiscing elit, sed do eiusmod tempor incididunt ut labore et
-            dolore magna aliqua.
-          </p>
-        </div>
-        <div className="bg-white p-4 rounded-lg shadow-md">
-          <h3 className="text-lg font-bold">Jane Smith</h3>
-          <p className="text-gray-700 text-sm mb-2">Posted on April 16, 2023</p>
-          <p className="text-gray-700">
-            I agree with John. Lorem ipsum dolor sit amet, consectetur
-            adipiscing elit, sed do eiusmod tempor incididunt ut labore et
-            dolore magna aliqua.
-          </p>
-        </div>
-        <div className="bg-white p-4 rounded-lg shadow-md">
-          <h3 className="text-lg font-bold">Bob Johnson</h3>
-          <p className="text-gray-700 text-sm mb-2">Posted on April 15, 2023</p>
-          <p className="text-gray-700">
-            I have a different opinion. Lorem ipsum dolor sit amet, consectetur
-            adipiscing elit, sed do eiusmod tempor incididunt ut labore et
-            dolore magna aliqua.
-          </p>
-        </div>
-      </div>
-      <form className="bg-white p-4 rounded-lg shadow-md">
-        <h3 className="text-lg font-bold mb-2">Add a comment</h3>
+        {review.map((item: any) => {
+          const ratingStars = [];
+          for (let i = 0; i < item.rating; i++) {
+            ratingStars.push(
+              <StarIcon
+                key={i}
+                className="text-orange-600 w-[1rem] h-[1rem]"
+              />,
+            );
+          }
+          const date = formatDistance(new Date(item.createdAt), new Date(), {
+            addSuffix: true,
+          });
+          return (
+            <>
+              <div key={item.id} className="bg-white p-4 rounded-lg shadow-md">
+                <div className="flex flex-row mb-2">
+                  <Image
+                    width={40}
+                    height={40}
+                    className="mr-2 rounded-full"
+                    src={
+                      item.user.image === null
+                        ? '/images/no-profile.svg'
+                        : `http://localhost:8000/photo-profile/${item.user.image}`
+                    }
+                    alt={''}
+                  />
+                  <h3 className="text-lg font-bold">{item.user.username}</h3>
+                </div>
 
-        <div className="mb-4">
-          <label
-            className="block text-gray-700 font-bold mb-2"
-            htmlFor="comment"
+                <div className="flex flex-row items-center justify-start gap-2 text-2xl">
+                  {ratingStars}
+                </div>
+                <p className="text-gray-700 text-sm mb-2">{date}</p>
+                <p className="text-gray-700">{item.riview}</p>
+                {user.roleId == 1 ? <CommentTenant item={item} /> : <div></div>}
+              </div>
+            </>
+          );
+        })}
+      </div>
+      {transaction[0]?.statusTransaction === 'CONFIRM' &&
+      reviewUserId === null ? (
+        <form className="bg-white p-4 rounded-lg shadow-md">
+          <h3 className="text-lg font-bold mb-2">Add a comment</h3>
+          <div className="flex flex-row items-center justify-start gap-2 text-2xl">
+            {[1, 2, 3, 4, 5].map((value) => (
+              <StarIcon
+                key={value}
+                className={`text-${
+                  rating >= value ? 'orange' : 'gray'
+                }-600 w-[1rem] h-[1rem] cursor-pointer`}
+                onClick={() => handleStarClick(value)}
+              />
+            ))}
+          </div>
+          <div className="mb-4">
+            <label
+              className="block text-gray-700 font-bold mb-2"
+              htmlFor="comment"
+            >
+              Comment
+            </label>
+            <textarea
+              name="comment"
+              onChange={(e) => setValue(e.target.value)}
+              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              id="comment"
+              rows={3}
+              placeholder="Enter your comment"
+            ></textarea>
+          </div>
+          <button
+            className="bg-cyan-500 hover:bg-cyan-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+            type="submit"
+            onClick={() =>
+              handleRiview(user.id, rating, data.property.id, value)
+            }
           >
-            Comment
-          </label>
-          <textarea
-            name="comment"
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-            id="comment"
-            rows={3}
-            placeholder="Enter your comment"
-          ></textarea>
-        </div>
-        <button
-          className="bg-cyan-500 hover:bg-cyan-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-          type="submit"
-        >
-          Submit
-        </button>
-      </form>
+            Submit
+          </button>
+        </form>
+      ) : (
+        <div></div>
+      )}
     </div>
   );
 };

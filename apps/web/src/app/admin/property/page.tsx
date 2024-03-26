@@ -13,6 +13,7 @@ import AddImageForProperty from './components/AddImageProperty';
 
 import Link from 'next/link';
 import FormAddRoom, { AddRoom } from './components/AddRoomProperty';
+import ReplyReview from './components/ReplyReview';
 
 enum PropertyType {
   APARTMENT = 'APARTMENT',
@@ -175,10 +176,7 @@ const GetPropertyOwner = () => {
           </div>
         </div>
         <div className=" flex items-center gap-[15px] relative">
-          <div className=" flex items-center gap-[25px] border-r-[1px] pr-[25px]">
-            <FaRegBell color="black" />
-            <FaEnvelope color="black" />
-          </div>
+          <div className=" flex items-center gap-[25px] border-r-[1px] pr-[25px]"></div>
         </div>
       </div>
       <div className=" border">
@@ -251,7 +249,7 @@ const GetPropertyOwner = () => {
                 </th>
               </tr>
             </thead>
-            <tbody className="bg-white divide-y divide-gray-200">
+            <tbody className="bg-white divide-y divide-gray-200 ">
               {properties.map((property) => (
                 <tr key={property.id}>
                   <td className="px-6 py-4 whitespace-nowrap text-secondary">
@@ -298,6 +296,7 @@ const GetPropertyOwner = () => {
                       />
                     </button>
                     <AddImageForProperty propertyId={property.id} />
+                    <ReplyReview />
                   </td>
                 </tr>
               ))}

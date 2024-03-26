@@ -11,20 +11,7 @@ import { FaEnvelope, FaRegBell, FaSearch } from 'react-icons/fa';
 import { toast } from 'react-toastify';
 import { Property } from '../../../../types/properties.type';
 import AddImageForRoom from './components/AddImageRoom';
-
-export enum RoomType {
-  LUXURY = 'LUXURY',
-  DELUXE = 'DELUXE',
-  SUPERIOR = 'SUPERIOR',
-  EXECUTIVE = 'EXECUTIVE',
-  CLUB = 'CLUB',
-  STANDARD = 'STANDARD',
-}
-export enum RoomStatus {
-  AVAILABLE = 'AVAILABLE',
-  OCCUPIED = 'OCCUPIED',
-  UNDER_RENOVATION = 'UNDER_RENOVATION',
-}
+import { RoomStatus, RoomType } from '../../../../types/room.type';
 
 export interface RoomPicture {
   id: number;
