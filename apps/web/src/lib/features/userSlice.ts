@@ -35,6 +35,7 @@ export const userSlice = createSlice({
       state.id = 0;
       state.username = '';
       state.email = '';
+      state.roleId = 0;
       state.isVerified = false;
       state.image = null;
     },

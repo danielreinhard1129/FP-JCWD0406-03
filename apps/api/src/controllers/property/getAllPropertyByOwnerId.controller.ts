@@ -11,8 +11,8 @@ export class GetAllPropertyByOwnerIdController {
       const ownerId = parseInt(req.params.id);
       const page = parseInt(req.query.page as string) || 1;
       const pageSize = parseInt(req.query.pageSize as string) || 10;
-
-      const result = await getAllPropertyByOwnerIdAction(ownerId, page, pageSize);
+      const searchQuery = req.query.search as string || "";
+      const result = await getAllPropertyByOwnerIdAction(ownerId, page, pageSize, searchQuery);
       return res.status(result.status).json({
         message: result.message,
         properties: result.properties,

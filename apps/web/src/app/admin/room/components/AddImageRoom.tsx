@@ -6,9 +6,11 @@ import { toast } from "react-toastify";
 
 interface Props {
   roomId: number;
+  fetchRooms: () => void;
+  updateRooms: (roomIdToUpdate: number) => void;
 }
 
-const AddImageForRoom = ({ roomId }: Props) => {
+const AddImageForRoom = ({ roomId, updateRooms, fetchRooms }: Props) => {
   const uploadImage = async (formData: FormData) => {
     try {
       const token = localStorage.getItem("token_auth");
@@ -26,6 +28,8 @@ const AddImageForRoom = ({ roomId }: Props) => {
         autoClose: 1200,
         theme: "colored",
       });
+      updateRooms(roomId);
+      fetchRooms();
     } catch (error) {
       toast.error("Failed to upload image. Please try again.");
     }
@@ -62,6 +66,3 @@ const AddImageForRoom = ({ roomId }: Props) => {
 };
 
 export default AddImageForRoom;
-function fetchRooms() {
-  throw new Error("Function not implemented.");
-}

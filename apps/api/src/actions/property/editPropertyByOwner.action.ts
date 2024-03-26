@@ -1,4 +1,5 @@
-import { editPropertyRepo } from "@/repositories/property/editPropertyByOwner.action";
+
+import { editPropertyRepo } from "@/repositories/property/editPropertyByOwner.repo";
 import { IProperty } from "@/types/property.type";
 
 export const editPropertyAction = async (

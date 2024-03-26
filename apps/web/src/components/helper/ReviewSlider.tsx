@@ -49,7 +49,7 @@ const ReviewSlider = () => {
           "https://randomuser.me/api/?results=6&nat=au"
         );
         const data: ITeams[] = response.data.results;
-        console.log(data);
+
         setUserData(data);
         setLoading(false);
       } catch (error) {

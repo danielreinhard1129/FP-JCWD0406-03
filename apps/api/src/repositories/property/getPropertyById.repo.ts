@@ -10,7 +10,7 @@ export const getPropertyByIdRepo = async (propertyId: number) => {
         images: true,
         Room: true,
         user: true,
-        PeakSeasonRate: true,
+
         Review: true,
       },
     });

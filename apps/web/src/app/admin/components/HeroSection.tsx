@@ -1,7 +1,52 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+"use client";
+import { useAppSelector } from "@/lib/hooks";
+import { baseUrl } from "@/utils/config";
+import axios from "axios";
 import Image from "next/image";
+import { useEffect, useState } from "react";
 import Rechart from "./Rechart";
+import { PropertyOwner } from "../property/page";
 
 const HeroSection = () => {
+  const [totalProperties, setTotalProperties] = useState<number>(0);
+  const [totalRooms, setTotalRooms] = useState<number>(0);
+  const [totalTransactions, setTotalTransactions] = useState<number>(0);
+  const { id } = useAppSelector((state) => state.user);
+  useEffect(() => {
+    const fetchData = async () => {
+      const token = localStorage.getItem("token_auth");
+      const url = `${baseUrl}/user/all-data/${id}`;
+      try {
+        const response = await axios.get<{ properties?: PropertyOwner[] }>(
+          url,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        console.log("response: " + JSON.stringify(response));
+
+        const properties: PropertyOwner[] = response.data.properties ?? [];
+        const totalRooms: number = properties.reduce(
+          (acc: number, property: PropertyOwner) =>
+            acc + (property.Room?.length ?? 0),
+          0
+        );
+        const totalTransactions: number = properties.filter(
+          (property: PropertyOwner) => property.Transaction !== null
+        ).length;
+        setTotalRooms(totalRooms);
+        setTotalProperties(properties.length);
+        setTotalTransactions(totalTransactions);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    fetchData();
+  }, [id]);
   return (
     <div className=" pt-[25px] px-[25px] bg-[#e9ebf2]">
       <div className=" flex items-center justify-between">
@@ -35,7 +80,7 @@ const HeroSection = () => {
               Total (Property)
             </h2>
             <h1 className=" text-[20px] leading-[24px] font-bold text-[#5a5c69] mt-[5px]">
-              10
+              {totalProperties}
             </h1>
           </div>
           <Image
@@ -51,7 +96,7 @@ const HeroSection = () => {
               Totoal (Room)
             </h2>
             <h1 className=" text-[20px] leading-[24px] font-bold text-[#5a5c69] mt-[5px]">
-              100
+              {totalRooms}
             </h1>
           </div>
           <Image
@@ -67,7 +112,7 @@ const HeroSection = () => {
               Totoal (Transactions)
             </h2>
             <h1 className=" text-[20px] leading-[24px] font-bold text-[#5a5c69] mt-[5px]">
-              100
+              {totalTransactions}
             </h1>
           </div>
           <Image

@@ -73,7 +73,7 @@ const FormLayout = () => {
         <div className="flex flex-col gap-9">
           <div className="rounded-sm border-[#E2E8F0] bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
             <div className="border-b border-[#E2E8F0] px-7 py-4 ">
-              <h3 className="font-medium text-black dark:text-white text-center items-center justify-center">
+              <h3 className="text-lg font-semibold  text-center text-gray-600">
                 Add Property
               </h3>
             </div>
@@ -82,28 +82,28 @@ const FormLayout = () => {
                 <div className="mb-4 flex flex-col gap-6 xl:flex-row">
                   <div className="w-full xl:w-1/2">
                     <label className="mb-1 block text-sm font-medium text-black dark:text-white">
-                      Name Property
+                      Name Property<span className="text-[#DC3545]">*</span>
                     </label>
                     <input
                       name="name"
                       value={formData.name}
                       onChange={handleChange}
                       type="text"
-                      placeholder="Enter your first name"
+                      placeholder="Enter your name property"
                       className="w-full rounded border-[1.5px] bg-transparent px-5 py-3 text-black outline-none transition"
                     />
                   </div>
 
                   <div className="w-full xl:w-1/2">
                     <label className="mb-1 block text-sm font-medium text-black dark:text-white">
-                      Location
+                      Location<span className="text-[#DC3545]">*</span>
                     </label>
                     <input
                       type="text"
                       name="location"
                       value={formData.location}
                       onChange={handleChange}
-                      placeholder="Enter your last name"
+                      placeholder="Enter your location property"
                       className="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 text-black outline-none transition "
                     />
                   </div>
@@ -119,7 +119,7 @@ const FormLayout = () => {
                     name="availableStartDate"
                     value={formData.availableStartDate}
                     onChange={handleChange}
-                    placeholder="Enter your email address"
+                    placeholder="Enter Available Start Date"
                     className="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
                   />
                 </div>
@@ -132,21 +132,21 @@ const FormLayout = () => {
                     name="availableEndDate"
                     value={formData.availableEndDate}
                     onChange={handleChange}
-                    placeholder="Enter your email address"
+                    placeholder="Enter Available End Date"
                     className="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
                   />
                 </div>
 
                 <div className="mb-4">
                   <label className="mb-1 block text-sm font-medium text-black dark:text-white">
-                    maxGuest
+                    Max Guest<span className="text-[#DC3545]">*</span>
                   </label>
                   <input
                     type="number"
                     name="maxGuest"
                     value={formData.maxGuest}
                     onChange={handleChange}
-                    placeholder="Select MaximumGuest"
+                    placeholder="Select Maximum Guest"
                     className="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
                   />
                 </div>
@@ -155,7 +155,7 @@ const FormLayout = () => {
                 <div className="mb-4">
                   <label className="mb-1 block text-black dark:text-white">
                     {" "}
-                    Select Property
+                    Select Property<span className="text-[#DC3545]">*</span>
                   </label>
 
                   <div className="relative z-20 bg-transparent dark:bg-form-input">
@@ -213,7 +213,7 @@ const FormLayout = () => {
 
                 <div className="mb-4">
                   <label className="mb-1 block text-sm font-medium text-black dark:text-white">
-                    description
+                    Description<span className="text-[#DC3545]">*</span>
                   </label>
                   <textarea
                     name="description"
@@ -226,7 +226,7 @@ const FormLayout = () => {
                 </div>
                 <div className="mb-6">
                   <label className="mb-3 block text-sm font-medium text-black dark:text-white">
-                    about
+                    About<span className="text-[#DC3545]">*</span>
                   </label>
                   <textarea
                     name="about"
@@ -242,7 +242,7 @@ const FormLayout = () => {
                   type="submit"
                   className="flex w-full justify-center rounded bg-primary p-3 font-medium text-gray hover:bg-opacity-90"
                 >
-                  Send Message
+                  Submit
                 </button>
               </div>
             </form>

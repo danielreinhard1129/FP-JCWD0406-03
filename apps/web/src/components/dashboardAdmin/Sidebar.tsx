@@ -33,6 +33,18 @@ const menuItems = [
         path: '/admin/transaction',
         icon: <MdAttachMoney />,
       },
+      {
+        title: "Peaks Sales",
+        path: "/admin/peak-season",
+        icon: (
+          <Image
+            src={"/images/icon-room/promo.png"}
+            alt="promo"
+            width={29}
+            height={30}
+          />
+        ),
+      },
     ],
   },
 ];
@@ -69,7 +81,7 @@ const CardSidebar = () => {
               <Link
                 href={item.path}
                 key={item.title}
-                className={`p-[20px] flex items-center gap-[10px] hover:bg-[#2e374a] my-[5px] mx-0`}
+                className={`p-[20px] flex items-center gap-[5px] hover:bg-[#2e374a] my-[5px] mx-0`}
               >
                 {item.icon}
                 {item.title}

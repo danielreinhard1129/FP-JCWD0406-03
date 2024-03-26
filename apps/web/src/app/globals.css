@@ -44,6 +44,9 @@
   .red-gradient {
     background-color: linear-gradient(180deg, #ff946d 0%, #ff7d68 100%);
   }
+  .shadow-bottom {
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.1);
+  }
 
   .bg-login {
     background: url('/login-bg.svg');

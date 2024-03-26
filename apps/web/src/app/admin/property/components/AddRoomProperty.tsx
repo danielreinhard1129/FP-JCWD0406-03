@@ -1,11 +1,13 @@
 'use client';
 
+
 import { Textarea } from 'flowbite-react';
 import { useFormik } from 'formik';
 import 'react-phone-number-input/style.css';
 import { toast } from 'react-toastify';
 import * as yup from 'yup';
 import { RoomStatus } from '../../../../../types/room.type';
+
 export interface AddRoom {
   type: RoomType;
   status: RoomStatus;
@@ -17,12 +19,14 @@ export interface AddRoom {
 }
 
 export enum RoomType {
+
   LUXURY = 'LUXURY',
   DELUXE = 'DELUXE',
   SUPERIOR = 'SUPERIOR',
   EXECUTIVE = 'EXECUTIVE',
   CLUB = 'CLUB',
   STANDARD = 'STANDARD',
+
 }
 
 interface FormAddRoom {

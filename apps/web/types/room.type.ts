@@ -7,9 +7,11 @@ export enum RoomType {
   STANDARD = 'STANDARD',
 }
 export enum RoomStatus {
+
   AVAILABLE = 'AVAILABLE',
   OCCUPIED = 'OCCUPIED',
   RENOVATION = 'RENOVATION',
+
 }
 
 export interface Room {
