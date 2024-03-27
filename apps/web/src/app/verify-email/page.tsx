@@ -1,5 +1,7 @@
 "use client";
 
+import { logoutAction } from "@/lib/features/userSlice";
+import { useAppDispatch } from "@/lib/hooks";
 import { baseUrl } from "@/utils/config";
 import axios, { AxiosError } from "axios";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -14,6 +16,7 @@ const EmailVerify = () => {
   const router = useRouter();
   const [password, setPassword] = useState("");
   const [userId, setUserId] = useState(null);
+  const dispatch = useAppDispatch();
 
   const handleVerifyEmail = async () => {
     try {
@@ -32,15 +35,15 @@ const EmailVerify = () => {
       });
       const { id } = response.data.user;
       setUserId(id);
-
       toast.success("Verify Email successful", {
         position: "top-right",
         autoClose: 1000,
         theme: "light",
       });
+      dispatch(logoutAction());
+      localStorage.removeItem("token_auth");
+      router.push("/login");
     } catch (error) {
-      console.log(error);
-
       alert("Error");
       if (error instanceof AxiosError) {
         const errorMsg = error.response?.data || error.message;
@@ -57,20 +60,23 @@ const EmailVerify = () => {
 
   useEffect(() => {
     if (userId) {
-      router.push(`/`);
+      router.push(`/login`);
     }
   }, [router, userId]);
   return (
-    <main className="flex justify-center items-center min-h-screen bg-banner p-5 ">
-      <div className="flex justify-center items-center bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 w-full max-w-md mx-auto rounded-lg shadow-md p-6">
+    <main
+      className="flex justify-center items-center min-h-screen bg-register-admin
+     p-5 "
+    >
+      <div className="flex justify-center items-center bg-gradient-to-r from-primary via-pink-500 to-red-500 w-full max-w-md mx-auto rounded-lg shadow-md p-6">
         <form className="flex flex-col gap-4 p-10 w-full">
-          <h1 className="text-slate-700 font-bold text-2xl  justify-center flex items-center">
+          <h1 className="text-white shadow-md font-bold text-2xl  justify-center flex items-center">
             Verify Email
           </h1>
           <div className="flex justify-center items-center"></div>
           <div>
             <div className="mb-2 block">
-              <label htmlFor="password" className="mb-2 block">
+              <label htmlFor="password" className="mb-2 text-white block">
                 Password
               </label>
             </div>

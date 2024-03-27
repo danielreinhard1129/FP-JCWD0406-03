@@ -1,7 +1,6 @@
 export interface PeakSeasonRate {
-
     startDate: string;
     endDate: string;
-    PriceAdjustmentPercentage: number;
+    peakSeasonPrice: number;
     roomId?: number;
 }

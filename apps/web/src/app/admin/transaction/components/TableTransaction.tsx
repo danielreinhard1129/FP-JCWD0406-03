@@ -1,22 +1,22 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @next/next/no-img-element */
 /* eslint-disable react-hooks/rules-of-hooks */
-'use client';
+"use client";
 
-import Image from 'next/image';
-import { HiOutlineExclamationCircle } from 'react-icons/hi';
-import { Modal, Button, TabItem } from 'flowbite-react';
-import { useEffect, useState } from 'react';
-import { IProperty, ITransaction } from '../../../../../types/types';
-import { useAppSelector } from '@/lib/hooks';
-import axios from 'axios';
-import { baseUrl } from '@/utils/config';
-import Link from 'next/link';
-import { log } from 'console';
-import { handleSuccess } from '@/hooks/handleSuccess';
-import { data } from 'cypress/types/jquery';
-import { handleResendEmail } from '@/hooks/handleResendEmail';
-import { handleReject } from '@/hooks/handleReject';
+import Image from "next/image";
+import { HiOutlineExclamationCircle } from "react-icons/hi";
+import { Modal, Button, TabItem } from "flowbite-react";
+import { useEffect, useState } from "react";
+import { IProperty, ITransaction } from "../../../../../types/types";
+import { useAppSelector } from "@/lib/hooks";
+import axios from "axios";
+import { baseUrl } from "@/utils/config";
+import Link from "next/link";
+import { log } from "console";
+import { handleSuccess } from "@/hooks/handleSuccess";
+import { data } from "cypress/types/jquery";
+import { handleResendEmail } from "@/hooks/handleResendEmail";
+import { handleReject } from "@/hooks/handleReject";
 
 const YourComponent = () => {
   const [openFailed, setOpenFailed] = useState(false);
@@ -27,7 +27,7 @@ const YourComponent = () => {
   useEffect(() => {
     const handleGetData = async () => {
       const { data } = await axios.get(
-        baseUrl + `/management/property/${user.id}`,
+        baseUrl + `/management/property/${user.id}`
       );
       setGetData(data.data);
     };
@@ -40,9 +40,8 @@ const YourComponent = () => {
   }, []);
 
   const handleClick = () => {
-    alert('User has not uploaded proof of payment');
+    alert("User has not uploaded proof of payment");
   };
-  console.log(getData);
 
   return (
     <div className="bg-[#182237] p-[20px] rounded-[10px] mt-[20px]">
@@ -109,12 +108,12 @@ const YourComponent = () => {
         <tbody>
           {getData?.map((item) => {
             const date = new Date(`${item?.createdAt}`);
-            const formatDate = date.toLocaleDateString('en-US', {
-              year: 'numeric',
-              month: 'long',
-              day: 'numeric',
+            const formatDate = date.toLocaleDateString("en-US", {
+              year: "numeric",
+              month: "long",
+              day: "numeric",
             });
-            const monthName = formatDate.split(',')[0];
+            const monthName = formatDate.split(",")[0];
             let createdAt = `${date.getFullYear()} ${monthName}`;
 
             return (
@@ -125,15 +124,15 @@ const YourComponent = () => {
                 <td>
                   <span
                     className={`rounded-lg p-2 text-[14px] text-white ${
-                      item?.statusTransaction === 'CONFIRM'
-                        ? 'bg-[#32a852]' // Warna hijau untuk status CONFIRM
-                        : item?.statusTransaction === 'REJECT'
-                          ? 'bg-[#d32f2f]' // Warna merah untuk status REJECT
-                          : item?.statusTransaction === 'EXPIRED'
-                            ? 'bg-[#ffc107]' // Warna kuning untuk status EXPIRED
-                            : item?.statusTransaction === 'CANCEL'
-                              ? 'bg-[#795548]' // Warna coklat untuk status CANCEL
-                              : 'bg-[#1976d2]' // Warna biru untuk status lainnya (misalnya PROCESS)
+                      item?.statusTransaction === "CONFIRM"
+                        ? "bg-[#32a852]" // Warna hijau untuk status CONFIRM
+                        : item?.statusTransaction === "REJECT"
+                        ? "bg-[#d32f2f]" // Warna merah untuk status REJECT
+                        : item?.statusTransaction === "EXPIRED"
+                        ? "bg-[#ffc107]" // Warna kuning untuk status EXPIRED
+                        : item?.statusTransaction === "CANCEL"
+                        ? "bg-[#795548]" // Warna coklat untuk status CANCEL
+                        : "bg-[#1976d2]" // Warna biru untuk status lainnya (misalnya PROCESS)
                     }`}
                   >
                     {item.statusTransaction}
@@ -165,18 +164,18 @@ const YourComponent = () => {
                         handleSuccess(item.uuid, item.user.email, item.checkOut)
                       }
                       disabled={
-                        item.statusTransaction === 'CONFIRM' ||
-                        item.statusTransaction === 'EXPIRED' ||
-                        item.statusTransaction === 'CANCEL' ||
-                        item.statusTransaction === 'REJECT'
+                        item.statusTransaction === "CONFIRM" ||
+                        item.statusTransaction === "EXPIRED" ||
+                        item.statusTransaction === "CANCEL" ||
+                        item.statusTransaction === "REJECT"
                       }
                       className={`py-[4px] px-[6px] text-white border-none cursor-pointer rounded-lg ${
-                        item.statusTransaction === 'CONFIRM' ||
-                        item.statusTransaction === 'EXPIRED' ||
-                        item.statusTransaction === 'CANCEL' ||
-                        item.statusTransaction === 'REJECT'
-                          ? 'bg-gray-400'
-                          : 'bg-teal-600'
+                        item.statusTransaction === "CONFIRM" ||
+                        item.statusTransaction === "EXPIRED" ||
+                        item.statusTransaction === "CANCEL" ||
+                        item.statusTransaction === "REJECT"
+                          ? "bg-gray-400"
+                          : "bg-teal-600"
                       }`}
                     >
                       Accepted
@@ -184,16 +183,16 @@ const YourComponent = () => {
                     <button
                       onClick={() => handleReject(item.uuid, item.user.email)}
                       disabled={
-                        item.statusTransaction === 'CONFIRM' ||
-                        item.statusTransaction === 'REJECT' ||
-                        item.statusTransaction === 'CANCEL'
+                        item.statusTransaction === "CONFIRM" ||
+                        item.statusTransaction === "REJECT" ||
+                        item.statusTransaction === "CANCEL"
                       }
                       className={`py-[4px] px-[6px] text-white border-none cursor-pointer rounded-lg ${
-                        item.statusTransaction === 'CONFIRM' ||
-                        item.statusTransaction === 'REJECT' ||
-                        item.statusTransaction === 'CANCEL'
-                          ? 'bg-gray-400'
-                          : 'bg-red-600'
+                        item.statusTransaction === "CONFIRM" ||
+                        item.statusTransaction === "REJECT" ||
+                        item.statusTransaction === "CANCEL"
+                          ? "bg-gray-400"
+                          : "bg-red-600"
                       }`}
                     >
                       Reject
@@ -202,15 +201,15 @@ const YourComponent = () => {
                       onClick={() => handleResendEmail(item.uuid)}
                       disabled={
                         !!item.paymentProof ||
-                        item.statusTransaction === 'CANCEL' ||
-                        item.statusTransaction === 'REJECT'
+                        item.statusTransaction === "CANCEL" ||
+                        item.statusTransaction === "REJECT"
                       } // Nonaktifkan tombol jika item.paymentProof sudah ada
                       className={`py-[4px] px-[6px] text-white border-none cursor-pointer rounded-lg ${
                         !!item.paymentProof ||
-                        item.statusTransaction === 'CANCEL' ||
-                        item.statusTransaction === 'REJECT'
-                          ? 'bg-gray-400'
-                          : 'bg-[#FF9800]'
+                        item.statusTransaction === "CANCEL" ||
+                        item.statusTransaction === "REJECT"
+                          ? "bg-gray-400"
+                          : "bg-[#FF9800]"
                       }`}
                     >
                       Resend email

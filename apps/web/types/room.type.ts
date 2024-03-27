@@ -21,7 +21,7 @@ export interface Room {
     bedroom: string
     bathroom: string
     spaciousRoom: string
-    createdAt: Date;
+    createdAt: string;
     updatedAt: Date;
     status: RoomStatus
     images: RoomPicture[]

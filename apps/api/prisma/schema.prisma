@@ -70,14 +70,14 @@ model Room {
 }
 
 model PeakSeasonRate {
-  id                        Int      @id @default(autoincrement())
-  startDate                 String
-  endDate                   String
-  PriceAdjustmentPercentage Int
-  createdAt                 DateTime @default(now())
-  updatedAt                 DateTime @updatedAt
-  Room                      Room?    @relation(fields: [roomId], references: [id])
-  roomId                    Int?
+  id              Int      @id @default(autoincrement())
+  startDate       String
+  endDate         String
+  peakSeasonPrice Int
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  Room            Room?    @relation(fields: [roomId], references: [id])
+  roomId          Int?
 }
 
 model RoomPicture {

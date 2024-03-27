@@ -15,7 +15,7 @@ export interface IPeakSeasonRate {
   id: number;
   startDate: string;
   endDate: string;
-  PriceAdjustmentPercentage: number;
+  peakSeasonPrice: number;
   roomId?: number;
   Room: RoomOwner;
 }
@@ -24,10 +24,6 @@ const PeakSales = () => {
   const [rates, setRates] = useState<IPeakSeasonRate[]>([]);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [hasNextPage, setHasNextPage] = useState<boolean>(true);
-  const [isAddRate, setIsAddModalOpen] = useState(false);
-  const [selectedPropertyId, setSelectedPropertyId] = useState<number | null>(
-    null
-  );
 
   const fetchRates = async () => {
     const token = localStorage.getItem("token_auth");
@@ -67,15 +63,6 @@ const PeakSales = () => {
         toast.error("Error deleting property");
       }
     }
-  };
-
-  const handleAddPeakSeosenrateClick = (propertyId: number) => {
-    setSelectedPropertyId(propertyId);
-    setIsAddModalOpen(true);
-  };
-
-  const handleAddModalClose = () => {
-    setIsAddModalOpen(false);
   };
 
   const nextPage = () => {
@@ -247,7 +234,7 @@ const PeakSales = () => {
                       {rate.Room.type}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-secondary">
-                      Rp.{rate.PriceAdjustmentPercentage}
+                      Rp.{rate.peakSeasonPrice}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-secondary">
                       {rate.Room.property.name}

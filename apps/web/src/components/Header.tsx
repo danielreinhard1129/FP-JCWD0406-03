@@ -46,6 +46,7 @@ function Header() {
       autoClose: 1000,
       theme: "light",
     });
+    router.push("/login");
   };
 
   const getAdminUrl = (url: string): string => {

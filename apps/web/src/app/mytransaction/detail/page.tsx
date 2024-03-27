@@ -1,16 +1,14 @@
-'use client';
-import { useState } from 'react';
+"use client";
+import { useState } from "react";
 
-import { ITransaction } from '../../../../types/types';
-import { useSearchParams } from 'next/navigation';
+import { ITransaction } from "../../../../types/types";
+import { useSearchParams } from "next/navigation";
 
 const DetailSearch = () => {
   const search = useSearchParams();
-  const searchQuery = search ? search.get('q') : null;
+  const searchQuery = search ? search.get("q") : null;
 
-  const encodedSearchQuery = encodeURI(searchQuery || '');
-
-  console.log('riski babi', encodedSearchQuery);
+  const encodedSearchQuery = encodeURI(searchQuery || "");
 
   return (
     <div className="rounded-lg overflow-hidden mx-4 md:mx-10">

@@ -1,12 +1,10 @@
-import { successRepo } from '@/repositories/management/success.repo';
-import fs from 'fs';
-import scheduler from 'node-schedule';
 import { transporter } from '@/lib/nodemailer';
-import Handlebars from 'handlebars';
-import path from 'path';
-import { transactionGetUuid } from '@/repositories/transaction/transactiongetuuid.repo';
 import prisma from '@/prisma';
-import { getUserByEmail } from '@/repositories/user/getUserByEmail';
+import { transactionGetUuid } from '@/repositories/transaction/transactiongetuuid.repo';
+import fs from 'fs';
+import Handlebars from 'handlebars';
+import scheduler from 'node-schedule';
+import path from 'path';
 
 export const resendEmailAction = async (uuid: string) => {
   try {
@@ -53,9 +51,7 @@ export const resendEmailAction = async (uuid: string) => {
             status: 'AVAILABLE',
           },
         });
-        console.log(
-          'Transaction Expired We automaticly cancel your transaction',
-        );
+
       } else if (result?.statusTransaction === 'CANCEL') {
         await prisma.room.update({
           where: {
@@ -66,13 +62,11 @@ export const resendEmailAction = async (uuid: string) => {
           },
         });
         scheduledTask.cancel();
-        console.log('Cancel Order');
+
         return;
       } else {
         scheduledTask.cancel();
-        console.log(
-          'Scheduled task has been cancelled because payment proof is uploaded.',
-        );
+
       }
     });
 

@@ -134,7 +134,7 @@ const GetRoomOwner = () => {
       toast.success("Add Peak Seosen rate successfully");
       fetchRooms();
     } catch (error) {
-      toast.error("Failed to add room");
+      toast.error("Failed to add Peak Seosen rate");
     }
   };
 

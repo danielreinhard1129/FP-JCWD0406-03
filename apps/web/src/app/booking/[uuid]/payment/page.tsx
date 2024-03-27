@@ -1,17 +1,17 @@
 /* eslint-disable @next/next/no-img-element */
-'use client';
-import { useFormik } from 'formik';
-import Image from 'next/image';
-import React, { useEffect, useState } from 'react';
-import { validationSchema } from './components/validationSchema';
-import { toast } from 'react-toastify';
-import { useRouter } from 'next/navigation';
-import { usePaymentByMidtrans } from '@/hooks/payment';
-import { axiosInstance } from '@/lib/axios';
-import { useAppSelector } from '@/lib/hooks';
-import axios, { AxiosError } from 'axios';
-import { formatDate, formatDateRange } from '@/utils/formatDate';
-import { baseUrl } from '@/utils/config';
+"use client";
+import { useFormik } from "formik";
+import Image from "next/image";
+import React, { useEffect, useState } from "react";
+import { validationSchema } from "./components/validationSchema";
+import { toast } from "react-toastify";
+import { useRouter } from "next/navigation";
+import { usePaymentByMidtrans } from "@/hooks/payment";
+import { axiosInstance } from "@/lib/axios";
+import { useAppSelector } from "@/lib/hooks";
+import axios, { AxiosError } from "axios";
+import { formatDate, formatDateRange } from "@/utils/formatDate";
+import { baseUrl } from "@/utils/config";
 
 const PaymentForm = () => {
   let parsedBookingData: any;
@@ -22,14 +22,14 @@ const PaymentForm = () => {
   const formik = useFormik({
     initialValues: {
       card_number: 0,
-      name: '',
+      name: "",
       expired_card: 0,
       cvv: 0,
     },
     validationSchema,
     onSubmit: async (values) => {
       try {
-        await axios.post(baseUrl + '/transaction', {
+        await axios.post(baseUrl + "/transaction", {
           roomId: parsedBookingData.roomId,
           checkIn: parsedBookingData.checkIn,
           checkOut: parsedBookingData.checkOut,
@@ -39,15 +39,15 @@ const PaymentForm = () => {
         });
 
         toast.success(
-          'Order placed! Please check your email and complete payment promptly',
+          "Order placed! Please check your email and complete payment promptly",
           {
-            position: 'top-right',
+            position: "top-right",
             autoClose: 3000,
-            theme: 'light',
-          },
+            theme: "light",
+          }
         );
-        router.replace('/thank');
-        localStorage.removeItem('bookingData');
+        router.replace("/thank");
+        localStorage.removeItem("bookingData");
       } catch (error) {
         if (error instanceof AxiosError) {
           toast.error(error?.response?.data);
@@ -56,9 +56,9 @@ const PaymentForm = () => {
     },
   });
   const handleDeleteLocalStorage = () => {
-    localStorage.removeItem('bookingData');
+    localStorage.removeItem("bookingData");
 
-    router.push('/');
+    router.push("/");
   };
   useEffect(() => {
     const timeout = setTimeout(() => {
@@ -67,22 +67,21 @@ const PaymentForm = () => {
 
     return () => clearTimeout(timeout);
   }, []);
-  const bookingDataFromStorage = localStorage.getItem('bookingData');
+  const bookingDataFromStorage = localStorage.getItem("bookingData");
   if (bookingDataFromStorage) {
     parsedBookingData = JSON.parse(bookingDataFromStorage);
   }
   useEffect(() => {
     if (!parsedBookingData) {
-      toast.error('You must booking the hotel', {
-        position: 'top-right',
+      toast.error("You must booking the hotel", {
+        position: "top-right",
         autoClose: 1000,
-        theme: 'light',
+        theme: "light",
       });
       router.replace(`/`);
     }
   });
 
-  console.log(parsedBookingData);
   return (
     <>
       {isLoading ? (
@@ -98,7 +97,7 @@ const PaymentForm = () => {
                   Secure Checkout
                   <span className="mt-2 block h-1 w-10 bg-[#3d5bf0] sm:w-20"></span>
                   <Image
-                    src={'/images/pay.svg'}
+                    src={"/images/pay.svg"}
                     alt="payment"
                     width={170}
                     height={170}
@@ -125,7 +124,7 @@ const PaymentForm = () => {
                       name="card_number"
                       placeholder="1234-5678-XXXX-XXXX"
                       className="block w-full rounded border-gray-300 bg-gray-50 py-3 px-4 pr-10 text-sm placeholder-gray-300 shadow-sm outline-none transition focus:ring-2 focus:ring-[#5872f4]"
-                    />{' '}
+                    />{" "}
                     {formik.errors.card_number &&
                       formik.touched.card_number && (
                         <p className="text-red-500 text-sm mt-1">
@@ -207,7 +206,7 @@ const PaymentForm = () => {
                     )}
                   </div>
                   <p className="mt-10 text-center text-sm font-semibold text-gray-500">
-                    By placing this order you agree to the{' '}
+                    By placing this order you agree to the{" "}
                     <a
                       href="#"
                       className="whitespace-nowrap text-bg-[#3d5bf0] underline hover:text-teal-600"
@@ -268,7 +267,7 @@ const PaymentForm = () => {
                       <p className="text-base font-light text-gray-200 ">
                         {formatDateRange(
                           new Date(parsedBookingData?.checkIn),
-                          new Date(parsedBookingData?.checkOut),
+                          new Date(parsedBookingData?.checkOut)
                         )}
                       </p>
                     </div>
@@ -289,11 +288,11 @@ const PaymentForm = () => {
               <div className="relative mt-10 text-white">
                 <h3 className="mb-5 text-lg font-bold">Support</h3>
                 <p className="text-sm font-semibold">
-                  +01 653 235 211{' '}
+                  +01 653 235 211{" "}
                   <span className="font-light">(International)</span>
                 </p>
                 <p className="mt-1 text-sm font-semibold">
-                  support@nanohair.com{' '}
+                  support@nanohair.com{" "}
                   <span className="font-light">(Email)</span>
                 </p>
                 <p className="mt-2 text-xs font-medium">

@@ -11,8 +11,9 @@ import AddImageForProperty from "./components/AddImageProperty";
 
 import Link from "next/link";
 import FormAddRoom, { AddRoom } from "./components/AddRoomProperty";
-import FormLayoutEdit from "./components/EditProperty";
+
 import { PropertyType } from "../../../../types/formPropertyAdd.type";
+import FormLayoutEdit from "./components/EditProperty";
 
 export interface Room {
   id: number;
@@ -59,7 +60,6 @@ const GetPropertyOwner = () => {
   ] = useState<PropertyOwner | null>(null);
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [shouldScroll, setShouldScroll] = useState<boolean>(false);
-
   const editFormRef = useRef<HTMLDivElement>(null);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [hasNextPage, setHasNextPage] = useState<boolean>(true);
@@ -188,6 +188,10 @@ const GetPropertyOwner = () => {
       toast.error("Failed to add room");
     }
   };
+
+  const handleEditSuccess = () => {
+    fetchProperties();
+  };
   useEffect(() => {
     fetchProperties();
   }, [currentPage]);
@@ -296,9 +300,14 @@ const GetPropertyOwner = () => {
             <tbody className="bg-white divide-y divide-gray-200">
               {properties.map((property) => (
                 <tr key={property.id}>
-                  <td className="px-6 py-4 whitespace-nowrap text-secondary">
-                    {property.name}
-                  </td>
+                  <Link
+                    href={`/admin/property/detail/${property.id}`}
+                    className="cursor-pointer"
+                  >
+                    <td className="px-6 py-4 whitespace-nowrap text-secondary">
+                      {property.name}
+                    </td>
+                  </Link>
                   <td className="px-6 py-4 whitespace-nowrap text-secondary">
                     {property.Room.length}
                   </td>
@@ -395,6 +404,7 @@ const GetPropertyOwner = () => {
       {isEditProperty && (
         <div ref={editFormRef}>
           <FormLayoutEdit
+            onEditSuccess={handleEditSuccess}
             propertyData={editPropertyData}
             onClose={handleEditModalClose}
             propertyId={selectedPropertyId!}

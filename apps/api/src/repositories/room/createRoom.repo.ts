@@ -6,7 +6,7 @@ export const createRoomRepo = async (data: { propertyId: number } & IRoom) => {
     const result = await prisma.room.create({
       data: {
         ...data,
-        propertyId: parseInt(data.propertyId.toString(), 10),
+        id: parseInt(data.propertyId.toString(), 10),
       },
     });
     return result;

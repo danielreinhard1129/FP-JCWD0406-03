@@ -8,9 +8,12 @@ export const getPropertyByIdRepo = async (propertyId: number) => {
       },
       include: {
         images: true,
-        Room: true,
+        Room: {
+          include: {
+            images: true,
+          },
+        },
         user: true,
-
         Review: true,
       },
     });

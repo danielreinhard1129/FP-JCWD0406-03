@@ -1,12 +1,12 @@
-'use client';
+"use client";
 
-import { baseUrl } from '@/utils/config';
-import axios, { AxiosError } from 'axios';
-import React, { useState } from 'react';
-import DatePicker from 'react-datepicker';
-import 'react-datepicker/dist/react-datepicker.css';
-import { TiPlus, TiMinus } from 'react-icons/ti';
-import { toast } from 'react-toastify';
+import { baseUrl } from "@/utils/config";
+import axios, { AxiosError } from "axios";
+import React, { useState } from "react";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import { TiPlus, TiMinus } from "react-icons/ti";
+import { toast } from "react-toastify";
 export interface DateRange {
   startDate: Date | null;
   endDate: Date | null;
@@ -41,25 +41,24 @@ const DateRangePicker = ({ onDateChange, handleGues, room }: any) => {
     try {
       const utcStartDate = startDate
         ? new Date(
-            startDate?.getTime() - startDate?.getTimezoneOffset() * 60000,
+            startDate?.getTime() - startDate?.getTimezoneOffset() * 60000
           )
         : null;
-      console.log(utcStartDate?.toISOString());
 
       const utcEndDate = endDate
         ? new Date(endDate?.getTime() - endDate?.getTimezoneOffset() * 60000)
         : null;
-      await axios.post(baseUrl + '/transaction/find-reservation', {
+      await axios.post(baseUrl + "/transaction/find-reservation", {
         roomId: room.id,
         checkIn: utcStartDate?.toISOString(),
         checkOut: utcEndDate?.toISOString(),
       });
 
       if (count > room?.property?.maxGuest) {
-        toast.error('Max guest limit exceeded', {
-          position: 'top-right',
+        toast.error("Max guest limit exceeded", {
+          position: "top-right",
           autoClose: 1000,
-          theme: 'light',
+          theme: "light",
         });
         setShowModal(true);
       }
