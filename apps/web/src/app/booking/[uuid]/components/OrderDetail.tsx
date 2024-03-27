@@ -1,39 +1,21 @@
 /* eslint-disable @next/next/no-img-element */
-'use client';
+"use client";
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from "react";
 
-import DateRangePicker, { DateRange } from './DatePicker';
-import Summary from './Summary';
-import Image from 'next/image';
-import Checkout from './Checkout';
+import DateRangePicker, { DateRange } from "./DatePicker";
+import Summary from "./Summary";
+import Image from "next/image";
+import Checkout from "./Checkout";
 
-import { RoomPicture } from '@/app/admin/room/page';
-import { Import } from 'lucide-react';
-import { Carousel } from 'flowbite-react';
-import { formatDateNew, formatDateRange } from '@/utils/formatDate';
+import { RoomPicture } from "@/app/admin/room/page";
+import { Import } from "lucide-react";
+import { Carousel } from "flowbite-react";
+import { formatDateNew, formatDateRange } from "@/utils/formatDate";
 
 export interface RoomBooking {
   dataRange: DateRange;
 }
-
-const responsive = {
-  desktop: {
-    breakpoint: { max: 3000, min: 1300 },
-    items: 1,
-    slidesToSlide: 1,
-  },
-  tablet: {
-    breakpoint: { max: 1300, min: 764 },
-    items: 1,
-    slidesToSlide: 1,
-  },
-  mobile: {
-    breakpoint: { max: 764, min: 0 },
-    items: 1,
-    slidesToSlide: 1,
-  },
-};
 
 const TripInfo = ({ room }: any) => {
   const [dateRange, setDateRange] = useState<DateRange>({
@@ -43,7 +25,7 @@ const TripInfo = ({ room }: any) => {
   const [total, setTotal] = useState(0);
   const [gues, setGues] = useState(0);
   const [img, setImg] = useState<RoomPicture[]>([]);
-  console.log('as', gues);
+  console.log("as", gues);
 
   const handleGues = (gues: any) => {
     setGues(gues);
@@ -90,26 +72,26 @@ const TripInfo = ({ room }: any) => {
                 <div className="flex flex-col space-y-2">
                   <p className="text-sm dark:text-white leading-none text-gray-800">
                     <span className="dark:text-gray-400 text-gray-300">
-                      Type room:{' '}
-                    </span>{' '}
+                      Type room:{" "}
+                    </span>{" "}
                     {room?.type}
                   </p>
                   <p className="text-sm dark:text-white leading-none text-gray-800">
                     <span className="dark:text-gray-400 text-gray-300">
-                      Bedroom:{' '}
-                    </span>{' '}
+                      Bedroom:{" "}
+                    </span>{" "}
                     {room?.bedroom}
                   </p>
                   <p className="text-sm dark:text-white leading-none text-gray-800">
                     <span className="dark:text-gray-400 text-gray-300">
-                      Bathroom:{' '}
-                    </span>{' '}
+                      Bathroom:{" "}
+                    </span>{" "}
                     {room?.bathroom}
                   </p>
                   <p className="text-sm dark:text-white leading-none text-gray-800">
                     <span className="dark:text-gray-400 text-gray-300">
-                      Spacious room:{' '}
-                    </span>{' '}
+                      Spacious room:{" "}
+                    </span>{" "}
                     {room?.spaciousRoom}
                   </p>
                   {/* Sisipkan bagian lain dari detail ruangan di sini */}
