@@ -3,27 +3,28 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 "use client";
 
-import Image from "next/image";
-import { HiOutlineExclamationCircle } from "react-icons/hi";
-import { Modal, Button, TabItem } from "flowbite-react";
-import { useEffect, useState } from "react";
-import { IProperty, ITransaction } from "../../../../../types/types";
-import { useAppSelector } from "@/lib/hooks";
-import axios from "axios";
-import { baseUrl } from "@/utils/config";
-import Link from "next/link";
-import { log } from "console";
-import { handleSuccess } from "@/hooks/handleSuccess";
-import { data } from "cypress/types/jquery";
-import { handleResendEmail } from "@/hooks/handleResendEmail";
-import { handleReject } from "@/hooks/handleReject";
+import Image from 'next/image';
+import { HiOutlineExclamationCircle } from 'react-icons/hi';
+import { Modal, Button, TabItem } from 'flowbite-react';
+import { useEffect, useState } from 'react';
+import { IProperty, ITransaction } from '../../../../../types/types';
+import { useAppSelector } from '@/lib/hooks';
+import axios from 'axios';
+import { baseUrl } from '@/utils/config';
+import Link from 'next/link';
+import { log } from 'console';
+import { handleSuccess } from '@/hooks/handleSuccess';
+import { data } from 'cypress/types/jquery';
+import { handleResendEmail } from '@/hooks/handleResendEmail';
+import { handleReject } from '@/hooks/handleReject';
+import formatCurrency from '@/utils/formatCurrency';
 
 const YourComponent = () => {
-  const [openFailed, setOpenFailed] = useState(false);
-  const [openAccept, setOpenAccept] = useState(false);
   const user = useAppSelector((state) => state.user);
   const [getData, setGetData] = useState<ITransaction[]>([]);
   const [getProperty, setProperty] = useState<IProperty[]>([]);
+  
+
   useEffect(() => {
     const handleGetData = async () => {
       const { data } = await axios.get(
@@ -32,7 +33,7 @@ const YourComponent = () => {
       setGetData(data.data);
     };
     const handleGetDataProperty = async () => {
-      const { data } = await axios.get(baseUrl + `/management/${user.id}`);
+      const { data } = await axios.get(baseUrl + `/management/${1}`);
       setProperty(data.data);
     };
     handleGetData();
@@ -44,64 +45,22 @@ const YourComponent = () => {
   };
 
   return (
-    <div className="bg-[#182237] p-[20px] rounded-[10px] mt-[20px]">
-      <Modal
-        show={openFailed}
-        size="md"
-        onClose={() => setOpenFailed(false)}
-        popup
-      >
-        <Modal.Header />
-        <Modal.Body>
-          <div className="text-center">
-            <HiOutlineExclamationCircle className="mx-auto mb-4 h-14 w-14 text-gray-400 dark:text-gray-200" />
-            <h3 className="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">
-              Are you sure you want to reject this transaction?
-            </h3>
-            <div className="flex justify-center gap-4">
-              <Button color="failure">{"Yes, I'm sure"}</Button>
-              <Button color="gray" onClick={() => setOpenFailed(false)}>
-                No, cancel
-              </Button>
-            </div>
-          </div>
-        </Modal.Body>
-      </Modal>
-
-      <Modal
-        show={openAccept}
-        size="md"
-        onClose={() => setOpenAccept(false)}
-        popup
-      >
-        <Modal.Header />
-        <Modal.Body>
-          <div className="text-center">
-            <HiOutlineExclamationCircle className="mx-auto mb-4 h-14 w-14 text-gray-400 dark:text-gray-200" />
-            <h3 className="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">
-              Are you sure you want to Accept this transaction?
-            </h3>
-            <div className="flex justify-center gap-4">
-              <Button
-                color="failure"
-                // onClick={() => handleSuccess(trans?.uuid, trans?.email)}
-              >
-                {"Yes, I'm sure"}
-              </Button>
-              <Button color="gray">No, cancel</Button>
-            </div>
-          </div>
-        </Modal.Body>
-      </Modal>
-
+    <div className="relative p-[20px] rounded-[10px] mt-[20px] shadow-sm mb-8">
+      <div className="absolute top-0 right-0 mt-4 mr-4 z-10">
+        {/* Dropdown di sini */}
+        <select className="px-4 py-2 rounded-lg bg-gray-800 text-black">
+          <option value="option1">Option 1</option>
+          <option value="option2">Option 2</option>
+          <option value="option3">Option 3</option>
+        </select>
+      </div>
       <table className="w-full">
         <thead>
           <tr>
-            <td>Order Id</td>
-            <td>Destination</td>
-            <td>Status</td>
-            <td>Date</td>
-            <td>Amount</td>
+            <td className="text-black">Order Id</td>
+            <td className="text-black">Status</td>
+            <td className="text-black">Date</td>
+            <td className="text-black">Amount</td>
             <td></td>
           </tr>
         </thead>
@@ -117,12 +76,12 @@ const YourComponent = () => {
             let createdAt = `${date.getFullYear()} ${monthName}`;
 
             return (
-              <tr key={item.id}>
-                <td className="h-16">{item.orderId}</td>
-                <td className="h-16">{getProperty.map((i) => i.name)}</td>
+              <tr key={item.id} className="border-b border-gray-300">
+                <td className="h-16 text-black">{item.orderId}</td>
 
                 <td>
                   <span
+<<<<<<< HEAD
                     className={`rounded-lg p-2 text-[14px] text-white ${
                       item?.statusTransaction === "CONFIRM"
                         ? "bg-[#32a852]" // Warna hijau untuk status CONFIRM
@@ -133,30 +92,43 @@ const YourComponent = () => {
                         : item?.statusTransaction === "CANCEL"
                         ? "bg-[#795548]" // Warna coklat untuk status CANCEL
                         : "bg-[#1976d2]" // Warna biru untuk status lainnya (misalnya PROCESS)
+=======
+                    className={`rounded-lg p-2 text-[14px] text-black ${
+                      item?.statusTransaction === 'CONFIRM'
+                        ? 'bg-[#32a852]'
+                        : item?.statusTransaction === 'REJECT'
+                          ? 'bg-[#d32f2f]'
+                          : item?.statusTransaction === 'EXPIRED'
+                            ? 'bg-[#ffc107]'
+                            : item?.statusTransaction === 'CANCEL'
+                              ? 'bg-[#795548]'
+                              : 'bg-[#1976d2]'
+>>>>>>> develop
                     }`}
                   >
                     {item.statusTransaction}
                   </span>
                 </td>
-                <td>{createdAt}</td>
-                <td>${item.total}</td>
+                <td className="text-black">{createdAt}</td>
+                <td className="text-black">{formatCurrency(item.total)}</td>
                 <td>
                   <div className="flex gap-[10px]">
                     {!item.paymentProof ? (
                       <button
-                        className="py-[4px] px-[6px] text-white border-none cursor-pointer bg-[#f7cb7375] rounded-lg"
+                        className="py-[4px] px-[6px] text-black border-none cursor-pointer bg-[#f7cb7375] rounded-lg"
                         onClick={handleClick}
                       >
                         Detail
                       </button>
                     ) : (
-                      <Link
-                        className="py-[4px] px-[6px] text-white border-none cursor-pointer bg-[#f7cb7375] rounded-lg"
+                      <a
+                        className="py-[4px] px-[6px] text-black border-none cursor-pointer bg-[#f7cb7375] rounded-lg"
                         href={`http://localhost:8000/payment-proof/${item.paymentProof}`}
                         target="_blank"
+                        rel="noopener noreferrer"
                       >
                         Detail
-                      </Link>
+                      </a>
                     )}
 
                     <button
@@ -169,6 +141,7 @@ const YourComponent = () => {
                         item.statusTransaction === "CANCEL" ||
                         item.statusTransaction === "REJECT"
                       }
+<<<<<<< HEAD
                       className={`py-[4px] px-[6px] text-white border-none cursor-pointer rounded-lg ${
                         item.statusTransaction === "CONFIRM" ||
                         item.statusTransaction === "EXPIRED" ||
@@ -176,6 +149,15 @@ const YourComponent = () => {
                         item.statusTransaction === "REJECT"
                           ? "bg-gray-400"
                           : "bg-teal-600"
+=======
+                      className={`py-[4px] px-[6px] text-black border-none cursor-pointer rounded-lg ${
+                        item.statusTransaction === 'CONFIRM' ||
+                        item.statusTransaction === 'EXPIRED' ||
+                        item.statusTransaction === 'CANCEL' ||
+                        item.statusTransaction === 'REJECT'
+                          ? 'bg-gray-400'
+                          : 'bg-teal-600'
+>>>>>>> develop
                       }`}
                     >
                       Accepted
@@ -187,12 +169,21 @@ const YourComponent = () => {
                         item.statusTransaction === "REJECT" ||
                         item.statusTransaction === "CANCEL"
                       }
+<<<<<<< HEAD
                       className={`py-[4px] px-[6px] text-white border-none cursor-pointer rounded-lg ${
                         item.statusTransaction === "CONFIRM" ||
                         item.statusTransaction === "REJECT" ||
                         item.statusTransaction === "CANCEL"
                           ? "bg-gray-400"
                           : "bg-red-600"
+=======
+                      className={`py-[4px] px-[6px] text-black border-none cursor-pointer rounded-lg ${
+                        item.statusTransaction === 'CONFIRM' ||
+                        item.statusTransaction === 'REJECT' ||
+                        item.statusTransaction === 'CANCEL'
+                          ? 'bg-gray-400'
+                          : 'bg-red-600'
+>>>>>>> develop
                       }`}
                     >
                       Reject
@@ -201,10 +192,17 @@ const YourComponent = () => {
                       onClick={() => handleResendEmail(item.uuid)}
                       disabled={
                         !!item.paymentProof ||
+<<<<<<< HEAD
                         item.statusTransaction === "CANCEL" ||
                         item.statusTransaction === "REJECT"
                       } // Nonaktifkan tombol jika item.paymentProof sudah ada
                       className={`py-[4px] px-[6px] text-white border-none cursor-pointer rounded-lg ${
+=======
+                        item.statusTransaction === 'CANCEL' ||
+                        item.statusTransaction === 'REJECT'
+                      }
+                      className={`py-[4px] px-[6px] text-black border-none cursor-pointer rounded-lg ${
+>>>>>>> develop
                         !!item.paymentProof ||
                         item.statusTransaction === "CANCEL" ||
                         item.statusTransaction === "REJECT"

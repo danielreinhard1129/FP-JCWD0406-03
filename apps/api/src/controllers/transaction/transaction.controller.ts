@@ -9,13 +9,21 @@ import { getTransactionAction } from '@/actions/transaction/getTransaction';
 import { createTransaction } from '@/actions/transaction/createTransactionAction';
 import { findRoomReservation } from '@/actions/transaction/findReservation';
 import { orderListAction } from '@/actions/transaction/orderList.action';
+import { getTransactionById } from '@/actions/transaction/getDataByIdAction';
 
 export class TransactionController {
-  getTransactionByUserIdController(
-    arg0: string,
-    getTransactionByUserIdController: any,
+  async getTransactionByUserIdController(
+    req: Request,
+    res: Response,
+    next: NextFunction,
   ) {
-    throw new Error('Method not implemented.');
+    try {
+      const params = req.params.id;
+      const result = await getTransactionById(Number(params));
+      res.status(result.status).send(result);
+    } catch (error) {
+      throw error;
+    }
   }
   async findRoomReservationController(
     req: Request,

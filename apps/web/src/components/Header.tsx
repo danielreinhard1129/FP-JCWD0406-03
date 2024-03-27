@@ -40,12 +40,14 @@ function Header() {
 
   const handleLogout = () => {
     localStorage.removeItem("token_auth");
+    dispatch(logoutAction());
     setLoggedOut(true);
     toast.success("Logout successful", {
       position: "top-center",
       autoClose: 1000,
       theme: "light",
     });
+
     router.push("/login");
   };
 
@@ -94,9 +96,10 @@ function Header() {
               </h1>
             </Link>
             <div className="flex gap-[20px] xl:gap-[50px] text-[16px] items-center select-none">
-              <Link href={getAdminUrl("/")} className={`nav-link gap-2`}>
+              <a href={getAdminUrl("/")} className={`nav-link gap-2`}>
                 Home
-              </Link>
+              </a>
+
               <Link
                 href={getAdminUrl("/properties")}
                 className={` nav-link gap-2`}
@@ -127,6 +130,13 @@ function Header() {
                           <Link href={`/profile-user/${user.id}`}>
                             <p className="text-black hover:text-quaternary ">
                               Profile
+                            </p>
+                          </Link>
+                        </li>
+                        <li className="px-4 py-2  hover:bg-secondary rounded-lg">
+                          <Link href={`/transaction`}>
+                            <p className="text-black hover:text-quaternary ">
+                              My transasction
                             </p>
                           </Link>
                         </li>

@@ -1,22 +1,25 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-"use client";
 
-import axios from "axios";
-import Image from "next/image";
-import { useParams } from "next/navigation";
-import { useEffect, useState } from "react";
-import { FaRegUserCircle } from "react-icons/fa";
-import { FaMapLocationDot } from "react-icons/fa6";
-import "react-multi-carousel/lib/styles.css";
-import { Property } from "../../../../types/properties.type";
-import BenefitProperty from "./components/BenefitProperty";
-import RoomListTable from "./components/ListRoom";
-import LoadingProperty from "./components/LoadingProperty";
-import Carousel from "react-multi-carousel";
-import "react-multi-carousel/lib/styles.css";
+'use client';
+
+import axios from 'axios';
+import Image from 'next/image';
+import { useParams } from 'next/navigation';
+import { useEffect, useState } from 'react';
+import { FaRegUserCircle } from 'react-icons/fa';
+import { FaMapLocationDot } from 'react-icons/fa6';
+import 'react-multi-carousel/lib/styles.css';
+import { Property } from '../../../../types/properties.type';
+import BenefitProperty from './components/BenefitProperty';
+import RoomListTable from './components/ListRoom';
+import LoadingProperty from './components/LoadingProperty';
+import Carousel from 'react-multi-carousel';
+import 'react-multi-carousel/lib/styles.css';
+import CommentAndRiview from './components/CommentAndRiview';
 import { Rating, RatingAdvanced, RatingStar } from "flowbite-react";
 import { Card } from "flowbite-react";
 import withUserGuard from "@/utils/HOC/UserPageGuard";
+
 
 const baseUrl = process.env.NEXT_PUBLIC_BASE_API_URL;
 
@@ -257,6 +260,7 @@ const PropertieDetail = () => {
           </div>
         </div>
       </div>
+      <CommentAndRiview data={propertyDetail} />
     </div>
   );
 };

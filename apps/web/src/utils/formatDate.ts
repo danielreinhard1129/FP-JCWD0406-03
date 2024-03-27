@@ -10,7 +10,7 @@ const formatDate = (date: Date): string => {
   return new Date(date).toLocaleDateString('id-ID', options);
 };
 
-const formatDateRange = (startDate: Date, endDate: Date): String => {
+const formatDateRange = (startDate: Date, endDate: Date): string => {
   const startMonth = startDate?.toLocaleDateString('en-US', { month: 'short' });
   const endMonth = endDate?.toLocaleDateString('en-US', { month: 'short' });
 

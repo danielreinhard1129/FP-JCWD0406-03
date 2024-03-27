@@ -1,15 +1,17 @@
 export enum RoomType {
-    LUXURY = "LUXURY",
-    DELUXE = "DELUXE",
-    SUPERIOR = "SUPERIOR",
-    EXECUTIVE = "EXECUTIVE",
-    CLUB = "CLUB",
-    STANDARD = "STANDARD",
+    LUXURY = 'LUXURY',
+    DELUXE = 'DELUXE',
+    SUPERIOR = 'SUPERIOR',
+    EXECUTIVE = 'EXECUTIVE',
+    CLUB = 'CLUB',
+    STANDARD = 'STANDARD',
 }
 export enum RoomStatus {
-    AVAILABLE = "AVAILABLE",
-    OCCUPIED = "OCCUPIED",
-    RENOVATION = "RENOVATION",
+
+    AVAILABLE = 'AVAILABLE',
+    OCCUPIED = 'OCCUPIED',
+    RENOVATION = 'RENOVATION',
+
 }
 
 export interface Room {
@@ -18,14 +20,13 @@ export interface Room {
     type: RoomType;
     price: number;
     description: string;
-    bedroom: string
-    bathroom: string
-    spaciousRoom: string
-    createdAt: string;
+    bedroom: string;
+    bathroom: string;
+    spaciousRoom: string;
+    createdAt: Date;
     updatedAt: Date;
-    status: RoomStatus
-    images: RoomPicture[]
-
+    status: RoomStatus;
+    images: RoomPicture[];
 }
 export interface RoomPicture {
     id: number;
