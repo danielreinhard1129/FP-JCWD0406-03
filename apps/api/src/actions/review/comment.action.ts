@@ -5,9 +5,16 @@ export const commentAction = async (
   tenantId: number,
   usernameTenant: string,
   reply: string,
+  image: string,
 ) => {
   try {
-    const result = await commnetRepo(riviewId, tenantId, usernameTenant, reply);
+    const result = await commnetRepo(
+      riviewId,
+      tenantId,
+      usernameTenant,
+      reply,
+      image,
+    );
     return {
       status: 200,
       message: 'Add Comment Success',

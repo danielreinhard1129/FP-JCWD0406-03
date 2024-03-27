@@ -19,6 +19,10 @@ export class ReviewRouter {
       '/review/:id',
       this.reviewController.findRiviewByIdController,
     );
+    this.router.post(
+      '/review/property/:id',
+      this.reviewController.findReviewByPropertyId,
+    );
   }
 
   getRouter(): Router {

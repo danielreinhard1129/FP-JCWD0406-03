@@ -158,13 +158,12 @@ enum StatusTransaction {
 }
 
 model Review {
-
-  id     Int    @id @default(autoincrement())
-  userId Int
-  rating Int
-  riview String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id          Int       @id @default(autoincrement())
+  userId      Int
+  rating      Int
+  riview      String
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
   user        User      @relation(fields: [userId], references: [id])
   TenantReply Comment[]
   Property    Property  @relation(fields: [propertyId], references: [id])
@@ -177,6 +176,7 @@ model Comment {
   riviewId       Int
   tenantId       Int
   reply          String
+  image          String?
   createdAt      DateTime @default(now())
   updatedAt      DateTime @updatedAt
   review         Review   @relation(fields: [riviewId], references: [id])

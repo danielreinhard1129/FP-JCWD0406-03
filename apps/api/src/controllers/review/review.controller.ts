@@ -4,8 +4,24 @@ import { commentAction } from '@/actions/review/comment.action';
 
 import { reviewIdAction } from '@/actions/review/reviewid.action';
 import { findReviewByUserIdAction } from '@/actions/review/findriviewuserid';
+import { findReviewByPropertyIdAction } from '@/actions/review/reviewPropertyIdAction';
 
 export class RiviewController {
+  async findReviewByPropertyId(
+    req: Request,
+    res: Response,
+    next: NextFunction,
+  ) {
+    try {
+      const id = req.params.id;
+      const result = await findReviewByPropertyIdAction(Number(id));
+      res.status(result.status).send(result);
+    } catch (error) {
+      next(error);
+      throw error;
+    }
+  }
+
   async findRiviewByIdController(
     req: Request,
     res: Response,
@@ -43,12 +59,13 @@ export class RiviewController {
   }
   async Comment(req: Request, res: Response, next: NextFunction) {
     try {
-      const { riviewId, tenantId, usernameTenant, reply } = req.body;
+      const { riviewId, tenantId, usernameTenant, reply, image } = req.body;
       const result = await commentAction(
         riviewId,
         tenantId,
         usernameTenant,
         reply,
+        image,
       );
       res.status(result.status).send(result);
     } catch (error) {

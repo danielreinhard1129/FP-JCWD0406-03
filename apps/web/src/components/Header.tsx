@@ -34,29 +34,26 @@ function Header() {
     if (loggedOut) {
       dispatch(logoutAction());
 
-      router.push("/login");
+      router.push('/login');
     }
   }, [loggedOut]);
 
   const handleLogout = () => {
-
     localStorage.removeItem('token_auth');
     dispatch(logoutAction());
     setLoggedOut(true);
-    toast.success("Logout successful", {
-      position: "top-center",
+    toast.success('Logout successful', {
+      position: 'top-center',
       autoClose: 1000,
       theme: 'light',
     });
 
-
     router.push('/login');
-
   };
 
   const getAdminUrl = (url: string): string => {
     if (user.roleId === 1) {
-      if (url === "/properties") {
+      if (url === '/properties') {
         return `/admin/property`;
       }
 
@@ -90,7 +87,7 @@ function Header() {
         <div className=" hidden lg:block animate-in fade-in zoom-in px-12 mx-auto p-4 ">
           <div className="flex justify-between items-center">
             <Link
-              href={getAdminUrl("/")}
+              href={getAdminUrl('/')}
               className="flex items-center text-[25px]"
             >
               <Image src="/images/logo.png" alt="logo" width={40} height={30} />
@@ -99,25 +96,18 @@ function Header() {
               </h1>
             </Link>
             <div className="flex gap-[20px] xl:gap-[50px] text-[16px] items-center select-none">
-
               <a href={getAdminUrl('/')} className={`nav-link gap-2`}>
                 Home
               </a>
-            
-           
-              <Link
-                href={getAdminUrl("/properties")}
 
+              <Link
+                href={getAdminUrl('/properties')}
                 className={` nav-link gap-2`}
               >
                 Property
               </Link>
 
-
-              <a href={getAdminUrl('/room')} className={` nav-link gap-2`}>
-
-              <Link href={getAdminUrl("/room")} className={` nav-link gap-2`}>
-
+              <Link href={getAdminUrl('/room')} className={` nav-link gap-2`}>
                 Room
               </Link>
               {user.id ? (
@@ -183,7 +173,7 @@ function Header() {
           <div className="flex justify-between mx-[10px]">
             <div className="flex gap-[50px] text-[16px] items-center select-none">
               <Link
-                href={getAdminUrl("/")}
+                href={getAdminUrl('/')}
                 className="flex items-center text-[25px]"
               >
                 <Image
@@ -216,19 +206,19 @@ function Header() {
               <div className="flex flex-col gap-8 mt-8 mx-4 ">
                 <div className="flex gap-[20px] xl:gap-[50px] text-[16px] flex-col select-none ">
                   <Link
-                    href={getAdminUrl("/")}
+                    href={getAdminUrl('/')}
                     className=" nav-link-mobile font-[600] cursor-pointer"
                   >
                     Home
                   </Link>
                   <Link
-                    href={getAdminUrl("/properties")}
+                    href={getAdminUrl('/properties')}
                     className=" nav-link-mobile font-[600] cursor-pointer"
                   >
                     Property
                   </Link>
                   <Link
-                    href={getAdminUrl("/room")}
+                    href={getAdminUrl('/room')}
                     className=" nav-link-mobile font-[600] cursor-pointer"
                   >
                     Room
