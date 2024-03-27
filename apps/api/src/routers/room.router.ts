@@ -43,7 +43,7 @@ export class RoomRouter {
       this.createRoomController.createRoom
     );
     this.router.get(
-      "/room/property/:propertyId",
+      "/room/property/:id",
 
       this.getRoomByPropertyIdController.getRoomsByPropertyId
     );

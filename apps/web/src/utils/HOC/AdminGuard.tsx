@@ -10,7 +10,7 @@ export default function withAdminRedirect(Component: any) {
     const auth = user.id;
     useEffect(() => {
       if (!auth) {
-        return redirect("/");
+        return redirect("/login");
       }
     }, [auth]);
 

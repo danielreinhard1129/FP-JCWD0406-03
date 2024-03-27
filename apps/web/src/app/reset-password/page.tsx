@@ -50,8 +50,8 @@ const CardResetPassword = () => {
       router.push("/login");
     } catch (error) {
       console.log(error);
-
       alert("Error");
+
       if (error instanceof AxiosError) {
         const errorMsg = error.response?.data || error.message;
         toast.error(errorMsg);

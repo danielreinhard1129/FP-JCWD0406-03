@@ -5,10 +5,12 @@ import Image from "next/image";
 import { useParams, useRouter } from "next/navigation";
 import { ChangeEvent, useEffect, useState } from "react";
 
-import { useAppSelector } from "@/lib/hooks";
+import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { toast } from "react-toastify";
 import AddImageForEvents from "./AddImageForProfileUser";
 import { string } from "yup";
+import { logoutAction } from "@/lib/features/userSlice";
+import { any } from "cypress/types/bluebird";
 
 interface Role {
   id: number;
@@ -32,7 +34,9 @@ const UserProfile = () => {
   const user = useAppSelector((state) => state.user);
   const [userData, setUserData] = useState<UserData | null>(null);
   const [isUserVerified, setIsUserVerified] = useState(false);
+
   const router = useRouter();
+  const dispatch = useAppDispatch();
 
   const getDataUser = async () => {
     try {
@@ -58,19 +62,34 @@ const UserProfile = () => {
       const token = localStorage.getItem("token_auth");
       const response = await axios.post(
         baseUrl + "/user/send-email",
-        { email: user.email },
+        { email: userData?.email },
         {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         }
       );
-      toast.done("Send Email Verify successful");
-      router.push(`/profile-user/${user.id}`);
+
+      toast.success("Send Email Verify successful");
+      dispatch(logoutAction());
+      localStorage.removeItem("token_auth");
+      router.push("/login");
     } catch (error) {
       if (error instanceof AxiosError) {
-        const errorMsg = error.response?.data || error.message;
-        toast.error(errorMsg);
+        const axiosError = error as AxiosError;
+        if (axiosError.response?.status === 401) {
+          toast.error(
+            "Failed to verify email: Unauthorized access. Please log in again."
+          );
+          dispatch(logoutAction());
+          localStorage.removeItem("token_auth");
+          router.push("/login");
+        } else {
+          const errorMsg = axiosError.message || "An error occurred";
+          toast.error(errorMsg);
+        }
+      } else {
+        toast.error("An error occurred while verifying email");
       }
     }
   };
@@ -92,22 +111,28 @@ const UserProfile = () => {
           },
         }
       );
-      toast.success("User Update SuccesFully", {
+      toast.success("User Update Successful", {
         position: "top-right",
         autoClose: 1000,
         theme: "light",
       });
-      if (response.data.user.email !== userData?.email) {
+      if (response.data.userData.email !== userData?.email) {
         setIsUserVerified(false);
-
-        toast.success("Please verify your new email address");
+        toast.info("Please verify your new email address");
       }
-
       getDataUser();
     } catch (error) {
-      if (error instanceof AxiosError) {
-        const errorMsg = error.response?.data || error.message;
-        toast.error(errorMsg);
+      if (axios.isAxiosError(error)) {
+        const axiosError = error as AxiosError;
+        if (axiosError.response?.status === 400 && axiosError.response?.data) {
+          const responseData: any = axiosError.response.data;
+          const errorMessage = responseData.message || "Email already exists";
+          toast.error(errorMessage);
+        } else {
+          toast.error("Failed to update user data");
+        }
+      } else {
+        toast.error("An error occurred while updating user data");
       }
     }
   };
@@ -120,6 +145,9 @@ const UserProfile = () => {
       ...prevUserData,
       [name]: value,
     }));
+  };
+  const handleUploadSuccess = () => {
+    getDataUser();
   };
 
   useEffect(() => {
@@ -160,7 +188,7 @@ const UserProfile = () => {
                 Add Image
               </button>
               <h5 className="mb-1 mt-1 text-xl font-medium text-gray-900 dark:text-white">
-                {userData?.email}
+                {user.email}
               </h5>
               <span className="text-2xl text-blue-900 dark:text-gray-400">
                 {userData?.role.role}
@@ -273,7 +301,7 @@ const UserProfile = () => {
                 </div>
               </div>
               <div className="p-6">
-                <AddImageForEvents />
+                <AddImageForEvents onUploadSuccess={handleUploadSuccess} />
                 <div className="mt-6 flex justify-end">
                   <button
                     onClick={handleAddImageModalClose}

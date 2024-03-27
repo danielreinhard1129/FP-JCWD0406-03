@@ -46,11 +46,8 @@ export const RegisterForm = ({ onSubmit }: RegisterFormProps) => {
         </h1>
       </div>
       <div>
-        <div className="mb-2 block">
-          <label
-            htmlFor="username"
-            className="mb-2 block text-black font-semibold"
-          >
+        <div className=" block">
+          <label htmlFor="username" className=" block text-black font-semibold">
             Username
           </label>
         </div>
@@ -70,10 +67,7 @@ export const RegisterForm = ({ onSubmit }: RegisterFormProps) => {
       </div>
       <div className="">
         <div className="w-full ">
-          <label
-            htmlFor="email"
-            className="mb-2 block  text-black font-semibold"
-          >
+          <label htmlFor="email" className=" block  text-black font-semibold">
             Email
           </label>
           <input
@@ -89,11 +83,11 @@ export const RegisterForm = ({ onSubmit }: RegisterFormProps) => {
             <p className="text-red-500 text-sm mt-1">{formik.errors.email}</p>
           )}
         </div>
-        <div className="w-full ">
-          <div className="mb-2 block">
+        <div className="w-full  mt-2">
+          <div className=" block">
             <label
               htmlFor="contact"
-              className="mb-2 block  text-black font-semibold"
+              className=" block  text-black font-semibold"
             >
               Contact
             </label>
@@ -112,13 +106,13 @@ export const RegisterForm = ({ onSubmit }: RegisterFormProps) => {
             <p className="text-red-500 text-sm mt-1">{formik.errors.contact}</p>
           )}
         </div>
-        <div className="w-full ">
-          <div className="mb-2 block">
+        <div className="w-full mt-2 ">
+          <div className=" block">
             <label
               htmlFor="contact"
-              className="mb-2 block  text-black font-semibold"
+              className=" block  text-black font-semibold"
             >
-              identityNumber
+              Identity Number
             </label>
           </div>
           <input
@@ -141,10 +135,10 @@ export const RegisterForm = ({ onSubmit }: RegisterFormProps) => {
       </div>
       <div className="">
         <div className=" w-full ">
-          <div className="mb-2 block">
+          <div className=" block">
             <label
               htmlFor="password"
-              className="mb-2 block  text-black font-semibold"
+              className=" block  text-black font-semibold"
             >
               Your Password
             </label>
@@ -176,10 +170,10 @@ export const RegisterForm = ({ onSubmit }: RegisterFormProps) => {
         </div>
         {/* // value={formik.values.password} */}
         <div className="w-full">
-          <div className="mb-2 block">
+          <div className=" block">
             <label
               htmlFor="confirm password"
-              className="mb-1 block  text-black font-semibold"
+              className=" block  text-black font-semibold"
             >
               Confirm Password
             </label>
@@ -211,7 +205,7 @@ export const RegisterForm = ({ onSubmit }: RegisterFormProps) => {
         </div>
       </div>
       <div>
-        <div className="mb-1 block">
+        <div className=" block">
           <label htmlFor="alamat" className="  text-black font-semibold">
             Your Alamat
           </label>
