@@ -8,13 +8,13 @@ import * as yup from "yup";
 export interface AddPeakSeosenRate {
   startDate: string;
   endDate: string;
-  PriceAdjustmentPercentage: number;
+  peakSeasonPrice: number;
 }
 
 const validationSchema = yup.object({
   startDate: yup.string().required("Type Room is required"),
   endDate: yup.string().required("Status is required"),
-  PriceAdjustmentPercentage: yup.number().required("Price is required"),
+  peakSeasonPrice: yup.number().required("Price is required"),
 });
 interface FormAddPeaksSeosenRate {
   onSubmit: (peakSeosenrateData: AddPeakSeosenRate) => Promise<void>;
@@ -29,13 +29,12 @@ const FormPeakSeosenRate: React.FC<FormAddPeaksSeosenRate> = ({
     initialValues: {
       startDate: "",
       endDate: "",
-      PriceAdjustmentPercentage: 0,
+      peakSeasonPrice: 0,
     },
     validationSchema,
     onSubmit: async (values) => {
       try {
         onSubmit(values);
-
         formik.resetForm();
       } catch (error) {
         console.log(error);
@@ -111,11 +110,11 @@ const FormPeakSeosenRate: React.FC<FormAddPeaksSeosenRate> = ({
                 <div className="grid grid-cols-1 gap-5 mb-5">
                   <div className="">
                     <label className="mb-1 block text-base font-medium text-black dark:text-white">
-                      Price Adjustment Percentage
+                      Price Adjustment
                       <span className="text-[#DC3545]">*</span>
                     </label>
                     <input
-                      name="PriceAdjustmentPercentage"
+                      name="peakSeasonPrice"
                       type="number"
                       onBlur={formik.handleBlur}
                       onChange={formik.handleChange}
@@ -123,10 +122,10 @@ const FormPeakSeosenRate: React.FC<FormAddPeaksSeosenRate> = ({
                       required
                       className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                     />
-                    {formik.errors.PriceAdjustmentPercentage &&
-                      formik.touched.PriceAdjustmentPercentage && (
+                    {formik.errors.peakSeasonPrice &&
+                      formik.touched.peakSeasonPrice && (
                         <p className="text-red-500 text-sm mt-[5px]">
-                          {formik.errors.PriceAdjustmentPercentage}
+                          {formik.errors.peakSeasonPrice}
                         </p>
                       )}
                   </div>
@@ -145,7 +144,7 @@ const FormPeakSeosenRate: React.FC<FormAddPeaksSeosenRate> = ({
                       type="submit"
                       className="bg-primary text-white px-4 py-2 rounded w-full text-center"
                     >
-                      Add Room
+                      Add Seosen rate
                     </button>
                   </div>
                 </div>
