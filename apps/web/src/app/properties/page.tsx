@@ -20,8 +20,6 @@ const Property = () => {
   const [propertiesParams, setPropertiesParams] = useState([]);
   const searchParams = useSearchParams();
   const {
-    loading,
-    error,
     properties,
     setProperties,
     setSearchTerm,
@@ -173,9 +171,9 @@ const Property = () => {
               <div className="mt-2">Silahkan isi apa yang ingin anda cari.</div>
             </div>
           ) : (
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 md:mx-4 lg:grid-cols-4  gap-[1.2rem] md:gap-[1.8rem] items-center w-full">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3  lg:grid-cols-4  mx-auto gap-10  items-center w-[80%]">
               {propertiesParams.length === 0 ? (
-                <div className="text-center text-gray-600 mt-4">
+                <div className="text-center items-center text-gray-600 mt-4 ">
                   <Image
                     src={"/images/nodata.png"}
                     alt="nodata"
@@ -189,8 +187,10 @@ const Property = () => {
                 </div>
               ) : (
                 propertiesParams.map((property) => (
-                  <div key={property}>
-                    <PropertyCard property={property} />
+                  <div key={property} className="">
+                    <div>
+                      <PropertyCard property={property} />
+                    </div>
                   </div>
                 ))
               )}

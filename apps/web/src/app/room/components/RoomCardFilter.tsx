@@ -12,7 +12,7 @@ const RoomCardFilter = ({ room }: Props) => {
   const roomImage =
     room && room.images.length
       ? `http://localhost:8000/room-pictures/${room.images[0].image}`
-      : "/images/logo.png";
+      : "/images/logo.jfif";
 
   return (
     <div className=" bg-quaternary shadow-xl p-5 rounded-lg rounded-tl-[90px] w-full max-w-[340px] mx-auto cursor-pointer hover:shadow-2xl ">

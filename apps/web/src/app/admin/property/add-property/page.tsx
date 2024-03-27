@@ -9,8 +9,10 @@ import {
   PropertyType,
 } from "../../../../../types/formPropertyAdd.type";
 import { useAppSelector } from "@/lib/hooks";
+import { useRouter } from "next/navigation";
 
 const FormLayout = () => {
+  const router = useRouter();
   const ownerId = useAppSelector((state) => state.user.id);
   const [isOptionSelected, setIsOptionSelected] = useState<boolean>(false);
   const changeTextColor = () => {
@@ -49,6 +51,7 @@ const FormLayout = () => {
         autoClose: 1300,
         theme: "colored",
       });
+      router.push("/admin/property");
     } catch (error) {
       console.error("Error adding property:", error);
     }
@@ -68,12 +71,12 @@ const FormLayout = () => {
   };
 
   return (
-    <div className=" bg-[#f1f5f9] p-10 ">
-      <div className="grid grid-cols-1 gap-9 md:grid-cols-2 w-full">
+    <div className=" bg-[#f1f5f9]  ">
+      <div className=" w-full">
         <div className="flex flex-col gap-9">
           <div className="rounded-sm border-[#E2E8F0] bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
             <div className="border-b border-[#E2E8F0] px-7 py-4 ">
-              <h3 className="text-lg font-semibold  text-center text-gray-600">
+              <h3 className="text-lg font-semibold  text-center text-gray-800">
                 Add Property
               </h3>
             </div>

@@ -76,16 +76,14 @@ export const createTransaction = async (body: ITransaction) => {
             status: 'AVAILABLE',
           },
         });
-        console.log('Transaction Expired');
+
       } else if (result?.statusTransaction === 'CANCEL') {
         scheduledTask.cancel();
-        console.log('Cancel Order');
+
         return;
       } else {
         scheduledTask.cancel();
-        console.log(
-          'Scheduled task has been cancelled because payment proof is uploaded.',
-        );
+
       }
     });
 

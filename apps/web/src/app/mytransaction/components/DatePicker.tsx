@@ -1,12 +1,12 @@
-'use client';
-import { useAppSelector } from '@/lib/hooks';
-import { baseUrl } from '@/utils/config';
-import axios, { AxiosError } from 'axios';
-import { useFormik } from 'formik';
-import { useRouter } from 'next/navigation';
-import React, { useEffect, useState } from 'react';
-import DatePicker from 'react-datepicker';
-import 'react-datepicker/dist/react-datepicker.css';
+"use client";
+import { useAppSelector } from "@/lib/hooks";
+import { baseUrl } from "@/utils/config";
+import axios, { AxiosError } from "axios";
+import { useFormik } from "formik";
+import { useRouter } from "next/navigation";
+import React, { useEffect, useState } from "react";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 const DateRangePicker = ({ onChange }: any) => {
   const router = useRouter();
@@ -14,10 +14,9 @@ const DateRangePicker = ({ onChange }: any) => {
   const [endDate, setEndDate] = useState<any>(null);
   const [showModal, setShowModal] = useState<boolean>(false);
   const [getDateApi, setGetDateApi] = useState<any>([]);
-  const [searchValue, setSearchValue] = useState('');
+  const [searchValue, setSearchValue] = useState("");
   const user = useAppSelector((state) => state.user);
   onChange(searchValue);
-  console.log('cost cost', searchValue);
 
   const onSearch = (event: React.FormEvent) => {
     try {
@@ -38,7 +37,7 @@ const DateRangePicker = ({ onChange }: any) => {
         ? new Date(endDate.getTime() - endDate.getTimezoneOffset() * 60000)
         : null;
 
-      const { data } = await axios.post(baseUrl + '/transaction/order-list', {
+      const { data } = await axios.post(baseUrl + "/transaction/order-list", {
         userId: user.id,
         checkIn: utcStartDate?.toISOString(),
         checkOut: utcEndDate?.toISOString(),

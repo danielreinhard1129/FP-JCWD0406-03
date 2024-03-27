@@ -21,7 +21,7 @@ export const rejectRepo = async (uuid: string) => {
     });
     return resulData;
   } catch (error) {
-    console.error(error);
+
     throw error;
   }
 };

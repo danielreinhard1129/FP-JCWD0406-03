@@ -26,7 +26,6 @@ const HeroSection = () => {
             },
           }
         );
-        console.log("response: " + JSON.stringify(response));
 
         const properties: PropertyOwner[] = response.data.properties ?? [];
         const totalRooms: number = properties.reduce(

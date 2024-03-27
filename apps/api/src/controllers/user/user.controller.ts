@@ -96,9 +96,8 @@ export class UserController {
       }
 
       const decodedToken = decodeToken(token);
-      const userEmail = decodedToken.email; // Dapatkan email dari token
+      const userEmail = decodedToken.email;
 
-      // Temukan user berdasarkan email untuk mendapatkan userId
       const user = await prisma.user.findUnique({
         where: { email: userEmail },
         select: { id: true, password: true, isVerified: true },

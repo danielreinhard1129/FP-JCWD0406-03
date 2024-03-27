@@ -16,7 +16,6 @@ export const updateAction = async (userId: number, body: Partial<IUser>) => {
             };
         }
 
-        // Check if the new email already exists in the database
         if (body.email && body.email !== user.email) {
             const existingUser = await getUserByEmail(body.email);
             if (existingUser) {
