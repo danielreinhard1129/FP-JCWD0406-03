@@ -5,7 +5,11 @@ import axios from "axios";
 import { ChangeEvent } from "react";
 import { toast } from "react-toastify";
 
-const AddImageForEvents = () => {
+interface Props {
+  onUploadSuccess: () => void;
+}
+
+const AddImageForEvents: React.FC<Props> = ({ onUploadSuccess }) => {
   const updatePhotoEvents = async (formData: FormData) => {
     try {
       const token = localStorage.getItem("token_auth");
@@ -17,8 +21,7 @@ const AddImageForEvents = () => {
           headers: { Authorization: `Bearer ${token}` },
         }
       );
-      console.log(data);
-      window.location.reload();
+      onUploadSuccess();
       toast.info("Image uploaded successfully!");
     } catch (error) {
       console.error(error);

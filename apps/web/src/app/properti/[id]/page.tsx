@@ -1,25 +1,22 @@
 /* eslint-disable react-hooks/exhaustive-deps */
+"use client";
 
-'use client';
-
-import axios from 'axios';
-import Image from 'next/image';
-import { useParams } from 'next/navigation';
-import { useEffect, useState } from 'react';
-import { FaRegUserCircle } from 'react-icons/fa';
-import { FaMapLocationDot } from 'react-icons/fa6';
-import 'react-multi-carousel/lib/styles.css';
-import { Property } from '../../../../types/properties.type';
-import BenefitProperty from './components/BenefitProperty';
-import RoomListTable from './components/ListRoom';
-import LoadingProperty from './components/LoadingProperty';
-import Carousel from 'react-multi-carousel';
-import 'react-multi-carousel/lib/styles.css';
-import CommentAndRiview from './components/CommentAndRiview';
+import axios from "axios";
+import Image from "next/image";
+import { useParams } from "next/navigation";
+import { useEffect, useState } from "react";
+import { FaRegUserCircle } from "react-icons/fa";
+import { FaMapLocationDot } from "react-icons/fa6";
+import "react-multi-carousel/lib/styles.css";
+import { Property } from "../../../../types/properties.type";
+import BenefitProperty from "./components/BenefitProperty";
+import RoomListTable from "./components/ListRoom";
+import LoadingProperty from "./components/LoadingProperty";
+import Carousel from "react-multi-carousel";
+import "react-multi-carousel/lib/styles.css";
 import { Rating, RatingAdvanced, RatingStar } from "flowbite-react";
 import { Card } from "flowbite-react";
 import withUserGuard from "@/utils/HOC/UserPageGuard";
-
 
 const baseUrl = process.env.NEXT_PUBLIC_BASE_API_URL;
 
@@ -50,13 +47,6 @@ const PropertieDetail = () => {
   const [propertyDetail, setPropertyDetail] = useState<PropertyDetail | null>(
     null
   );
-  const [shoppingCart, setShoppingCart] = useState<string[]>([]);
-  const [totalPrice, setTotalPrice] = useState<number>(0);
-
-  const addToCart = (roomType: string, price: number) => {
-    setShoppingCart([...shoppingCart, roomType]);
-    setTotalPrice(totalPrice + price);
-  };
 
   const getPropertieById = async () => {
     try {
@@ -86,6 +76,7 @@ const PropertieDetail = () => {
           (image) => `http://localhost:8000/property-pictures/${image.image}`
         )
       : ["/images/logo.jfif"];
+  console.log("image properties detail clainet", propertyImages);
 
   return (
     <div className=" container mx-auto bg-black">
@@ -123,13 +114,10 @@ const PropertieDetail = () => {
             </div>
             {/* roomCard */}
             <div className=" items-start">
-              <RoomListTable
-                propertyId={propertyId}
-                addToCart={(roomType, price) => addToCart(roomType, price)}
-              />
+              <RoomListTable propertyId={propertyId} />
             </div>
 
-            <div className=" grid grid-cols-3 text-[14px] md:text-[16px] gap-3 ">
+            <div className=" grid grid-cols-3 text-[14px] md:text-[16px] gap-2 shadow-lg">
               <div className=" lg:col-span-2 col-span-3 ">
                 <div className="">
                   {/* name Property */}
@@ -139,7 +127,7 @@ const PropertieDetail = () => {
                     </h1>
                   </div>
                   {/* category */}
-                  <button className="py-2 my-3 px-7 bg-primary text-white font-bold rounded">
+                  <button className="py-2  px-7 border-primary border text-gray-700 font-bold rounded">
                     {propertyDetail.property.type}
                   </button>
 
@@ -230,80 +218,38 @@ const PropertieDetail = () => {
               <div className=" lg:col-span-1 col-span-3 mb-5 items-center justify-center ">
                 <div className=" md:sticky   top-[70px] pt-5  ">
                   <div className=" ">
-                    <Card
-                      className="max-w-full lg:max-w-sm"
-                      imgAlt="Apple Watch Series 7 in colors pink, silver, and black"
-                    >
-                      <a href="#">
-                        <h5 className="text-xl font-semibold tracking-tight text-gray-900 dark:text-white">
-                          Card Shop
-                        </h5>
-                      </a>
-                      {shoppingCart.map((item, index) => (
-                        <span
-                          key={index}
-                          className="bg-gray-200 px-2 py-1 rounded-lg mr-2"
-                        >
-                          {item}
-                        </span>
-                      ))}
-                      <div className="mb-2 mt-2.5 flex items-center">
-                        <svg
-                          className="h-5 w-5 text-yellow-300"
-                          fill="currentColor"
-                          viewBox="0 0 20 20"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                        </svg>
-                        <svg
-                          className="h-5 w-5 text-yellow-300"
-                          fill="currentColor"
-                          viewBox="0 0 20 20"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                        </svg>
-                        <svg
-                          className="h-5 w-5 text-yellow-300"
-                          fill="currentColor"
-                          viewBox="0 0 20 20"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                        </svg>
-                        <svg
-                          className="h-5 w-5 text-yellow-300"
-                          fill="currentColor"
-                          viewBox="0 0 20 20"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                        </svg>
-                        <svg
-                          className="h-5 w-5 text-yellow-300"
-                          fill="currentColor"
-                          viewBox="0 0 20 20"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                        </svg>
-                        <span className="ml-3 mr-2 rounded bg-cyan-100 px-2.5 py-0.5 text-xs font-semibold text-cyan-800 dark:bg-cyan-200 dark:text-cyan-800">
-                          5.0
-                        </span>
+                    <div className="grid grid-cols-1 h-full   ">
+                      <div className=" bg-gradient-to-r from-indigo-500 to-violet-500 text-white p-8 rounded-lg shadow-lg max-w-md  w-full">
+                        <div className="text-3xl font-bold mb-4">
+                          Special Offer!
+                        </div>
+                        <div className="text-lg mb-4">
+                          Get{" "}
+                          <span className="text-yellow-400 font-bold">
+                            25% OFF
+                          </span>{" "}
+                          your next purchase!
+                        </div>
+                        <div className="text-base mb-4">Use coupon code:</div>
+                        <div className="bg-white text-gray-800 rounded-lg px-4 py-2 flex items-center justify-between">
+                          <span className="text-2xl font-semibold">
+                            BASOSUKSES25
+                          </span>
+                          <button className="bg-blue-800 text-white px-3 py-1 rounded hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            Copy
+                          </button>
+                        </div>
+                        <div className="text-sm mt-4">
+                          <p>
+                            Valid until{" "}
+                            <span className="font-semibold">
+                              December 31, 2024
+                            </span>
+                          </p>
+                          <p>Terms and conditions apply.</p>
+                        </div>
                       </div>
-                      <div className="flex items-center justify-between">
-                        <span className="text-xl font-semibold text-gray-900 dark:text-white">
-                          Total Price: Rp.{totalPrice.toFixed(2)}
-                        </span>
-                        <a
-                          href="#"
-                          className="rounded-lg bg-cyan-700 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-cyan-800 focus:outline-none focus:ring-4 focus:ring-cyan-300 dark:bg-cyan-600 dark:hover:bg-cyan-700 dark:focus:ring-cyan-800"
-                        >
-                          Check Out
-                        </a>
-                      </div>
-                    </Card>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -311,7 +257,6 @@ const PropertieDetail = () => {
           </div>
         </div>
       </div>
-      <CommentAndRiview data={propertyDetail} />
     </div>
   );
 };
