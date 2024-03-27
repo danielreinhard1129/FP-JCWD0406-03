@@ -16,10 +16,12 @@ const FormLayoutEdit = ({
   propertyData,
   onClose,
   propertyId,
+  onEditSuccess,
 }: {
   propertyData: PropertyOwner | null;
   onClose: () => void;
   propertyId: number;
+  onEditSuccess: () => void;
 }) => {
   const ownerId = useAppSelector((state) => state.user.id);
   const [isOptionSelected, setIsOptionSelected] = useState<boolean>(false);
@@ -53,6 +55,7 @@ const FormLayoutEdit = ({
           },
         }
       );
+      onEditSuccess();
       toast.info("Property Edit successfully!", {
         position: "top-right",
         autoClose: 1600,
@@ -78,8 +81,8 @@ const FormLayoutEdit = ({
   };
 
   return (
-    <div className=" bg-[#f1f5f9] p-10 ">
-      <div className="grid grid-cols-1 gap-9 md:grid-cols-2 w-full">
+    <div className=" bg-[#f1f5f9]  ">
+      <div className=" w-full">
         <div className="flex flex-col gap-9">
           <div className="rounded-sm border-[#E2E8F0] bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
             <div className="border-b border-[#E2E8F0] px-7 py-4 ">

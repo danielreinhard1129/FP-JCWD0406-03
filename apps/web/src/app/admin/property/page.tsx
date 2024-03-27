@@ -1,20 +1,19 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-'use client';
-import { useAppSelector } from '@/lib/hooks';
-import { baseUrl } from '@/utils/config';
-import axios from 'axios';
-import Image from 'next/image';
-import { useEffect, useRef, useState } from 'react';
+"use client";
+import { useAppSelector } from "@/lib/hooks";
+import { baseUrl } from "@/utils/config";
+import axios from "axios";
+import Image from "next/image";
+import { useEffect, useRef, useState } from "react";
+import { FaEnvelope, FaRegBell, FaSearch } from "react-icons/fa";
+import { toast } from "react-toastify";
+import AddImageForProperty from "./components/AddImageProperty";
 
-import { FaEnvelope, FaRegBell, FaSearch } from 'react-icons/fa';
-import { toast } from 'react-toastify';
-import AddImageForProperty from './components/AddImageProperty';
+import Link from "next/link";
+import FormAddRoom, { AddRoom } from "./components/AddRoomProperty";
 
-import Link from 'next/link';
-import FormAddRoom, { AddRoom } from './components/AddRoomProperty';
-import ReplyReview from './components/ReplyReview';
-import FormLayoutEdit from './components/EditProperty';
-import { PropertyType } from '../../../../types/formPropertyAdd.type';
+import { PropertyType } from "../../../../types/formPropertyAdd.type";
+import FormLayoutEdit from "./components/EditProperty";
 
 export interface Room {
   id: number;
@@ -55,28 +54,29 @@ export interface PropertyOwner {
 const GetPropertyOwner = () => {
   const id = useAppSelector((state: { user: { id: any } }) => state.user.id);
   const [properties, setProperties] = useState<PropertyOwner[]>([]);
-  const [editPropertyData, setEditPropertyData] =
-    useState<PropertyOwner | null>(null);
-  const [searchQuery, setSearchQuery] = useState<string>('');
+  const [
+    editPropertyData,
+    setEditPropertyData,
+  ] = useState<PropertyOwner | null>(null);
+  const [searchQuery, setSearchQuery] = useState<string>("");
   const [shouldScroll, setShouldScroll] = useState<boolean>(false);
-
   const editFormRef = useRef<HTMLDivElement>(null);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [hasNextPage, setHasNextPage] = useState<boolean>(true);
   const [isEditProperty, setIsEditModalOpen] = useState(false);
   const [isAddRoom, setIsAddModalOpen] = useState(false);
   const [selectedPropertyId, setSelectedPropertyId] = useState<number | null>(
-    null,
+    null
   );
 
   const handleSearchInputChange = (
-    event: React.ChangeEvent<HTMLInputElement>,
+    event: React.ChangeEvent<HTMLInputElement>
   ) => {
     setSearchQuery(event.target.value);
   };
 
   const fetchProperties = async () => {
-    const token = localStorage.getItem('token_auth');
+    const token = localStorage.getItem("token_auth");
     const encodedSearchQuery = encodeURIComponent(searchQuery);
     const url = `${baseUrl}/property/owner/${id}?page=${currentPage}&search=${encodedSearchQuery}`;
 
@@ -90,7 +90,7 @@ const GetPropertyOwner = () => {
       setProperties(propertiesData);
       setHasNextPage(propertiesData.length > 0);
     } catch (error) {
-      console.error('Error fetching properties:', error);
+      console.error("Error fetching properties:", error);
     }
   };
 
@@ -98,7 +98,7 @@ const GetPropertyOwner = () => {
     if (hasNextPage) {
       setCurrentPage((prevPage) => prevPage + 1);
     } else {
-      toast.warning('Tidak ada lagi data properti yang tersedia.');
+      toast.warning("Tidak ada lagi data properti yang tersedia.");
     }
   };
 
@@ -107,9 +107,9 @@ const GetPropertyOwner = () => {
   };
 
   const deleteProperty = async (id: number) => {
-    const token = localStorage.getItem('token_auth');
+    const token = localStorage.getItem("token_auth");
     const confirmDelete = window.confirm(
-      'Apakah Anda yakin ingin menghapus properti ini?',
+      "Apakah Anda yakin ingin menghapus properti ini?"
     );
 
     if (confirmDelete) {
@@ -122,7 +122,7 @@ const GetPropertyOwner = () => {
 
         fetchProperties();
       } catch (error) {
-        console.error('Error deleting property:', error);
+        console.error("Error deleting property:", error);
       }
     }
   };
@@ -136,7 +136,7 @@ const GetPropertyOwner = () => {
   useEffect(() => {
     if (shouldScroll && editFormRef.current) {
       editFormRef.current.scrollIntoView({
-        behavior: 'smooth',
+        behavior: "smooth",
       });
       setShouldScroll(false);
     }
@@ -148,7 +148,7 @@ const GetPropertyOwner = () => {
 
   const handleEditClick = (propertyId: number) => {
     const propertyToEdit = properties.find(
-      (property) => property.id === propertyId,
+      (property) => property.id === propertyId
     );
     if (propertyToEdit) {
       setEditPropertyData(propertyToEdit);
@@ -166,10 +166,10 @@ const GetPropertyOwner = () => {
   };
 
   const handleAddRoom = async (roomData: AddRoom) => {
-    const token = localStorage.getItem('token_auth');
+    const token = localStorage.getItem("token_auth");
     try {
       if (!selectedPropertyId) {
-        throw toast.error('Selected property ID is not set.');
+        throw toast.error("Selected property ID is not set.");
       }
       await axios.post(
         `${baseUrl}/room/create/${selectedPropertyId}`,
@@ -178,15 +178,19 @@ const GetPropertyOwner = () => {
           headers: {
             Authorization: `Bearer ${token}`,
           },
-        },
+        }
       );
       handleAddModalClose();
-      toast.success('Room added successfully');
+      toast.success("Room added successfully");
       fetchProperties();
     } catch (error) {
-      console.error('Error adding room:', error);
-      toast.error('Failed to add room');
+      console.error("Error adding room:", error);
+      toast.error("Failed to add room");
     }
+  };
+
+  const handleEditSuccess = () => {
+    fetchProperties();
   };
   useEffect(() => {
     fetchProperties();
@@ -195,7 +199,7 @@ const GetPropertyOwner = () => {
   return (
     <div className=" py-7 bg-[#e9ebf2] ">
       <button className="  text-white  bg-secondary hover:text-black hover:bg-tertiary px-4 shadow-xl rounded-tr-lg py-3">
-        <Link href={'/admin/property/add-property'}>Add property</Link>
+        <Link href={"/admin/property/add-property"}>Add property</Link>
       </button>
       <div className=" flex items-center justify-between h-[70px] shadow-lg px-[25px]">
         <div className=" flex items-center rounded-[5px]">
@@ -217,7 +221,10 @@ const GetPropertyOwner = () => {
           </button>
         </div>
         <div className=" flex items-center gap-[15px] relative">
-          <div className=" flex items-center gap-[25px] border-r-[1px] pr-[25px]"></div>
+          <div className=" flex items-center gap-[25px] border-r-[1px] pr-[25px]">
+            <FaRegBell color="black" />
+            <FaEnvelope color="black" />
+          </div>
         </div>
       </div>
       <div className=" border">
@@ -231,7 +238,7 @@ const GetPropertyOwner = () => {
                 >
                   <div className="flex items-center">
                     <Image
-                      src={'/images/icon-property/name-property.png'}
+                      src={"/images/icon-property/name-property.png"}
                       alt="Add image"
                       width={25}
                       className=""
@@ -246,7 +253,7 @@ const GetPropertyOwner = () => {
                 >
                   <div className="flex items-center">
                     <Image
-                      src={'/images/icon-property/total.png'}
+                      src={"/images/icon-property/total.png"}
                       alt="Add image"
                       width={25}
                       height={25}
@@ -260,7 +267,7 @@ const GetPropertyOwner = () => {
                 >
                   <div className="flex items-center">
                     <Image
-                      src={'/images/icon-property/type.png'}
+                      src={"/images/icon-property/type.png"}
                       alt="Add image"
                       width={25}
                       height={25}
@@ -274,7 +281,7 @@ const GetPropertyOwner = () => {
                 >
                   <div className="flex items-center">
                     <Image
-                      src={'/images/icon-property/posisi.png'}
+                      src={"/images/icon-property/posisi.png"}
                       alt="Add image"
                       width={25}
                       height={25}
@@ -290,12 +297,17 @@ const GetPropertyOwner = () => {
                 </th>
               </tr>
             </thead>
-            <tbody className="bg-white divide-y divide-gray-200 ">
+            <tbody className="bg-white divide-y divide-gray-200">
               {properties.map((property) => (
                 <tr key={property.id}>
-                  <td className="px-6 py-4 whitespace-nowrap text-secondary">
-                    {property.name}
-                  </td>
+                  <Link
+                    href={`/admin/property/detail/${property.id}`}
+                    className="cursor-pointer"
+                  >
+                    <td className="px-6 py-4 whitespace-nowrap text-secondary">
+                      {property.name}
+                    </td>
+                  </Link>
                   <td className="px-6 py-4 whitespace-nowrap text-secondary">
                     {property.Room.length}
                   </td>
@@ -308,7 +320,7 @@ const GetPropertyOwner = () => {
                   <td className="px-6 py-4 whitespace-nowrap text-sm font-medium flex items-center">
                     <button className="text-indigo-600 hover:text-indigo-900 mr-4">
                       <Image
-                        src={'/images/icon-property/edit.png'}
+                        src={"/images/icon-property/edit.png"}
                         alt="delete property"
                         width={30}
                         height={30}
@@ -320,7 +332,7 @@ const GetPropertyOwner = () => {
                       onClick={() => deleteProperty(property.id)}
                     >
                       <Image
-                        src={'/images/icon-property/delete.png'}
+                        src={"/images/icon-property/delete.png"}
                         alt="delete property"
                         width={30}
                         height={30}
@@ -331,14 +343,13 @@ const GetPropertyOwner = () => {
                       onClick={() => handleAddRoomClick(property.id)}
                     >
                       <Image
-                        src={'/images/icon-property/add-room.gif'}
+                        src={"/images/icon-property/add-room.gif"}
                         alt="delete property"
                         width={30}
                         height={30}
                       />
                     </button>
                     <AddImageForProperty propertyId={property.id} />
-                    <ReplyReview item={property} />
                   </td>
                 </tr>
               ))}
@@ -358,7 +369,7 @@ const GetPropertyOwner = () => {
         <button
           onClick={nextPage}
           className={`bg-red-600 hover:bg-gray-300 px-4 py-2 rounded-lg ${
-            !hasNextPage && 'opacity-50 cursor-not-allowed'
+            !hasNextPage && "opacity-50 cursor-not-allowed"
           }`}
           disabled={!hasNextPage}
         >
@@ -369,7 +380,7 @@ const GetPropertyOwner = () => {
         <div className="flex justify-center items-center w-[100%] min-h-min">
           <div className=" text-center ">
             <Image
-              src={'/images/nodata.png'}
+              src={"/images/nodata.png"}
               alt="nodata"
               width={96}
               height={96}
@@ -393,6 +404,7 @@ const GetPropertyOwner = () => {
       {isEditProperty && (
         <div ref={editFormRef}>
           <FormLayoutEdit
+            onEditSuccess={handleEditSuccess}
             propertyData={editPropertyData}
             onClose={handleEditModalClose}
             propertyId={selectedPropertyId!}
