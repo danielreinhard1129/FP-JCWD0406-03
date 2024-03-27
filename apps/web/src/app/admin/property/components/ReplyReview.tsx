@@ -1,17 +1,43 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @next/next/no-img-element */
 'use client';
 
-import { Dropdown } from 'flowbite-react';
 import { FaEnvelope } from 'react-icons/fa';
 import { Button, Modal } from 'flowbite-react';
 import { useState } from 'react';
+import axios from 'axios';
+import { baseUrl } from '@/utils/config';
+import { StarIcon } from '@heroicons/react/16/solid';
+import { formatDistance } from 'date-fns';
+import { handleReply } from '@/hooks/handleReplyTenant';
+import { useAppSelector } from '@/lib/hooks';
 
-const ReplyReview = () => {
+const ReplyReview = ({ item }: any) => {
   const [openModal, setOpenModal] = useState(false);
+  const user = useAppSelector((state) => state.user);
+  const [getData, setGetData] = useState([]);
+  const [value, setValue] = useState('');
+  const [replyValue, setReplyValue] = useState<string[]>([]); // State untuk input reply
+
+  const handleGetData = async (id: any) => {
+    try {
+      const { data } = await axios.post(baseUrl + `/review/property/${id}`);
+      setGetData(data.data);
+      setOpenModal(true);
+    } catch (error) {
+      throw error;
+    }
+  };
+
+  console.log(item, 'asdasdsa');
 
   return (
     <>
-      <Button className="bg-transparent" onClick={() => setOpenModal(true)}>
+      <Button
+        key={item.id}
+        className="bg-transparent"
+        onClick={() => handleGetData(item.id)}
+      >
         <FaEnvelope color="black" className="cursor-pointer" />
       </Button>
       <Modal show={openModal} onClose={() => setOpenModal(false)}>
@@ -21,111 +47,125 @@ const ReplyReview = () => {
             <h3 className="mb-4 text-lg font-semibold text-gray-900">
               Comments
             </h3>
-
-            <div className="space-y-4">
-              <div className="flex">
-                <div className="flex-shrink-0 mr-3">
-                  <img
-                    className="mt-2 rounded-full w-8 h-8 sm:w-10 sm:h-10"
-                    src="https://images.unsplash.com/photo-1604426633861-11b2faead63c?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=200&h=200&q=80"
-                    alt=""
-                  />
-                </div>
-                <div className="flex-1 border rounded-lg px-4 py-2 sm:px-6 sm:py-4 leading-relaxed">
-                  <strong>Sarah</strong>{' '}
-                  <span className="text-xs text-gray-400">3:34 PM</span>
-                  <p className="text-sm">
-                    Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed
-                    diam nonumy eirmod tempor invidunt ut labore et dolore magna
-                    aliquyam erat, sed diam voluptua.
-                  </p>
-                  <div className="mt-4 flex items-center">
-                    <div className="flex -space-x-2 mr-2">
+            {getData.map((item: any, index) => {
+              const ratingStars = [];
+              for (let i = 0; i < item.rating; i++) {
+                ratingStars.push(
+                  <StarIcon
+                    key={i}
+                    className="text-orange-600 w-[1rem] h-[1rem]"
+                  />,
+                );
+              }
+              const date = formatDistance(
+                new Date(item.createdAt),
+                new Date(),
+                {
+                  addSuffix: true,
+                },
+              );
+              return (
+                <div key={index} className="space-y-4">
+                  <div className="flex">
+                    <div className="flex-shrink-0 mr-3">
                       <img
-                        className="rounded-full w-6 h-6 border border-white"
-                        src="https://images.unsplash.com/photo-1554151228-14d9def656e4?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=100&h=100&q=80"
-                        alt=""
-                      />
-                      <img
-                        className="rounded-full w-6 h-6 border border-white"
-                        src="https://images.unsplash.com/photo-1513956589380-bad6acb9b9d4?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=100&h=100&q=80"
+                        className="mt-2 rounded-full w-8 h-8 sm:w-10 sm:h-10"
+                        src={
+                          item.user.image === null
+                            ? '/images/no-profile.svg'
+                            : `http://localhost:8000/photo-profile/${item.user.image}`
+                        }
                         alt=""
                       />
                     </div>
-                    <div className="text-sm text-gray-500 font-semibold">
-                      5 Replies
+                    <div className="flex-1 border rounded-lg px-4 py-2 sm:px-6 sm:py-4 leading-relaxed">
+                      <strong>{item.user.username}</strong>{' '}
+                      <span className="text-xs text-gray-400">{date}</span>
+                      <div className="flex flex-row items-center justify-start gap-2 text-2xl">
+                        {ratingStars}
+                      </div>
+                      <p className="text-sm">{item.riview}</p>
+                      <div className="flex">
+                        <div className="flex space-x-2 mt-3 mb-3">
+                          <input
+                            type="text"
+                            key={index}
+                            name={`comment-${index}`} // Gunakan index untuk nama input yang unik
+                            value={replyValue[index] || ''} // Ambil value dari state yang sesuai dengan index
+                            onChange={(e) => {
+                              const newValue = [...replyValue]; // Buat salinan array state
+                              newValue[index] = e.target.value; // Perbarui nilai state yang sesuai dengan index
+                              setReplyValue(newValue); // Perbarui state
+                            }}
+                            className="flex-1 py-1 px-2 bg-white border border-gray-300 rounded-l-md shadow-sm focus:outline-none focus:border-blue-500 text-xs"
+                            placeholder="Enter your reply"
+                          />
+                          <button
+                            onClick={() =>
+                              handleReply(
+                                item.id,
+                                item.user.id,
+                                user.username,
+                                replyValue[index],
+                                item.image,
+                              )
+                            }
+                            type="submit"
+                            className="py-1 px-3 bg-primary text-white rounded-r-md hover:bg-blue-600 focus:outline-none focus:bg-blue-600 text-xs"
+                          >
+                            Submit
+                          </button>
+                        </div>
+                      </div>
+                      <h4 className="my-5 uppercase tracking-wide text-gray-400 font-bold text-xs"></h4>
+                      <div className="space-y-4">
+                        <div className="flex">
+                          {item.TenantReply.map((e: any) => {
+                            return (
+                              <>
+                                <div className="flex-shrink-0 mr-3">
+                                  <img
+                                    className="mt-3 rounded-full w-6 h-6 sm:w-8 sm:h-8"
+                                    src={
+                                      user.image === null
+                                        ? '/images/no-profile.svg'
+                                        : `http://localhost:8000/photo-profile/${user.image}`
+                                    }
+                                    alt=""
+                                  />
+                                </div>
+                                <div
+                                  key={e.id}
+                                  className="flex-1 bg-gray-100 rounded-lg px-4 py-2 sm:px-6 sm:py-4 leading-relaxed"
+                                >
+                                  <strong>{e.usernameTenant}</strong>
+                                  <span className="text-xs text-gray-400">
+                                    {formatDistance(
+                                      new Date(e.createdAt),
+                                      new Date(),
+                                      {
+                                        addSuffix: true,
+                                      },
+                                    )}
+                                  </span>
+                                  <p className="text-xs sm:text-sm">
+                                    {e.reply}
+                                  </p>
+                                </div>
+                              </>
+                            );
+                          })}
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
-
-              <div className="flex">
-                <div className="flex-shrink-0 mr-3">
-                  <img
-                    className="mt-2 rounded-full w-8 h-8 sm:w-10 sm:h-10"
-                    src="https://images.unsplash.com/photo-1604426633861-11b2faead63c?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=200&h=200&q=80"
-                    alt=""
-                  />
-                </div>
-                <div className="flex-1 border rounded-lg px-4 py-2 sm:px-6 sm:py-4 leading-relaxed">
-                  <strong>Sarah</strong>{' '}
-                  <span className="text-xs text-gray-400">3:34 PM</span>
-                  <p className="text-sm">
-                    Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed
-                    diam nonumy eirmod tempor invidunt ut labore et dolore magna
-                    aliquyam erat, sed diam voluptua.
-                  </p>
-                  <h4 className="my-5 uppercase tracking-wide text-gray-400 font-bold text-xs">
-                    Replies
-                  </h4>
-                  <div className="space-y-4">
-                    <div className="flex">
-                      <div className="flex-shrink-0 mr-3">
-                        <img
-                          className="mt-3 rounded-full w-6 h-6 sm:w-8 sm:h-8"
-                          src="https://images.unsplash.com/photo-1604426633861-11b2faead63c?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=200&h=200&q=80"
-                          alt=""
-                        />
-                      </div>
-                      <div className="flex-1 bg-gray-100 rounded-lg px-4 py-2 sm:px-6 sm:py-4 leading-relaxed">
-                        <strong>Sarah</strong>{' '}
-                        <span className="text-xs text-gray-400">3:34 PM</span>
-                        <p className="text-xs sm:text-sm">
-                          Lorem ipsum dolor sit amet, consetetur sadipscing
-                          elitr, sed diam nonumy eirmod tempor invidunt ut
-                          labore et dolore magna aliquyam erat, sed diam
-                          voluptua.
-                        </p>
-                      </div>
-                    </div>
-                    <div className="flex">
-                      <div className="flex-shrink-0 mr-3">
-                        <img
-                          className="mt-3 rounded-full w-6 h-6 sm:w-8 sm:h-8"
-                          src="https://images.unsplash.com/photo-1604426633861-11b2faead63c?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=200&h=200&q=80"
-                          alt=""
-                        />
-                      </div>
-                      <div className="flex-1 bg-gray-100 rounded-lg px-4 py-2 sm:px-6 sm:py-4 leading-relaxed">
-                        <strong>Sarah</strong>{' '}
-                        <span className="text-xs text-gray-400">3:34 PM</span>
-                        <p className="text-xs sm:text-sm">
-                          Lorem ipsum dolor sit amet, consetetur sadipscing
-                          elitr, sed diam nonumy eirmod tempor invidunt ut
-                          labore et dolore magna aliquyam erat, sed diam
-                          voluptua.
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
+              );
+            })}
           </div>
         </Modal.Body>
         <Modal.Footer>
-          <Button onClick={() => setOpenModal(false)}>I accept</Button>
-          <Button color="gray" onClick={() => setOpenModal(false)}>
+          <Button color="red" onClick={() => setOpenModal(false)}>
             Decline
           </Button>
         </Modal.Footer>

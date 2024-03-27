@@ -1,16 +1,15 @@
-import { getAllRoomsRepo } from "@/repositories/room/getAllRooms.repo";
+import { getAllRoomsRepo } from '@/repositories/room/getAllRooms.repo';
 
 export const getAllRoomsAction = async (
   page: number = 1,
-  perPage: number = 12
+  perPage: number = 12,
 ) => {
   try {
     const rooms = await getAllRoomsRepo(page, perPage);
 
-
     const adjustedRooms = rooms.map((room) => {
-      if (room.PeakSeasonRate.length > 0) {
-        const peakSeasonRate = room.PeakSeasonRate[0];
+      if (room?.PeakSeasonRate.length > 0) {
+        const peakSeasonRate = room?.PeakSeasonRate[0];
         const adjustedPrice = peakSeasonRate.PriceAdjustmentPercentage;
         return {
           ...room,
@@ -22,7 +21,7 @@ export const getAllRoomsAction = async (
     });
     return {
       status: 200,
-      message: "Rooms retrieved successfully",
+      message: 'Rooms retrieved successfully',
       rooms: adjustedRooms,
     };
   } catch (error) {

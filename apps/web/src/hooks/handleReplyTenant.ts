@@ -7,6 +7,7 @@ export const handleReply = async (
   tenantId: number,
   usernameTenant: string,
   reply: string,
+  image: string,
 ) => {
   try {
     await axios.post(baseUrl + `/comment`, {
@@ -14,6 +15,7 @@ export const handleReply = async (
       tenantId,
       usernameTenant,
       reply,
+      image,
     });
     toast.success('Succes add reply ', {
       position: 'top-right',

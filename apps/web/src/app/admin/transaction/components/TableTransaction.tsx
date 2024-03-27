@@ -20,8 +20,6 @@ import { handleReject } from '@/hooks/handleReject';
 import formatCurrency from '@/utils/formatCurrency';
 
 const YourComponent = () => {
-  const [openFailed, setOpenFailed] = useState(false);
-  const [openAccept, setOpenAccept] = useState(false);
   const user = useAppSelector((state) => state.user);
   const [getData, setGetData] = useState<ITransaction[]>([]);
   const [getProperty, setProperty] = useState<IProperty[]>([]);

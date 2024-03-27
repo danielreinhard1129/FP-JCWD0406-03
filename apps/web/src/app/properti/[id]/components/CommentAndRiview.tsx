@@ -19,11 +19,6 @@ const CommentAndRiview = ({ data }: any) => {
   const [reviewUserId, setReviewUserId] = useState(null);
   const user = useAppSelector((state) => state.user);
 
-  console.log(
-    'ini anak babi',
-    review.map((i) => user.image),
-  );
-
   const handleGetReview = async () => {
     try {
       const { data } = await axios.get(`http://localhost:8000/api/review/all`);
@@ -32,18 +27,6 @@ const CommentAndRiview = ({ data }: any) => {
       throw error;
     }
   };
-
-  const handleGetReviewUserId = async () => {
-    try {
-      const { data } = await axios.get(
-        `http://localhost:8000/api/review/${user.id}`,
-      );
-      setReviewUserId(data.data);
-    } catch (error) {
-      throw error;
-    }
-  };
-  console.log('asdsad', reviewUserId);
 
   const handleGetTransaction = async () => {
     try {
@@ -63,7 +46,6 @@ const CommentAndRiview = ({ data }: any) => {
   useEffect(() => {
     handleGetTransaction();
     handleGetReview();
-    handleGetReviewUserId();
   }, []);
 
   return (
@@ -106,7 +88,7 @@ const CommentAndRiview = ({ data }: any) => {
                 </div>
                 <p className="text-gray-700 text-sm mb-2">{date}</p>
                 <p className="text-gray-700">{item.riview}</p>
-                {user.roleId == 1 ? <CommentTenant item={item} /> : <div></div>}
+                <CommentTenant item={item} />
               </div>
             </>
           );
