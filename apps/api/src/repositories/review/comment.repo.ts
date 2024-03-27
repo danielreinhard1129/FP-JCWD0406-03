@@ -1,10 +1,14 @@
 import prisma from '@/prisma';
-import { IComment } from '@/types/types';
-
-export const commnetRepo = async (data: IComment) => {
+export const commnetRepo = async (
+  riviewId: number,
+  tenantId: number,
+  usernameTenant: string,
+  reply: string,
+  image: string,
+) => {
   try {
     const result = await prisma.comment.create({
-      data: data,
+      data: { riviewId, tenantId, usernameTenant, reply, image },
     });
     return result;
   } catch (error) {

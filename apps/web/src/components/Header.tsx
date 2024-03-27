@@ -1,16 +1,16 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-"use client";
-import { loginAction, logoutAction } from "@/lib/features/userSlice";
-import { useAppDispatch, useAppSelector } from "@/lib/hooks";
-import { baseUrl } from "@/utils/config";
-import axios from "axios";
-import { X, Check } from "lucide-react";
-import Image from "next/image";
-import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
-import { GiHamburgerMenu } from "react-icons/gi";
-import { toast } from "react-toastify";
+'use client';
+import { loginAction, logoutAction } from '@/lib/features/userSlice';
+import { useAppDispatch, useAppSelector } from '@/lib/hooks';
+import { baseUrl } from '@/utils/config';
+import axios from 'axios';
+import { X, Check } from 'lucide-react';
+import Image from 'next/image';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import { useEffect, useState } from 'react';
+import { GiHamburgerMenu } from 'react-icons/gi';
+import { toast } from 'react-toastify';
 // import { X, Check } from "react-feather";
 
 function Header() {
@@ -26,7 +26,7 @@ function Header() {
   };
   const user = useAppSelector((state) => state.user);
   const isUserVerified = useAppSelector(
-    (state: { user: { isVerified: boolean } }) => state.user.isVerified
+    (state: { user: { isVerified: boolean } }) => state.user.isVerified,
   );
 
   const dispatch = useAppDispatch();
@@ -34,23 +34,26 @@ function Header() {
     if (loggedOut) {
       dispatch(logoutAction());
 
-      router.push("/login");
+      router.push('/login');
     }
   }, [loggedOut]);
 
   const handleLogout = () => {
-    localStorage.removeItem("token_auth");
+    localStorage.removeItem('token_auth');
+    dispatch(logoutAction());
     setLoggedOut(true);
-    toast.success("Logout successful", {
-      position: "top-center",
+    toast.success('Logout successful', {
+      position: 'top-center',
       autoClose: 1000,
-      theme: "light",
+      theme: 'light',
     });
+
+    router.push('/login');
   };
 
   const getAdminUrl = (url: string): string => {
     if (user.roleId === 1) {
-      if (url === "/properties") {
+      if (url === '/properties') {
         return `/admin/property`;
       }
 
@@ -60,11 +63,11 @@ function Header() {
   };
 
   useEffect(() => {
-    const token = localStorage.getItem("token_auth");
+    const token = localStorage.getItem('token_auth');
 
     const keepLogin = async () => {
       try {
-        const { data } = await axios.get(baseUrl + "/user/keeplogin", {
+        const { data } = await axios.get(baseUrl + '/user/keeplogin', {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -84,26 +87,27 @@ function Header() {
         <div className=" hidden lg:block animate-in fade-in zoom-in px-12 mx-auto p-4 ">
           <div className="flex justify-between items-center">
             <Link
-              href={getAdminUrl("/")}
+              href={getAdminUrl('/')}
               className="flex items-center text-[25px]"
             >
               <Image src="/images/logo.png" alt="logo" width={40} height={30} />
               <h1 className=" text-white font-bold">
-                Rumah.<span className=" text-tertiary">123</span>{" "}
+                Rumah.<span className=" text-tertiary">123</span>{' '}
               </h1>
             </Link>
             <div className="flex gap-[20px] xl:gap-[50px] text-[16px] items-center select-none">
-              <Link href={getAdminUrl("/")} className={`nav-link gap-2`}>
+              <a href={getAdminUrl('/')} className={`nav-link gap-2`}>
                 Home
-              </Link>
+              </a>
+
               <Link
-                href={getAdminUrl("/properties")}
+                href={getAdminUrl('/properties')}
                 className={` nav-link gap-2`}
               >
                 Property
               </Link>
 
-              <Link href={getAdminUrl("/room")} className={` nav-link gap-2`}>
+              <Link href={getAdminUrl('/room')} className={` nav-link gap-2`}>
                 Room
               </Link>
               {user.id ? (
@@ -126,6 +130,13 @@ function Header() {
                           <Link href={`/profile-user/${user.id}`}>
                             <p className="text-black hover:text-quaternary ">
                               Profile
+                            </p>
+                          </Link>
+                        </li>
+                        <li className="px-4 py-2  hover:bg-secondary rounded-lg">
+                          <Link href={`/transaction`}>
+                            <p className="text-black hover:text-quaternary ">
+                              My transasction
                             </p>
                           </Link>
                         </li>
@@ -156,13 +167,13 @@ function Header() {
         {/* MOBILE */}
         <div
           className={` block lg:hidden shadow-sm  fixed top-0 w-full z-[9999]   py-4 animate-in fade-in zoom-in  ${
-            menu ? " bg-primary" : "bg-blue-900"
+            menu ? ' bg-primary' : 'bg-blue-900'
           } `}
         >
           <div className="flex justify-between mx-[10px]">
             <div className="flex gap-[50px] text-[16px] items-center select-none">
               <Link
-                href={getAdminUrl("/")}
+                href={getAdminUrl('/')}
                 className="flex items-center text-[25px]"
               >
                 <Image
@@ -172,7 +183,7 @@ function Header() {
                   height={30}
                 />
                 <h1 className=" text-white font-bold">
-                  Rumah.<span className=" text-tertiary">123</span>{" "}
+                  Rumah.<span className=" text-tertiary">123</span>{' '}
                 </h1>
               </Link>
             </div>
@@ -195,19 +206,19 @@ function Header() {
               <div className="flex flex-col gap-8 mt-8 mx-4 ">
                 <div className="flex gap-[20px] xl:gap-[50px] text-[16px] flex-col select-none ">
                   <Link
-                    href={getAdminUrl("/")}
+                    href={getAdminUrl('/')}
                     className=" nav-link-mobile font-[600] cursor-pointer"
                   >
                     Home
                   </Link>
                   <Link
-                    href={getAdminUrl("/properties")}
+                    href={getAdminUrl('/properties')}
                     className=" nav-link-mobile font-[600] cursor-pointer"
                   >
                     Property
                   </Link>
                   <Link
-                    href={getAdminUrl("/room")}
+                    href={getAdminUrl('/room')}
                     className=" nav-link-mobile font-[600] cursor-pointer"
                   >
                     Room
